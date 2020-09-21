@@ -2,30 +2,56 @@
   <q-page class="flex flex-center">
     <div class="full-width text-center">
       Verifique aqui a Balnealidade da praia que pretende viistar:<br />
-    </div>
-    <div class="q-pa-md q-gutter-sm">
-      <q-btn push color="teal" label="Praias" @click="refresh" />
 
-      <q-img
-        :src="url"
-        spinner-color="white"
-        style="height: 140px; max-width: 150px"
+      <q-select
+        v-model="modelCidade"
+        label="Selecione Cidade"
+        :options="cidades"
+        style="width: 250px"
+        @input="carregapraias"
       />
+
+      <q-select
+        v-model="modelPraia"
+        label="Selecione Praia"
+        :options="praias"
+        style="width: 250px"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
   </q-page>
 </template>
 
 <script>
+import cidadepraias from "../assets/praias_sp.json";
+
 export default {
   data() {
     return {
-      url: "https://placeimg.com/1000/800/nature"
+      modelCidade: null,
+      modelPraia: null,
+      cidades: [],
+      praias: [],
+      objcidadepraias: []
     };
   },
-
+  mounted() {
+    //console.log(cidadepraias);
+    this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
+    this.cidades = Object.keys(this.objcidadepraias);
+    console.log(Object.keys(this.objcidadepraias));
+  },
   methods: {
-    refresh() {
-      this.url = "https://placeimg.com/500/300/nature?t=" + Math.random();
+    carregapraias(val) {
+      console.log(this.objcidadepraias[val].praias);
+      this.praias = this.objcidadepraias[val].praias;
     }
   }
 };
