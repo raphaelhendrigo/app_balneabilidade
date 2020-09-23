@@ -18,31 +18,50 @@
         style="width: 250px"
       >
       </q-select>
+      <q-card>
+        <div class="row q-col-gutter-md q-px-md q-py-md">
+          <div class="col-sx-6 col-sx-12 col-sx-6">
+            <apex-line></apex-line>
+          </div>
+        </div>
+      </q-card>
     </div>
   </q-page>
 </template>
 
 <script>
+import ApexLine from "components/AppexLine";
 import cidadepraias from "../assets/praias_sp.json";
+import grandeUbatuba from "../assets/grande_ubatuba.json";
 export default {
+  name: "PageIndex",
+  components: {
+    ApexLine
+  },
   data() {
     return {
       modelCidade: null,
       modelPraia: null,
       cidades: [],
       praias: [],
-      objcidadepraias: []
+      objcidadepraias: [],
+      colors: [
+        "linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%)",
+        "linear-gradient( 135deg, #2AFADF 10%, #4C83FF 100%)",
+        "linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%)",
+        "linear-gradient( 135deg, #EE9AE5 10%, #5961F9 100%)"
+      ]
     };
   },
   mounted() {
-    //console.log(cidadepraias);
     this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
+
     this.cidades = Object.keys(this.objcidadepraias);
-    console.log(Object.keys(this.objcidadepraias));
+    //console.log(Object.keys(this.objcidadepraias));
   },
   methods: {
     carregapraias(val) {
-      console.log(this.objcidadepraias[val].praias);
+      //console.log(this.objcidadepraias[val].praias);
       this.praias = this.objcidadepraias[val].praias;
     }
   }

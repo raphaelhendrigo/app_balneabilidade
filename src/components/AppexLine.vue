@@ -12,6 +12,7 @@
 
 <script>
 import CardBase from "components/CardBase";
+import grandeUbatuba from "../assets/grande_ubatuba.json";
 export default {
   name: "ApexLine",
   components: {
@@ -19,10 +20,12 @@ export default {
   },
   data() {
     return {
+      enterococos: [],
+      datas: [],
       series: [
         {
-          name: "Desktops",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 99]
+          name: "Enterococos",
+          data: []
         }
       ],
       chartOptions: {
@@ -54,24 +57,14 @@ export default {
           enabled: false
         },
         title: {
-          text: "Line",
-          align: "left",
+          text: "UFC de Enterococos por 100 ml de água",
+          align: "center",
           style: {
             color: "#FFF"
           }
         },
         xaxis: {
-          categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep"
-          ],
+          categories: [],
           labels: {
             style: {
               colors: "#fff"
@@ -88,31 +81,70 @@ export default {
       }
     };
   },
+
   mounted() {
-    this.setDataLineChart();
-  },
-  methods: {
-    getRandomArbitrary(min, max) {
-      return Math.floor(Math.random() * 99);
-    },
-    setDataLineChart() {
-      setInterval(() => {
-        this.series[0].data.splice(0, 1);
-        this.series[0].data.push(this.getRandomArbitrary(0, 99));
-        this.updateSeriesLine();
-      }, 3000);
-    },
-    updateSeriesLine() {
-      this.$refs.realtimeChart.updateSeries(
-        [
-          {
-            data: this.series[0].data
+    let datas = JSON.parse(JSON.stringify(grandeUbatuba)).map(item => {
+      return item.data;
+    });
+    this.chartOptions = {
+      colors: ["#FCCF31", "#17ead9", "#f02fc2"],
+      chart: {
+        height: 350,
+        type: "line"
+      },
+      grid: {
+        show: true,
+        strokeDashArray: 0,
+        xaxis: {
+          lines: {
+            show: true
           }
-        ],
-        false,
-        true
-      );
-    }
-  }
+        }
+      },
+      stroke: {
+        curve: "smooth"
+      },
+      dropShadow: {
+        enabled: true,
+        opacity: 0.3,
+        blur: 5,
+        left: -7,
+        top: 22
+      },
+      dataLabels: {
+        enabled: false
+      },
+      title: {
+        text: "UFC de Enterococos por 100 ml de água",
+        align: "center",
+        style: {
+          color: "#FFF"
+        }
+      },
+      xaxis: {
+        categories: datas,
+        labels: {
+          style: {
+            colors: "#fff"
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            color: "#fff"
+          }
+        }
+      }
+    };
+    this.series[0].data = JSON.parse(JSON.stringify(grandeUbatuba)).map(
+      item => {
+        return item.Enterococcus;
+      }
+    );
+    console.log(this.datas);
+    console.log(this.series.data);
+  },
+  methods: {}
 };
 </script>
