@@ -31,7 +31,7 @@ export default {
       chartOptions: {
         colors: ["#FCCF31", "#17ead9", "#f02fc2"],
         chart: {
-          height: 350,
+          height: 500,
           type: "line"
         },
         grid: {
@@ -89,7 +89,8 @@ export default {
     this.chartOptions = {
       colors: ["#FCCF31", "#17ead9", "#f02fc2"],
       chart: {
-        height: 350,
+        height: 400,
+
         type: "line"
       },
       grid: {
@@ -114,9 +115,29 @@ export default {
       dataLabels: {
         enabled: false
       },
+
+      annotations: {
+        yaxis: [
+          {
+            y: 100,
+            y2: 400,
+            borderColor: "#FF0000",
+
+            label: {
+              borderColor: "#00E396",
+
+              style: {
+                color: "#fff",
+                background: "#00E396"
+              },
+              text: "Limite inferior 100 UFC por 100 ml"
+            }
+          }
+        ]
+      },
       title: {
         text: "UFC de Enterococos por 100 ml de água",
-        align: "center",
+        align: "left",
         style: {
           color: "#FFF"
         }
