@@ -68,7 +68,7 @@ export default {
 
   mounted() {
     let datas = JSON.parse(JSON.stringify(grandeUbatuba)).map(item => {
-      return new Date(item.data);
+      return item.data;
     });
     this.chartOptions = {
       chart: {
@@ -127,6 +127,28 @@ export default {
       },
       xaxis: {
         categories: datas
+        /* labels: {
+          formatter: function(value, timestamp) {
+            let data = new Date(value);
+            let meses = [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ];
+            let dataformatada =
+              meses[data.getMonth()] + "/" + data.getFullYear();
+            return dataformatada; // The formatter function overrides format property
+          }
+        }*/
       },
       yaxis: {}
     };
