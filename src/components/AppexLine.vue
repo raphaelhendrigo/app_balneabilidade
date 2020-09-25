@@ -70,6 +70,7 @@ export default {
     let datas = JSON.parse(JSON.stringify(grandeUbatuba)).map(item => {
       return item.data;
     });
+    //console.log(datas);
     this.chartOptions = {
       chart: {
         height: 400,
@@ -126,8 +127,8 @@ export default {
         align: "left"
       },
       xaxis: {
-        categories: datas
-        /* labels: {
+        categories: datas,
+        labels: {
           formatter: function(value, timestamp) {
             let data = new Date(value);
             let meses = [
@@ -148,7 +149,7 @@ export default {
               meses[data.getMonth()] + "/" + data.getFullYear();
             return dataformatada; // The formatter function overrides format property
           }
-        }*/
+        }
       },
       yaxis: {}
     };
