@@ -1,23 +1,19 @@
 <template>
-  <card-base>
-    <apexchart
-      ref="realtimeChart"
-      type="line"
-      height="200"
-      :options="chartOptions"
-      :series="series"
-    />
-  </card-base>
+  <apexchart
+    ref="realtimeChart"
+    type="line"
+    height="200"
+    :options="chartOptions"
+    :series="series"
+  />
 </template>
 
 <script>
-import CardBase from "components/CardBase";
+import { date } from "quasar";
 import grandeUbatuba from "../assets/grande_ubatuba.json";
 export default {
   name: "ApexLine",
-  components: {
-    CardBase
-  },
+
   data() {
     return {
       enterococos: [],
@@ -29,7 +25,6 @@ export default {
         }
       ],
       chartOptions: {
-        colors: ["#FCCF31", "#17ead9", "#f02fc2"],
         chart: {
           height: 500,
           type: "line"
@@ -58,25 +53,14 @@ export default {
         },
         title: {
           text: "UFC de Enterococos por 100 ml de água",
-          align: "center",
-          style: {
-            color: "#FFF"
-          }
+          align: "center"
         },
         xaxis: {
           categories: [],
-          labels: {
-            style: {
-              colors: "#fff"
-            }
-          }
+          labels: {}
         },
         yaxis: {
-          labels: {
-            style: {
-              color: "#fff"
-            }
-          }
+          labels: {}
         }
       }
     };
@@ -84,15 +68,20 @@ export default {
 
   mounted() {
     let datas = JSON.parse(JSON.stringify(grandeUbatuba)).map(item => {
-      return item.data;
+      return new Date(item.data);
     });
     this.chartOptions = {
-      colors: ["#FCCF31", "#17ead9", "#f02fc2"],
       chart: {
         height: 400,
-
+        width: 1400,
         type: "line"
       },
+      responsive: [
+        {
+          breakpoint: 1000,
+          options: {}
+        }
+      ],
       grid: {
         show: true,
         strokeDashArray: 0,
@@ -103,7 +92,8 @@ export default {
         }
       },
       stroke: {
-        curve: "smooth"
+        curve: "smooth",
+        width: 1
       },
       dropShadow: {
         enabled: true,
@@ -126,10 +116,6 @@ export default {
             label: {
               borderColor: "#00E396",
 
-              style: {
-                color: "#fff",
-                background: "#00E396"
-              },
               text: "Limite inferior 100 UFC por 100 ml"
             }
           }
@@ -137,26 +123,12 @@ export default {
       },
       title: {
         text: "UFC de Enterococos por 100 ml de água",
-        align: "left",
-        style: {
-          color: "#FFF"
-        }
+        align: "left"
       },
       xaxis: {
-        categories: datas,
-        labels: {
-          style: {
-            colors: "#fff"
-          }
-        }
+        categories: datas
       },
-      yaxis: {
-        labels: {
-          style: {
-            color: "#fff"
-          }
-        }
-      }
+      yaxis: {}
     };
     this.series[0].data = JSON.parse(JSON.stringify(grandeUbatuba)).map(
       item => {
