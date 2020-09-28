@@ -11,13 +11,16 @@
 <script>
 import { date } from "quasar";
 import grandeUbatuba from "../assets/grande_ubatuba.json";
+import axios from "axios";
+
 export default {
   name: "ApexLine",
 
   data() {
     return {
       enterococos: [],
-      datas: [],
+      graficoDatas: [],
+      graficoEnterococcos: [],
       series: [
         {
           name: "Enterococos",
@@ -66,11 +69,31 @@ export default {
     };
   },
 
-  mounted() {
-    let datas = JSON.parse(JSON.stringify(grandeUbatuba)).map(item => {
-      return item.data;
-    });
-    //console.log(datas);
+  async mounted() {
+    //let datas = [];
+    //let enterecoccos2 = [];
+
+    await axios({
+      method: "GET",
+      url:
+        "http://172.23.93.108:5000/todosResultados?cidade=UBATUBA&praia=GRANDE"
+    }).then(
+      result => {
+        this.graficoDatas = result.data.map(item => {
+          return item[0];
+        });
+
+        this.graficoEnterococcos = result.data.map(item => {
+          return item[1];
+        });
+      },
+      error => {
+        console.error(error);
+      }
+    );
+
+    //console.log("ent ", this.enterecoccos2);
+
     this.chartOptions = {
       chart: {
         height: 400,
@@ -127,9 +150,10 @@ export default {
         align: "left"
       },
       xaxis: {
-        categories: datas,
+        categories: this.graficoDatas,
         labels: {
           formatter: function(value, timestamp) {
+            //console.log(timestamp);
             let data = new Date(value);
             let meses = [
               "January",
@@ -146,20 +170,28 @@ export default {
               "December"
             ];
             let dataformatada =
-              meses[data.getMonth()] + "/" + data.getFullYear();
-            return dataformatada; // The formatter function overrides format property
+              data.getDate() +
+              1 +
+              "/" +
+              meses[data.getMonth()] +
+              "/" +
+              data.getFullYear();
+            return dataformatada;
           }
         }
       },
       yaxis: {}
     };
-    this.series[0].data = JSON.parse(JSON.stringify(grandeUbatuba)).map(
-      item => {
-        return item.Enterococcus;
-      }
-    );
-    console.log(this.datas);
-    console.log(this.series.data);
+
+    this.series[0].data = this.graficoEnterococcos;
+
+    console.log("ent ", this.graficoEnterococcos);
+
+    //console.log("datas ", datas);
+    //console.log("enterococcos ", this.enterecoccos2);
+
+    //console.log(this.datas);
+    //console.log(this.series[0].data);
   },
   methods: {}
 };
