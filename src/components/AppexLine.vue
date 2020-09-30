@@ -1,6 +1,6 @@
 <template>
   <apexchart
-    ref="realtimeChart"
+    ref="nomeDoGrafico"
     type="line"
     height="200"
     :options="chartOptions"
@@ -15,15 +15,16 @@ import axios from "axios";
 
 export default {
   name: "ApexLine",
-
+  props: ["cidade", "praia"],
   data() {
     return {
       enterococos: [],
       graficoDatas: [],
       graficoEnterococcos: [],
+      teste: "teste",
       series: [
         {
-          name: "Enterococos",
+          name: "Enterococcos",
           data: []
         }
       ],
@@ -70,129 +71,127 @@ export default {
   },
 
   async mounted() {
-    //let datas = [];
-    //let enterecoccos2 = [];
+    if (this.cidade != null && this.praia != null) {
+      await this.montarGrafico(this.cidade, this.praia);
+    }
+  },
+  methods: {
+    async montarGrafico(cidade, praia) {
+      await axios({
+        method: "GET",
+        url:
+          "http://172.23.93.108:5000/todosResultados?cidade=" +
+          cidade.toUpperCase() +
+          "&praia=" +
+          praia.toUpperCase() +
+          ""
+      }).then(
+        result => {
+          this.graficoDatas = result.data.map(item => {
+            return item[0];
+          });
 
-    await axios({
-      method: "GET",
-      url:
-        "http://172.23.93.108:5000/todosResultados?cidade=UBATUBA&praia=GRANDE"
-    }).then(
-      result => {
-        this.graficoDatas = result.data.map(item => {
-          return item[0];
-        });
-
-        this.graficoEnterococcos = result.data.map(item => {
-          return item[1];
-        });
-      },
-      error => {
-        console.error(error);
-      }
-    );
-
-    //console.log("ent ", this.enterecoccos2);
-
-    this.chartOptions = {
-      chart: {
-        height: 400,
-        width: 1400,
-        type: "line"
-      },
-      responsive: [
-        {
-          breakpoint: 1000,
-          options: {}
+          this.graficoEnterococcos = result.data.map(item => {
+            return item[1];
+          });
+        },
+        error => {
+          console.error(error);
         }
-      ],
-      grid: {
-        show: true,
-        strokeDashArray: 0,
-        xaxis: {
-          lines: {
-            show: true
-          }
-        }
-      },
-      stroke: {
-        curve: "smooth",
-        width: 1
-      },
-      dropShadow: {
-        enabled: true,
-        opacity: 0.3,
-        blur: 5,
-        left: -7,
-        top: 22
-      },
-      dataLabels: {
-        enabled: false
-      },
+      );
 
-      annotations: {
-        yaxis: [
+      this.chartOptions = {
+        chart: {
+          height: 400,
+          width: 1400,
+          type: "line"
+        },
+        responsive: [
           {
-            y: 100,
-            y2: 400,
-            borderColor: "#FF0000",
-
-            label: {
-              borderColor: "#00E396",
-
-              text: "Limite inferior 100 UFC por 100 ml"
+            breakpoint: 1000,
+            options: {}
+          }
+        ],
+        grid: {
+          show: true,
+          strokeDashArray: 0,
+          xaxis: {
+            lines: {
+              show: true
             }
           }
-        ]
-      },
-      title: {
-        text: "UFC de Enterococos por 100 ml de água",
-        align: "left"
-      },
-      xaxis: {
-        categories: this.graficoDatas,
-        labels: {
-          formatter: function(value, timestamp) {
-            //console.log(timestamp);
-            let data = new Date(value);
-            let meses = [
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December"
-            ];
-            let dataformatada =
-              data.getDate() +
-              1 +
-              "/" +
-              meses[data.getMonth()] +
-              "/" +
-              data.getFullYear();
-            return dataformatada;
+        },
+        stroke: {
+          curve: "smooth",
+          width: 1
+        },
+        dropShadow: {
+          enabled: true,
+          opacity: 0.3,
+          blur: 5,
+          left: -7,
+          top: 22
+        },
+        dataLabels: {
+          enabled: false
+        },
+
+        annotations: {
+          yaxis: [
+            {
+              y: 100,
+              y2: 400,
+              borderColor: "#FF0000",
+
+              label: {
+                borderColor: "#00E396",
+
+                text: "Limite inferior 100 UFC por 100 ml"
+              }
+            }
+          ]
+        },
+        title: {
+          text: "UFC de Enterococos por 100 ml de água",
+          align: "left"
+        },
+        xaxis: {
+          categories: this.graficoDatas,
+          labels: {
+            formatter: function(value, timestamp) {
+              let data = new Date(value);
+              let meses = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+              ];
+              let dataformatada =
+                data.getDate() +
+                1 +
+                "/" +
+                meses[data.getMonth()] +
+                "/" +
+                data.getFullYear();
+              return dataformatada;
+            }
           }
-        }
-      },
-      yaxis: {}
-    };
+        },
+        yaxis: {}
+      };
 
-    this.series[0].data = this.graficoEnterococcos;
+      console.log("enterococcos ", this.graficoEnterococcos);
 
-    console.log("ent ", this.graficoEnterococcos);
-
-    //console.log("datas ", datas);
-    //console.log("enterococcos ", this.enterecoccos2);
-
-    //console.log(this.datas);
-    //console.log(this.series[0].data);
-  },
-  methods: {}
+      this.series[0].data = this.graficoEnterococcos;
+    }
+  }
 };
 </script>
