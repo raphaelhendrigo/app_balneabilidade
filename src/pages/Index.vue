@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="full-width text-center">
-      Verifique aqui a Balnealidade da praia que pretende viistar:<br />
+      Verifique aqui a Balnealidade da praia que pretende visitar:<br />
 
       <q-select
         v-model="modelCidade"
