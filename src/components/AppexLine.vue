@@ -12,10 +12,10 @@
 import { date } from "quasar";
 import grandeUbatuba from "../assets/grande_ubatuba.json";
 import axios from "axios";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "ApexLine",
-  props: ["cidade", "praia"],
   data() {
     return {
       enterococos: [],
@@ -69,21 +69,29 @@ export default {
       }
     };
   },
+  computed: {
+    cidade: function() {
+      return this.$store.getters["exemplo/getCidade"];
+    },
+    praia: function() {
+      return this.$store.getters["exemplo/getPraia"];
+    }
+  },
 
   async mounted() {
-    if (this.cidade != null && this.praia != null) {
-      await this.montarGrafico(this.cidade, this.praia);
+    if (this.cidade != "" && this.praia != "") {
+      await this.montarGrafico();
     }
   },
   methods: {
-    async montarGrafico(cidade, praia) {
+    async montarGrafico() {
       await axios({
         method: "GET",
         url:
           "http://172.23.93.116:5000/todosResultados?cidade=" +
-          cidade.toUpperCase() +
+          this.cidade.toUpperCase() +
           "&praia=" +
-          praia.toUpperCase() +
+          this.praia.toUpperCase() +
           ""
       }).then(
         result => {
@@ -140,13 +148,26 @@ export default {
           yaxis: [
             {
               y: 100,
-              y2: 400,
+              y2: null,
               borderColor: "#FF0000",
+              borderWidth: 2,
 
               label: {
                 borderColor: "#00E396",
 
                 text: "Limite inferior 100 UFC por 100 ml"
+              }
+            },
+            {
+              y: 400,
+              y2: null,
+              borderColor: "#4B0082",
+              borderWidth: 2,
+
+              label: {
+                borderColor: "#00E396",
+
+                text: "Limite inferior 400 UFC por 100 ml"
               }
             }
           ]
@@ -188,9 +209,9 @@ export default {
         yaxis: {}
       };
 
-      console.log("enterococcos ", this.graficoEnterococcos);
-
       this.series[0].data = this.graficoEnterococcos;
+
+      console.log(this.series[0].data);
     }
   }
 };

@@ -26,6 +26,7 @@
             <apex-line
               :cidade="this.modelCidade"
               :praia="this.modelPraia"
+              :key="renderComponent"
             ></apex-line>
           </div>
         </div>
@@ -35,12 +36,22 @@
 </template>
 
 <script>
+import exemplo from "../store/exemplo";
 import ApexLine from "components/AppexLine";
 import cidadepraias from "../assets/praias_sp.json";
 import grandeUbatuba from "../assets/grande_ubatuba.json";
 import Vue from "vue";
+
 export default {
   name: "PageIndex",
+  computed: {
+    cidade: function() {
+      return this.$store.getters["exemplo/getCidade"];
+    },
+    praia: function() {
+      return this.$store.getters["exemplo/getPraia"];
+    }
+  },
   components: {
     ApexLine
   },
@@ -51,6 +62,7 @@ export default {
       cidades: [],
       praias: [],
       objcidadepraias: [],
+      renderComponent: 0,
       colors: [
         "linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%)",
         "linear-gradient( 135deg, #2AFADF 10%, #4C83FF 100%)",
@@ -61,20 +73,17 @@ export default {
   },
   mounted() {
     this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
-
     this.cidades = Object.keys(this.objcidadepraias);
-    //console.log(Object.keys(this.objcidadepraias));
   },
   methods: {
     carregapraias(val) {
-      //console.log(this.objcidadepraias[val].praias);
       this.praias = this.objcidadepraias[val].praias;
     },
     async invocarMontagemGrafico() {
-      await ApexLine.methods.montarGrafico(
-        this.modelCidade.toUpperCase(),
-        this.modelPraia.toUpperCase()
-      );
+      this.$store.commit("exemplo/setCidade", this.modelCidade);
+      this.$store.commit("exemplo/setPraia", this.modelPraia);
+
+      this.renderComponent++;
     }
   }
 };
