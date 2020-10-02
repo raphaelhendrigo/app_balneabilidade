@@ -80,7 +80,7 @@ export default {
       await axios({
         method: "GET",
         url:
-          "http://172.23.93.108:5000/todosResultados?cidade=" +
+          "http://172.23.93.116:5000/todosResultados?cidade=" +
           cidade.toUpperCase() +
           "&praia=" +
           praia.toUpperCase() +

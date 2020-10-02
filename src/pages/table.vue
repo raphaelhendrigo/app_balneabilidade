@@ -38,8 +38,8 @@ export default {
         sortBy: "dataMedicao",
         descending: true,
         page: 1,
-        rowsPerPage: 5,
-        rowsNumber: 10
+        rowsPerPage: 5
+        /*rowsNumber: 1*/
       },
       columns: [
         {
@@ -77,7 +77,7 @@ export default {
       await axios({
         method: "GET",
         url:
-          "http://172.23.93.108:5000/todosResultados?cidade=" +
+          "http://172.23.93.116:5000/todosResultados?cidade=" +
           cidade.toUpperCase() +
           "&praia=" +
           praia.toUpperCase() +
@@ -94,7 +94,54 @@ export default {
             return arr;
           });
 
+          //**for ([(iMedicao = 1)]; [iMedicao <= 5]; [iMedicao++])
+
           console.log("original", this.original);
+          let ultimoRegistro = this.original[this.original.length - 1];
+          let ultimaMedicao = ultimoRegistro["enterococos"];
+          let penultimoRegistro = this.original[this.original.length - 2];
+          let penultimaMedicao = penultimoRegistro["enterococos"];
+          let antepenultimoRegistro = this.original[this.original.length - 3];
+          let antepenultimaMedicao = antepenultimoRegistro["enterococos"];
+          let quartoRegistro = this.original[this.original.length - 4];
+          let quartoMedicao = quartoRegistro["enterococos"];
+          let quintoRegistro = this.original[this.original.length - 5];
+          let quintoMedicao = quintoRegistro["enterococos"];
+
+          console.log(ultimaMedicao);
+          if (ultimaMedicao >= 400) {
+            console.log("MUITO COCÔ");
+          } else {
+            console.log("BALNEÁVEL");
+          }
+
+          console.log(penultimaMedicao);
+          if (penultimaMedicao >= 100) {
+            console.log("MUITO COCÔ");
+          } else {
+            console.log("BALNEÁVEL");
+          }
+
+          console.log(antepenultimaMedicao);
+          if (antepenultimaMedicao >= 100) {
+            console.log("MUITO COCÔ");
+          } else {
+            console.log("BALNEÁVEL");
+          }
+
+          console.log(quartoMedicao);
+          if (quartoMedicao >= 100) {
+            console.log("MUITO COCÔ");
+          } else {
+            console.log("BALNEÁVEL");
+          }
+
+          console.log(quintoMedicao);
+          if (quintoMedicao >= 100) {
+            console.log("MUITO COCÔ");
+          } else {
+            console.log("BALNEÁVEL");
+          }
         },
         error => {
           console.error(error);
