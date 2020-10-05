@@ -77,6 +77,15 @@
                     mais sensíveis e menos imunes do que os adultos * Não levar
                     animais à praia
                   </li>
+                  <li>
+                    Segundo a Companhia Ambiental do Estado de São Paulo
+                    (CETESB), para uma praia ser considerada imprópria com base
+                    no nível de unidades formadoras de colônia (UFC) de
+                    enterococcos, os índices devem ser: superiores a 100
+                    UFC/100ml em pelo menos 2 medições dentro de um período de 5
+                    semanas; superiores a 400 UFC/100ml na última amostragem
+                    realizada.
+                  </li>
                 </ul>
               </div>
             </q-card-section>

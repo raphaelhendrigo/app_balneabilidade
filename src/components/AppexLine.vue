@@ -155,7 +155,7 @@ export default {
               label: {
                 borderColor: "#00E396",
 
-                text: "Limite inferior 100 UFC por 100 ml"
+                text: "100 UFC por 100 ml"
               }
             },
             {
@@ -167,7 +167,7 @@ export default {
               label: {
                 borderColor: "#00E396",
 
-                text: "Limite inferior 400 UFC por 100 ml"
+                text: "400 UFC por 100 ml"
               }
             }
           ]
