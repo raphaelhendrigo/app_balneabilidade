@@ -60,7 +60,8 @@ export default {
         }
       ],
       data: [],
-      original: []
+      original: [],
+      ultimosCinco: []
     };
   },
   mounted() {
@@ -94,54 +95,14 @@ export default {
             return arr;
           });
 
-          //**for ([(iMedicao = 1)]; [iMedicao <= 5]; [iMedicao++])
-
           console.log("original", this.original);
-          let ultimoRegistro = this.original[this.original.length - 1];
-          let ultimaMedicao = ultimoRegistro["enterococos"];
-          let penultimoRegistro = this.original[this.original.length - 2];
-          let penultimaMedicao = penultimoRegistro["enterococos"];
-          let antepenultimoRegistro = this.original[this.original.length - 3];
-          let antepenultimaMedicao = antepenultimoRegistro["enterococos"];
-          let quartoRegistro = this.original[this.original.length - 4];
-          let quartoMedicao = quartoRegistro["enterococos"];
-          let quintoRegistro = this.original[this.original.length - 5];
-          let quintoMedicao = quintoRegistro["enterococos"];
 
-          console.log(ultimaMedicao);
-          if (ultimaMedicao >= 400) {
-            console.log("MUITO COCÔ");
-          } else {
-            console.log("BALNEÁVEL");
-          }
+          this.ultimosCinco = [];
 
-          console.log(penultimaMedicao);
-          if (penultimaMedicao >= 100) {
-            console.log("MUITO COCÔ");
-          } else {
-            console.log("BALNEÁVEL");
+          for (var i = 1; i <= 5; i++) {
+            this.ultimosCinco.push(this.original[this.original.length - i]);
           }
-
-          console.log(antepenultimaMedicao);
-          if (antepenultimaMedicao >= 100) {
-            console.log("MUITO COCÔ");
-          } else {
-            console.log("BALNEÁVEL");
-          }
-
-          console.log(quartoMedicao);
-          if (quartoMedicao >= 100) {
-            console.log("MUITO COCÔ");
-          } else {
-            console.log("BALNEÁVEL");
-          }
-
-          console.log(quintoMedicao);
-          if (quintoMedicao >= 100) {
-            console.log("MUITO COCÔ");
-          } else {
-            console.log("BALNEÁVEL");
-          }
+          console.log("Valores", this.ultimosCinco);
         },
         error => {
           console.error(error);
@@ -193,8 +154,8 @@ export default {
     // SELECT * FROM ... WHERE...LIMIT...
     fetchFromServer(startRow, count, filter, sortBy, descending) {
       const data = filter
-        ? this.original.filter(row => row.name.includes(filter))
-        : this.original.slice();
+        ? this.ultimosCinco.filter(row => row.name.includes(filter))
+        : this.ultimosCinco.slice();
 
       // handle sortBy
       if (sortBy) {
