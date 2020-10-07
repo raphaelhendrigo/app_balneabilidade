@@ -65,17 +65,28 @@ export default {
       data: [],
       original: [],
       ultimosCinco: [],
-      mensagem: "BALNEÁVEL"
+      mensagem: ""
     };
   },
-  mounted() {
+  computed: {
+    cidade: function() {
+      return this.$store.getters["exemplo/getCidade"];
+    },
+    praia: function() {
+      return this.$store.getters["exemplo/getPraia"];
+    }
+  },
+  async mounted() {
     // get initial data from server (1st page)
 
     this.onRequest({
       pagination: this.pagination,
       filter: undefined
     });
-    this.carregaDados("GUARUJÁ", "PEREQUÊ");
+
+    if (this.cidade != "" && this.praia != "") {
+      await this.carregaDados(this.cidade, this.praia);
+    }
   },
   methods: {
     async carregaDados(cidade, praia) {

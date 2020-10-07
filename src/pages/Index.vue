@@ -40,6 +40,9 @@
           medição realizada
         </p>
       </q-card>
+      <q-card>
+        <Table :key="renderAnotherComponent"></Table>
+      </q-card>
     </div>
   </q-page>
 </template>
@@ -50,6 +53,7 @@ import ApexLine from "components/AppexLine";
 import cidadepraias from "../assets/praias_sp.json";
 import grandeUbatuba from "../assets/grande_ubatuba.json";
 import Vue from "vue";
+import Table from "pages/table.vue";
 
 export default {
   name: "PageIndex",
@@ -62,7 +66,8 @@ export default {
     }
   },
   components: {
-    ApexLine
+    ApexLine,
+    Table
   },
   data() {
     return {
@@ -72,6 +77,7 @@ export default {
       praias: [],
       objcidadepraias: [],
       renderComponent: 0,
+      renderAnotherComponent: 1,
       colors: [
         "linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%)",
         "linear-gradient( 135deg, #2AFADF 10%, #4C83FF 100%)",
@@ -93,6 +99,7 @@ export default {
       this.$store.commit("exemplo/setPraia", this.modelPraia);
 
       this.renderComponent++;
+      this.renderAnotherComponent++;
     }
   }
 };
