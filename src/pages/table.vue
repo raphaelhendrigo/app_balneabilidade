@@ -25,6 +25,9 @@
         </q-input>
       </template>
     </q-table>
+    <div>
+      {{ mensagem }}
+    </div>
   </div>
 </template>
 <script>
@@ -61,7 +64,8 @@ export default {
       ],
       data: [],
       original: [],
-      ultimosCinco: []
+      ultimosCinco: [],
+      mensagem: "BALNEÁVEL"
     };
   },
   mounted() {
@@ -71,7 +75,7 @@ export default {
       pagination: this.pagination,
       filter: undefined
     });
-    this.carregaDados("UBATUBA", "GRANDE");
+    this.carregaDados("GUARUJÁ", "PEREQUÊ");
   },
   methods: {
     async carregaDados(cidade, praia) {
@@ -102,8 +106,69 @@ export default {
           for (var i = 1; i <= 5; i++) {
             this.ultimosCinco.push(this.original[this.original.length - i]);
           }
+          this.mensagem = "BALNEÁVEL";
+          //console.log(this.ultimosCinco[0]["enterococos"]);
+
+          if (this.ultimosCinco[0]["enterococos"] >= 400) {
+            this.mensagem = "IMPRÓPRIA";
+          }
+
+          if (
+            this.ultimosCinco[0]["enterococos"] >= 100 &&
+            this.ultimosCinco[1]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[0]["enterococos"] >= 100 &&
+            this.ultimosCinco[2]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[0]["enterococos"] >= 100 &&
+            this.ultimosCinco[3]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[0]["enterococos"] >= 100 &&
+            this.ultimosCinco[4]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[1]["enterococos"] >= 100 &&
+            this.ultimosCinco[2]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[1]["enterococos"] >= 100 &&
+            this.ultimosCinco[3]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[1]["enterococos"] >= 100 &&
+            this.ultimosCinco[4]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[2]["enterococos"] >= 100 &&
+            this.ultimosCinco[3]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[2]["enterococos"] >= 100 &&
+            this.ultimosCinco[4]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          } else if (
+            this.ultimosCinco[3]["enterococos"] >= 100 &&
+            this.ultimosCinco[4]["enterococos"] >= 100
+          ) {
+            this.mensagem = "IMPRÓPRIA";
+          }
+          console.log(this.mensagem);
+
           console.log("Valores", this.ultimosCinco);
         },
+
         error => {
           console.error(error);
         }
