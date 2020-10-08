@@ -101,8 +101,8 @@ export default {
       }).then(
         result => {
           this.original = result.data.map((item, key) => {
-            console.log("chave: ", key);
-            console.log("item: ", item[0]);
+            //console.log("chave: ", key);
+            //console.log("item: ", item[0]);
             let arr = [];
             arr["dataMedicao"] = item[0];
             arr["enterococos"] = item[1];
@@ -117,10 +117,34 @@ export default {
           for (var i = 1; i <= 5; i++) {
             this.ultimosCinco.push(this.original[this.original.length - i]);
           }
-          this.mensagem = "BALNEÁVEL";
+
+          let qtd_item_100 = 0;
+          let qtd_item_400 = 0;
+
+          //console.log(ultimosCinco.length);
+
+          for (var i = 0; i < this.ultimosCinco.length; i++) {
+            if (this.ultimosCinco[i]["enterococos"] >= 100) {
+              qtd_item_100++;
+              console.log(qtd_item_100);
+            }
+            if (this.ultimosCinco[i]["enterococos"] >= 400) {
+              qtd_item_400++;
+              console.log(qtd_item_400);
+            }
+            //console.log(ultimosCinco[i]["enterococos"]);
+          }
+
+          if (qtd_item_100 >= 2 || qtd_item_400 >= 1) {
+            this.mensagem = "IMPRÓPRIA";
+          } else {
+            this.mensagem = "BALNEÁVEL";
+          }
+
+          //this.mensagem = "BALNEÁVEL";
           //console.log(this.ultimosCinco[0]["enterococos"]);
 
-          if (this.ultimosCinco[0]["enterococos"] >= 400) {
+          /* if (this.ultimosCinco[0]["enterococos"] >= 400) {
             this.mensagem = "IMPRÓPRIA";
           }
 
@@ -175,7 +199,7 @@ export default {
           ) {
             this.mensagem = "IMPRÓPRIA";
           }
-          console.log(this.mensagem);
+          console.log(this.mensagem); */
 
           console.log("Valores", this.ultimosCinco);
         },
