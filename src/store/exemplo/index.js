@@ -12,6 +12,9 @@ export default {
     },
     getPraia: state => {
       return state.praia;
+    },
+    getIpWebservice: state => {
+      return state.ip_webservice;
     }
   },
   mutations: {
@@ -20,11 +23,15 @@ export default {
     },
     setPraia(state, param) {
       state.praia = param;
+    },
+    setIpWebservice(state, param) {
+      state.ip_webservice = param;
     }
   },
   actions,
   state: {
     cidade: "",
-    praia: ""
+    praia: "",
+    ip_webservice: ""
   }
 };

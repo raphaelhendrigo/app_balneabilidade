@@ -51,7 +51,7 @@
 import exemplo from "../store/exemplo";
 import ApexLine from "components/AppexLine";
 import cidadepraias from "../assets/praias_sp.json";
-import grandeUbatuba from "../assets/grande_ubatuba.json";
+//import grandeUbatuba from "../assets/grande_ubatuba.json";
 import Vue from "vue";
 import Table from "pages/table.vue";
 
@@ -63,6 +63,9 @@ export default {
     },
     praia: function() {
       return this.$store.getters["exemplo/getPraia"];
+    },
+    ip_webservice: function() {
+      return this.$store.getters["exemplo/getIpWebservice"];
     }
   },
   components: {
@@ -89,6 +92,9 @@ export default {
   mounted() {
     this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
     this.cidades = Object.keys(this.objcidadepraias);
+    this.modelCidade = "";
+    this.modelPraia = "";
+    this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
   },
   methods: {
     carregapraias(val) {

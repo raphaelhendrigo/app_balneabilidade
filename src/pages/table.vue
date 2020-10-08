@@ -74,11 +74,12 @@ export default {
     },
     praia: function() {
       return this.$store.getters["exemplo/getPraia"];
+    },
+    ip_webservice: function() {
+      return this.$store.getters["exemplo/getIpWebservice"];
     }
   },
   async mounted() {
-    // get initial data from server (1st page)
-
     this.onRequest({
       pagination: this.pagination,
       filter: undefined
@@ -93,11 +94,13 @@ export default {
       await axios({
         method: "GET",
         url:
-          "http://172.23.93.116:5000/todosResultados?cidade=" +
-          cidade.toUpperCase() +
-          "&praia=" +
-          praia.toUpperCase() +
-          ""
+          "http://" +
+          this.ip_webservice.concat(
+            ":5000/resultadosUltimosDoisAnos?cidade=" +
+              this.cidade.toUpperCase() +
+              "&praia=" +
+              this.praia.toUpperCase()
+          )
       }).then(
         result => {
           this.original = result.data.map((item, key) => {
@@ -110,7 +113,7 @@ export default {
             return arr;
           });
 
-          console.log("original", this.original);
+          //console.log("original", this.original);
 
           this.ultimosCinco = [];
 
@@ -141,67 +144,7 @@ export default {
             this.mensagem = "BALNEÁVEL";
           }
 
-          //this.mensagem = "BALNEÁVEL";
-          //console.log(this.ultimosCinco[0]["enterococos"]);
-
-          /* if (this.ultimosCinco[0]["enterococos"] >= 400) {
-            this.mensagem = "IMPRÓPRIA";
-          }
-
-          if (
-            this.ultimosCinco[0]["enterococos"] >= 100 &&
-            this.ultimosCinco[1]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[0]["enterococos"] >= 100 &&
-            this.ultimosCinco[2]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[0]["enterococos"] >= 100 &&
-            this.ultimosCinco[3]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[0]["enterococos"] >= 100 &&
-            this.ultimosCinco[4]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[1]["enterococos"] >= 100 &&
-            this.ultimosCinco[2]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[1]["enterococos"] >= 100 &&
-            this.ultimosCinco[3]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[1]["enterococos"] >= 100 &&
-            this.ultimosCinco[4]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[2]["enterococos"] >= 100 &&
-            this.ultimosCinco[3]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[2]["enterococos"] >= 100 &&
-            this.ultimosCinco[4]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          } else if (
-            this.ultimosCinco[3]["enterococos"] >= 100 &&
-            this.ultimosCinco[4]["enterococos"] >= 100
-          ) {
-            this.mensagem = "IMPRÓPRIA";
-          }
-          console.log(this.mensagem); */
-
-          console.log("Valores", this.ultimosCinco);
+          //console.log("Valores", this.ultimosCinco);
         },
 
         error => {

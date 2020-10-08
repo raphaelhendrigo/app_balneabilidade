@@ -10,7 +10,7 @@
 
 <script>
 import { date } from "quasar";
-import grandeUbatuba from "../assets/grande_ubatuba.json";
+//import grandeUbatuba from "../assets/grande_ubatuba.json";
 import axios from "axios";
 import { mapState, mapGetters } from "vuex";
 
@@ -75,6 +75,9 @@ export default {
     },
     praia: function() {
       return this.$store.getters["exemplo/getPraia"];
+    },
+    ip_webservice: function() {
+      return this.$store.getters["exemplo/getIpWebservice"];
     }
   },
 
@@ -88,11 +91,13 @@ export default {
       await axios({
         method: "GET",
         url:
-          "http://172.23.93.116:5000/todosResultados?cidade=" +
-          this.cidade.toUpperCase() +
-          "&praia=" +
-          this.praia.toUpperCase() +
-          ""
+          "http://" +
+          this.ip_webservice.concat(
+            ":5000/resultadosUltimosDoisAnos?cidade=" +
+              this.cidade.toUpperCase() +
+              "&praia=" +
+              this.praia.toUpperCase()
+          )
       }).then(
         result => {
           this.graficoDatas = result.data.map(item => {
