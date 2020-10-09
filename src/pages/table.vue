@@ -28,6 +28,11 @@
     <div>
       {{ mensagem }}
     </div>
+    <br />
+    <q-card>
+      <p>Previsão referente somente à praia "Grande" da cidade de "Ubatuba"</p>
+      {{ previsaoProximasCincoSemanas }}
+    </q-card>
   </div>
 </template>
 <script>
@@ -65,7 +70,8 @@ export default {
       data: [],
       original: [],
       ultimosCinco: [],
-      mensagem: ""
+      mensagem: "",
+      previsaoProximasCincoSemanas: []
     };
   },
   computed: {
@@ -87,6 +93,7 @@ export default {
 
     if (this.cidade != "" && this.praia != "") {
       await this.carregaDados(this.cidade, this.praia);
+      await this.retornaPrevisaoProximasCincoSemanas();
     }
   },
   methods: {
@@ -228,6 +235,23 @@ export default {
         }
       });
       return count;
+    },
+    async retornaPrevisaoProximasCincoSemanas() {
+      await axios({
+        method: "GET",
+        url:
+          "http://" +
+          this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
+      }).then(
+        result => {
+          this.previsaoProximasCincoSemanas = result.data.map(item => {
+            return item[0];
+          });
+        },
+        error => {
+          console.error(error);
+        }
+      );
     }
   }
 };
