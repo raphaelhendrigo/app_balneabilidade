@@ -245,7 +245,7 @@ export default {
       }).then(
         result => {
           this.previsaoProximasCincoSemanas = result.data.map(item => {
-            return item[0];
+            return item;
           });
         },
         error => {
