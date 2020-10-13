@@ -32,13 +32,28 @@
         </div>
       </q-card>
       <q-card>
-        <p style="font-size:80%;">
-          Os critérios para classificação da balneabilidade das praias com base
-          na quantidade de unidades formadoras de colonia (UFC/100ml) de
-          enterococcos são: UFC/100ml acima de 100 em pelo menos 2 medições
-          dentro de um período de 5 semanas; UFC/100ml acima de 400 na última
-          medição realizada
-        </p>
+        <div class="q-pa-md q-gutter-sm">
+          <q-btn label="Small" color="primary" @click="small = true" />
+          <q-dialog v-model="small">
+            <q-card style="width: 300px">
+              <q-card-section>
+                <div class="text-h6">Critérios de Balneabilidade</div>
+              </q-card-section>
+
+              <q-card-section class="q-pt-none">
+                Os critérios para classificação da balneabilidade das praias com
+                base na quantidade de unidades formadoras de colonia (UFC/100ml)
+                de enterococcos são: UFC/100ml acima de 100 em pelo menos 2
+                medições dentro de um período de 5 semanas; UFC/100ml acima de
+                400 na última medição realizada
+              </q-card-section>
+
+              <q-card-actions align="right" class="bg-white text-teal">
+                <q-btn flat label="OK" v-close-popup />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+        </div>
       </q-card>
       <q-card>
         <Table :key="renderAnotherComponent"></Table>
@@ -74,6 +89,7 @@ export default {
   },
   data() {
     return {
+      small: false,
       modelCidade: null,
       modelPraia: null,
       cidades: [],
