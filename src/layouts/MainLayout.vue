@@ -12,7 +12,7 @@
             <img
               style="display:block; margin-right:auto;  "
               width="50px"
-              src="~assets/beach.jpg"
+              src="~assets/logo_praia_01.png"
             />
           </div>
           <div

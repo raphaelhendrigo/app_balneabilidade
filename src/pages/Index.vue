@@ -94,7 +94,7 @@ export default {
     this.cidades = Object.keys(this.objcidadepraias);
     this.modelCidade = "";
     this.modelPraia = "";
-    this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
+    this.$store.commit("exemplo/setIpWebservice", "172.23.93.107");
   },
   methods: {
     carregapraias(val) {
