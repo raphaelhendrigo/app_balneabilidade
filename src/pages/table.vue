@@ -1,38 +1,79 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      title="Praia"
-      :data="data"
-      :columns="columns"
-      row-key="id"
-      :pagination.sync="pagination"
-      :loading="loading"
-      :filter="filter"
-      @request="onRequest"
-      binary-state-sort
+    <q-card
+      :style="{ 'background-color': cardMensagem }"
+      style="color:white;"
+      >{{ mensagem }}</q-card
     >
-      <template v-slot:top-right>
-        <q-input
-          borderless
-          dense
-          debounce="300"
-          v-model="filter"
-          placeholder="Search"
-        >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </template>
-    </q-table>
-    <div>
-      {{ mensagem }}
-    </div>
     <br />
-    <q-card>
-      <p>Previsão referente somente à praia "Grande" da cidade de "Ubatuba"</p>
-      {{ previsaoProximasCincoSemanas }}
-    </q-card>
+    <q-tabs
+      v-model="tab"
+      dense
+      color="primary"
+      active-color="primary"
+      indicator-color="primary"
+      align="justify"
+      narrow-indicator
+    >
+      <q-tab name="historico" label="Histórico" />
+      <q-tab name="previsao" label="Previsão" />
+    </q-tabs>
+    <q-separator />
+    <q-tab-panels v-model="tab">
+      <q-tab-panel name="historico">
+        <q-table
+          title="Histórico Últimas 5 semanas"
+          :data="data"
+          :columns="columns"
+          row-key="id"
+          :loading="loading"
+          :filter="filter"
+          @request="onRequest"
+          binary-state-sort
+        >
+          <!--<q-table
+          title="Histórico Últimas 5 semanas"
+          :data="data"
+          :columns="columns"
+          row-key="id"
+          :pagination.sync="pagination"
+          :loading="loading"
+          :filter="filter"
+          @request="onRequest"
+          binary-state-sort
+        >
+          <template v-slot:top-right>
+          <q-input
+            borderless
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Search"
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>-->
+        </q-table>
+      </q-tab-panel>
+      <q-tab-panel name="previsao">
+        <p>
+          Previsão referente somente à praia "Grande" da cidade de "Ubatuba"
+        </p>
+        <q-table
+          title="Previsão Próximas 5 semanas"
+          :data="previsaoProximasCincoSemanas"
+          :columns="columnsDois"
+          row-key="id"
+          :loading="loading"
+          :filter="filter"
+          @request="onRequest"
+          binary-state-sort
+        >
+        </q-table>
+      </q-tab-panel>
+    </q-tab-panels>
   </div>
 </template>
 <script>
@@ -53,7 +94,7 @@ export default {
         {
           name: "dataMedicao",
           required: true,
-          label: "Data da medição",
+          label: "Data medição",
           align: "left",
           field: row => row.dataMedicao,
           format: val => `${val}`,
@@ -62,7 +103,25 @@ export default {
         {
           name: "enterococos",
           align: "center",
-          label: "UFC de Enterococos por 100 ml",
+          label: "UFC/100 ml",
+          field: "enterococos",
+          sortable: true
+        }
+      ],
+      columnsDois: [
+        {
+          name: "dataMedicao",
+          required: true,
+          label: "Data medição",
+          align: "left",
+          field: row => row.dataMedicao,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: "enterococos",
+          align: "center",
+          label: "UFC/100 ml",
           field: "enterococos",
           sortable: true
         }
@@ -71,7 +130,9 @@ export default {
       original: [],
       ultimosCinco: [],
       mensagem: "",
-      previsaoProximasCincoSemanas: []
+      previsaoProximasCincoSemanas: [],
+      cardMensagem: "",
+      tab: "previsao"
     };
   },
   computed: {
@@ -146,9 +207,11 @@ export default {
           }
 
           if (qtd_item_100 >= 2 || qtd_item_400 >= 1) {
-            this.mensagem = "IMPRÓPRIA";
+            this.mensagem = "Situação Atual: IMPRÓPRIA";
+            this.cardMensagem = "#FF0000";
           } else {
-            this.mensagem = "BALNEÁVEL";
+            this.mensagem = "Situação Atual: BALNEÁVEL";
+            this.cardMensagem = "#007C3D";
           }
 
           //console.log("Valores", this.ultimosCinco);
@@ -244,8 +307,21 @@ export default {
           this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
       }).then(
         result => {
-          this.previsaoProximasCincoSemanas = result.data.map(item => {
-            return item;
+          /* this.previsaoProximasCincoSemanas = result.data.map(item => {
+            let arr = [];
+            arr["dataMedicao"] = item[0];
+            arr["enterococos"] = item[1];
+            arr["id"] = key;
+            return arr;
+            //return item;
+          }); */
+
+          this.previsaoProximasCincoSemanas = result.data.map((item, key) => {
+            let arr = [];
+            arr["dataMedicao"] = item[0];
+            arr["enterococos"] = item[1];
+            arr["id"] = key;
+            return arr;
           });
         },
         error => {

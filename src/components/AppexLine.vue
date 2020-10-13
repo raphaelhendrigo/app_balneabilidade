@@ -31,6 +31,7 @@ export default {
       chartOptions: {
         chart: {
           height: 500,
+          width: "100%",
           type: "line"
         },
         grid: {
@@ -56,7 +57,7 @@ export default {
           enabled: false
         },
         title: {
-          text: "UFC de Enterococos por 100 ml de água",
+          text: "UFC Enterococos/100ml",
           align: "center"
         },
         xaxis: {
@@ -116,7 +117,7 @@ export default {
       this.chartOptions = {
         chart: {
           height: 400,
-          width: 1400,
+          width: "100%",
           type: "line"
         },
         responsive: [
@@ -178,7 +179,7 @@ export default {
           ]
         },
         title: {
-          text: "UFC de Enterococos por 100 ml de água",
+          text: "UFC Enterococos/100ml",
           align: "left"
         },
         xaxis: {
@@ -200,13 +201,16 @@ export default {
                 "November",
                 "December"
               ];
-              let dataformatada =
+              /* let dataformatada =
                 data.getDate() +
                 1 +
                 "/" +
                 meses[data.getMonth()] +
                 "/" +
                 data.getFullYear();
+              return dataformatada; */
+              let dataformatada =
+                meses[data.getMonth()] + " " + data.getFullYear();
               return dataformatada;
             }
           }

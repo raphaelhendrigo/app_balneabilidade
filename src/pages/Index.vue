@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="full-width text-center">
-      Verifique aqui a Balnealidade da praia que pretende visitar:<br />
+      <!--Verifique aqui a Balnealidade da praia que pretende visitar<br />-->
 
       <q-select
         v-model="modelCidade"
@@ -20,40 +20,43 @@
       >
       </q-select>
 
-      <q-card>
-        <div class="row q-col-gutter-md q-px-md q-py-md">
-          <div class="col-sx-6 col-sx-12 col-sx-6">
-            <apex-line
-              :cidade="this.modelCidade"
-              :praia="this.modelPraia"
-              :key="renderComponent"
-            ></apex-line>
-          </div>
-        </div>
-      </q-card>
-      <q-card>
-        <div class="q-pa-md q-gutter-sm">
-          <q-btn label="Small" color="primary" @click="small = true" />
-          <q-dialog v-model="small">
-            <q-card style="width: 300px">
-              <q-card-section>
-                <div class="text-h6">Critérios de Balneabilidade</div>
-              </q-card-section>
+      <div class="q-pa-md q-gutter-sm">
+        <q-btn
+          icon="help"
+          color="primary"
+          @click="popupCriteriosClassificacao = true"
+          flat
+        />
+        <q-dialog v-model="popupCriteriosClassificacao">
+          <q-card style="width: 300px">
+            <q-card-section>
+              <div class="text-h6">Critérios de Balneabilidade</div>
+            </q-card-section>
 
-              <q-card-section class="q-pt-none">
-                Os critérios para classificação da balneabilidade das praias com
-                base na quantidade de unidades formadoras de colonia (UFC/100ml)
-                de enterococcos são: UFC/100ml acima de 100 em pelo menos 2
-                medições dentro de um período de 5 semanas; UFC/100ml acima de
-                400 na última medição realizada
-              </q-card-section>
+            <q-card-section class="q-pt-none text-justify">
+              Os critérios para classificação da balneabilidade das praias com
+              base na quantidade de unidades formadoras de colonia (UFC/100ml)
+              de enterococcos são: UFC/100ml acima de 100 em pelo menos 2
+              medições dentro de um período de 5 semanas; UFC/100ml acima de 400
+              na última medição realizada
+            </q-card-section>
 
-              <q-card-actions align="right" class="bg-white text-teal">
-                <q-btn flat label="OK" v-close-popup />
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
-        </div>
+            <q-card-actions align="right" class="bg-white text-teal">
+              <q-btn flat label="OK" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+      </div>
+      <q-card>
+        <!--<div class="row q-col-gutter-md q-px-md q-py-md">
+          <div class="col-sx-6 col-sx-12 col-sx-6">-->
+        <apex-line
+          :cidade="this.modelCidade"
+          :praia="this.modelPraia"
+          :key="renderComponent"
+        ></apex-line>
+        <!--</div>
+        </div>-->
       </q-card>
       <q-card>
         <Table :key="renderAnotherComponent"></Table>
@@ -89,7 +92,7 @@ export default {
   },
   data() {
     return {
-      small: false,
+      popupCriteriosClassificacao: false,
       modelCidade: null,
       modelPraia: null,
       cidades: [],
@@ -110,7 +113,7 @@ export default {
     this.cidades = Object.keys(this.objcidadepraias);
     this.modelCidade = "";
     this.modelPraia = "";
-    this.$store.commit("exemplo/setIpWebservice", "172.23.93.107");
+    this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
   },
   methods: {
     carregapraias(val) {

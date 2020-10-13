@@ -18,9 +18,10 @@
           <div
             style="width:50%; float:left; word-break: break-all; padding-top: 8px   "
           >
-            <span style="font-size:15px; "
+            <!--<span style="font-size:15px; "
               >App Balnealidade das Praias do Estado de São Paulo</span
-            >
+            >-->
+            <span style="font-size:15px; ">App Balnealidade Praias SP</span>
             <br />
           </div>
         </q-toolbar-title>
