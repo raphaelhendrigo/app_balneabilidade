@@ -134,7 +134,7 @@
             <q-card-section>
               <div class="text-justify">
                 <p>
-                  O aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: 
+                  tstestestestestestesO aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: 
                   Python, Quasar, Vue, Cordova e Anaconda e Flask.
 
                 </p>
