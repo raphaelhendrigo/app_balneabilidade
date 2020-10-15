@@ -15,7 +15,10 @@ export default {
     },
     getIpWebservice: state => {
       return state.ip_webservice;
-    }
+    },
+    getListaPrevisao: state => {
+      return state.lista_previsao;
+    },
   },
   mutations: {
     setCidade(state, param) {
@@ -26,12 +29,16 @@ export default {
     },
     setIpWebservice(state, param) {
       state.ip_webservice = param;
-    }
+    },
+    setListaPrevisao(state, param) {
+      return state.lista_previsao;
+    },
   },
   actions,
   state: {
     cidade: "",
     praia: "",
-    ip_webservice: ""
+    ip_webservice: "",
+    lista_previsao: []
   }
 };

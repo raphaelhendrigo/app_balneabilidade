@@ -6,74 +6,17 @@
       >{{ mensagem }}</q-card
     >
     <br />
-    <q-tabs
-      v-model="tab"
-      dense
-      color="primary"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
+    <q-table
+      title="Histórico Últimas 5 semanas"
+      :data="historicoCincoSemanas"
+      :columns="colunasTabelaHistorico"
+      row-key="id"
+      :loading="loading"
+      :filter="filter"
+      @request="onRequest"
+      binary-state-sort
     >
-      <q-tab name="historico" label="Histórico" />
-      <q-tab name="previsao" label="Previsão" />
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab">
-      <q-tab-panel name="historico">
-        <q-table
-          title="Histórico Últimas 5 semanas"
-          :data="data"
-          :columns="columns"
-          row-key="id"
-          :loading="loading"
-          :filter="filter"
-          @request="onRequest"
-          binary-state-sort
-        >
-          <!--<q-table
-          title="Histórico Últimas 5 semanas"
-          :data="data"
-          :columns="columns"
-          row-key="id"
-          :pagination.sync="pagination"
-          :loading="loading"
-          :filter="filter"
-          @request="onRequest"
-          binary-state-sort
-        >
-          <template v-slot:top-right>
-          <q-input
-            borderless
-            dense
-            debounce="300"
-            v-model="filter"
-            placeholder="Search"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>-->
-        </q-table>
-      </q-tab-panel>
-      <q-tab-panel name="previsao">
-        <p>
-          Previsão referente somente à praia "Grande" da cidade de "Ubatuba"
-        </p>
-        <q-table
-          title="Previsão Próximas 5 semanas"
-          :data="previsaoProximasCincoSemanas"
-          :columns="columnsDois"
-          row-key="id"
-          :loading="loading"
-          :filter="filter"
-          @request="onRequest"
-          binary-state-sort
-        >
-        </q-table>
-      </q-tab-panel>
-    </q-tab-panels>
+    </q-table>
   </div>
 </template>
 <script>
@@ -90,7 +33,7 @@ export default {
         rowsPerPage: 5
         /*rowsNumber: 1*/
       },
-      columns: [
+      colunasTabelaHistorico: [
         {
           name: "dataMedicao",
           required: true,
@@ -108,31 +51,10 @@ export default {
           sortable: true
         }
       ],
-      columnsDois: [
-        {
-          name: "dataMedicao",
-          required: true,
-          label: "Data medição",
-          align: "left",
-          field: row => row.dataMedicao,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "enterococos",
-          align: "center",
-          label: "UFC/100 ml",
-          field: "enterococos",
-          sortable: true
-        }
-      ],
-      data: [],
       original: [],
-      ultimosCinco: [],
+      historicoCincoSemanas: [],
       mensagem: "",
-      previsaoProximasCincoSemanas: [],
-      cardMensagem: "",
-      tab: "previsao"
+      cardMensagem: ""
     };
   },
   computed: {
@@ -153,12 +75,11 @@ export default {
     });
 
     if (this.cidade != "" && this.praia != "") {
-      await this.carregaDados(this.cidade, this.praia);
-      await this.retornaPrevisaoProximasCincoSemanas();
+      await this.carregarHistorico(this.cidade, this.praia);
     }
   },
   methods: {
-    async carregaDados(cidade, praia) {
+    async carregarHistorico(cidade, praia) {
       await axios({
         method: "GET",
         url:
@@ -183,27 +104,26 @@ export default {
 
           //console.log("original", this.original);
 
-          this.ultimosCinco = [];
+          this.historicoCincoSemanas = [];
 
           for (var i = 1; i <= 5; i++) {
-            this.ultimosCinco.push(this.original[this.original.length - i]);
+            this.historicoCincoSemanas.push(
+              this.original[this.original.length - i]
+            );
           }
 
           let qtd_item_100 = 0;
           let qtd_item_400 = 0;
 
-          //console.log(ultimosCinco.length);
-
-          for (var i = 0; i < this.ultimosCinco.length; i++) {
-            if (this.ultimosCinco[i]["enterococos"] >= 100) {
+          for (var i = 0; i < this.historicoCincoSemanas.length; i++) {
+            if (this.historicoCincoSemanas[i]["enterococos"] >= 100) {
               qtd_item_100++;
               console.log(qtd_item_100);
             }
-            if (this.ultimosCinco[i]["enterococos"] >= 400) {
+            if (this.historicoCincoSemanas[i]["enterococos"] >= 400) {
               qtd_item_400++;
               console.log(qtd_item_400);
             }
-            //console.log(ultimosCinco[i]["enterococos"]);
           }
 
           if (qtd_item_100 >= 2 || qtd_item_400 >= 1) {
@@ -213,8 +133,6 @@ export default {
             this.mensagem = "Situação Atual: BALNEÁVEL";
             this.cardMensagem = "#007C3D";
           }
-
-          //console.log("Valores", this.ultimosCinco);
         },
 
         error => {
@@ -250,7 +168,7 @@ export default {
         );
 
         // clear out existing data and add new
-        this.data.splice(0, this.data.length, ...returnedData);
+        //this.data.splice(0, this.data.length, ...returnedData);
 
         // don't forget to update local pagination object
         this.pagination.page = page;
@@ -267,8 +185,8 @@ export default {
     // SELECT * FROM ... WHERE...LIMIT...
     fetchFromServer(startRow, count, filter, sortBy, descending) {
       const data = filter
-        ? this.ultimosCinco.filter(row => row.name.includes(filter))
-        : this.ultimosCinco.slice();
+        ? this.historicoCincoSemanas.filter(row => row.name.includes(filter))
+        : this.historicoCincoSemanas.slice();
 
       // handle sortBy
       if (sortBy) {
@@ -298,36 +216,6 @@ export default {
         }
       });
       return count;
-    },
-    async retornaPrevisaoProximasCincoSemanas() {
-      await axios({
-        method: "GET",
-        url:
-          "http://" +
-          this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
-      }).then(
-        result => {
-          /* this.previsaoProximasCincoSemanas = result.data.map(item => {
-            let arr = [];
-            arr["dataMedicao"] = item[0];
-            arr["enterococos"] = item[1];
-            arr["id"] = key;
-            return arr;
-            //return item;
-          }); */
-
-          this.previsaoProximasCincoSemanas = result.data.map((item, key) => {
-            let arr = [];
-            arr["dataMedicao"] = item[0];
-            arr["enterococos"] = item[1];
-            arr["id"] = key;
-            return arr;
-          });
-        },
-        error => {
-          console.error(error);
-        }
-      );
     }
   }
 };

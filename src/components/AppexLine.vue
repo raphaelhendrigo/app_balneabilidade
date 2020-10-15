@@ -1,11 +1,40 @@
 <template>
-  <apexchart
-    ref="nomeDoGrafico"
-    type="line"
-    height="200"
-    :options="chartOptions"
-    :series="series"
-  />
+  <div class="q-pa-md q-gutter-sm">
+    <span style="font-weight: bold;">UFC Enterococos/100ml</span>
+    <q-btn
+      icon="help"
+      color="primary"
+      @click="popupCriteriosClassificacao = true"
+      flat
+    />
+    <q-dialog v-model="popupCriteriosClassificacao">
+      <q-card style="width: 300px">
+        <q-card-section>
+          <div class="text-h6">Critérios de Balneabilidade</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none text-justify">
+          Os critérios para classificação da balneabilidade das praias com base
+          na quantidade de unidades formadoras de colonia (UFC/100ml) de
+          enterococcos são: UFC/100ml acima de 100 em pelo menos 2 medições
+          dentro de um período de 5 semanas; UFC/100ml acima de 400 na última
+          medição realizada
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="OK" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <apexchart
+      ref="nomeDoGrafico"
+      type="line"
+      height="200"
+      :options="chartOptions"
+      :series="series"
+    />
+  </div>
 </template>
 
 <script>
@@ -22,6 +51,7 @@ export default {
       graficoDatas: [],
       graficoEnterococcos: [],
       teste: "teste",
+      popupCriteriosClassificacao: false,
       series: [
         {
           name: "Enterococcos",
@@ -56,10 +86,10 @@ export default {
         dataLabels: {
           enabled: false
         },
-        title: {
+        /* title: {
           text: "UFC Enterococos/100ml",
           align: "center"
-        },
+        }, */
         xaxis: {
           categories: [],
           labels: {}
@@ -178,10 +208,10 @@ export default {
             }
           ]
         },
-        title: {
+        /* title: {
           text: "UFC Enterococos/100ml",
           align: "left"
-        },
+        }, */
         xaxis: {
           categories: this.graficoDatas,
           labels: {
@@ -217,10 +247,7 @@ export default {
         },
         yaxis: {}
       };
-
       this.series[0].data = this.graficoEnterococcos;
-
-      console.log(this.series[0].data);
     }
   }
 };

@@ -1,13 +1,11 @@
 <template>
   <q-page class="flex flex-center">
     <div class="full-width text-center">
-      <!--Verifique aqui a Balnealidade da praia que pretende visitar<br />-->
-
       <q-select
         v-model="modelCidade"
         label="Selecione Cidade"
         :options="cidades"
-        style="width: 250px"
+        style="margin-left:3%;width: 95%;"
         @input="carregapraias"
       />
 
@@ -15,12 +13,12 @@
         v-model="modelPraia"
         label="Selecione Praia"
         :options="praias"
-        style="width: 250px"
-        @input="invocarMontagemGrafico()"
+        style="margin-left:3%;width: 95%;"
+        @input="atualizarEstadosAxios()"
       >
       </q-select>
-
-      <div class="q-pa-md q-gutter-sm">
+      <br />
+      <!--<div class="q-pa-md q-gutter-sm">
         <q-btn
           icon="help"
           color="primary"
@@ -46,32 +44,49 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
-      </div>
-      <q-card>
-        <!--<div class="row q-col-gutter-md q-px-md q-py-md">
+      </div>-->
+
+      <!--<q-card>-->
+      <!--<div class="row q-col-gutter-md q-px-md q-py-md">
           <div class="col-sx-6 col-sx-12 col-sx-6">-->
-        <apex-line
-          :cidade="this.modelCidade"
-          :praia="this.modelPraia"
-          :key="renderComponent"
-        ></apex-line>
-        <!--</div>
-        </div>-->
-      </q-card>
-      <q-card>
-        <Table :key="renderAnotherComponent"></Table>
-      </q-card>
+      <q-tabs v-model="nomePanel" style="width:100%¨;" class="estilo-tab-panel">
+        <q-tab name="grafico" label="Gráfico" />
+        <q-tab name="historico" label="Histórico" />
+        <q-tab name="previsao" label="Previsão" />
+      </q-tabs>
+      <q-separator />
+      <q-tab-panels v-model="nomePanel">
+        <q-tab-panel name="grafico">
+          <apex-line :key="renderizarComponente"></apex-line>
+        </q-tab-panel>
+        <q-tab-panel name="historico">
+          <Historico :key="renderizarComponente"></Historico>
+        </q-tab-panel>
+        <q-tab-panel name="previsao">
+          <Previsao :key="renderizarComponente"></Previsao>
+        </q-tab-panel>
+      </q-tab-panels>
+      <!--</q-card>-->
     </div>
   </q-page>
 </template>
 
+<style scoped>
+.estilo-tab-panel {
+  color: #007c3d;
+  width: 95%;
+}
+</style>
+
 <script>
+import Vue from "vue";
+import axios from "axios";
 import exemplo from "../store/exemplo";
 import ApexLine from "components/AppexLine";
+import Historico from "components/historico.vue";
+import Previsao from "components/previsao.vue";
 import cidadepraias from "../assets/praias_sp.json";
 //import grandeUbatuba from "../assets/grande_ubatuba.json";
-import Vue from "vue";
-import Table from "pages/table.vue";
 
 export default {
   name: "PageIndex",
@@ -88,7 +103,8 @@ export default {
   },
   components: {
     ApexLine,
-    Table
+    Historico,
+    Previsao
   },
   data() {
     return {
@@ -98,8 +114,8 @@ export default {
       cidades: [],
       praias: [],
       objcidadepraias: [],
-      renderComponent: 0,
-      renderAnotherComponent: 1,
+      renderizarComponente: 0,
+      nomePanel: "grafico",
       colors: [
         "linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%)",
         "linear-gradient( 135deg, #2AFADF 10%, #4C83FF 100%)",
@@ -111,20 +127,19 @@ export default {
   mounted() {
     this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
     this.cidades = Object.keys(this.objcidadepraias);
-    this.modelCidade = "";
-    this.modelPraia = "";
+    this.modelCidade = this.$store.getters["exemplo/getCidade"];
+    this.modelPraia = this.$store.getters["exemplo/getPraia"];
     this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
   },
   methods: {
     carregapraias(val) {
       this.praias = this.objcidadepraias[val].praias;
     },
-    async invocarMontagemGrafico() {
+    async atualizarEstadosAxios() {
       this.$store.commit("exemplo/setCidade", this.modelCidade);
       this.$store.commit("exemplo/setPraia", this.modelPraia);
 
-      this.renderComponent++;
-      this.renderAnotherComponent++;
+      this.renderizarComponente++;
     }
   }
 };
