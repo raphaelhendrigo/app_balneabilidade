@@ -61,7 +61,11 @@ export default {
   },
   methods: {
     async retornaPrevisaoProximasCincoSemanas() {
-      await axios({
+      this.previsaoProximasCincoSemanas = this.$store.getters[
+        "exemplo/getListaPrevisao"
+      ];
+
+      /* await axios({
         method: "GET",
         url:
           "http://" +
@@ -80,7 +84,7 @@ export default {
         error => {
           console.error(error);
         }
-      );
+      ); */
     }
   }
 };

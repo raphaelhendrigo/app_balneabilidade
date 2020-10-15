@@ -109,17 +109,33 @@ export default {
     },
     ip_webservice: function() {
       return this.$store.getters["exemplo/getIpWebservice"];
+    },
+    /* historico_enterococos: function() {
+      return this.$store.getters["exemplo/getHistoricoEnterococos"];
+    },
+    historico_datas: function() {
+      return this.$store.getters["exemplo/getHistoricoDatas"];
+    }, */
+    lista_historico: function() {
+      return this.$store.getters["exemplo/getListaHistorico"];
     }
   },
 
   async mounted() {
     if (this.cidade != "" && this.praia != "") {
-      await this.montarGrafico();
+      this.montarGrafico();
     }
   },
   methods: {
-    async montarGrafico() {
-      await axios({
+    montarGrafico() {
+      let historicoDatas = [];
+      let historicoEnterococos = [];
+
+      for (var i = 0; i < this.lista_historico.length; i++) {
+        historicoDatas.push(this.lista_historico[i]["dataMedicao"]);
+        historicoEnterococos.push(this.lista_historico[i]["enterococos"]);
+      }
+      /*  await axios({
         method: "GET",
         url:
           "http://" +
@@ -142,7 +158,7 @@ export default {
         error => {
           console.error(error);
         }
-      );
+      ); */
 
       this.chartOptions = {
         chart: {
@@ -213,7 +229,7 @@ export default {
           align: "left"
         }, */
         xaxis: {
-          categories: this.graficoDatas,
+          categories: historicoDatas,
           labels: {
             formatter: function(value, timestamp) {
               let data = new Date(value);
@@ -247,7 +263,7 @@ export default {
         },
         yaxis: {}
       };
-      this.series[0].data = this.graficoEnterococcos;
+      this.series[0].data = historicoEnterococos;
     }
   }
 };

@@ -16,6 +16,18 @@ export default {
     getIpWebservice: state => {
       return state.ip_webservice;
     },
+    getHistoricoEnterococos: state => {
+      return state.lista_historico["enterococos"];
+    },
+    getHistoricoDatas: state => {
+      return state.lista_historico["dataMedicao"];
+    },
+    getHistoricoIds: state => {
+      return state.lista_historico["id"];
+    },
+    getListaHistorico: state => {
+      return state.lista_historico;
+    },
     getListaPrevisao: state => {
       return state.lista_previsao;
     },
@@ -30,8 +42,20 @@ export default {
     setIpWebservice(state, param) {
       state.ip_webservice = param;
     },
+    /* setHistoricoEnterococos(state, param) {
+      state.historico_enterococos = param;
+    },
+    setHistoricoDatas(state, param) {
+      state.historico_datas = param;
+    },
+    setHistoricoIds(state, param) {
+      state.historico_ids = param;
+    }, */
+    setListaHistorico(state, param) {
+      state.lista_historico = param;
+    },
     setListaPrevisao(state, param) {
-      return state.lista_previsao;
+      state.lista_previsao = param;
     },
   },
   actions,
@@ -39,6 +63,10 @@ export default {
     cidade: "",
     praia: "",
     ip_webservice: "",
-    lista_previsao: []
+    historico_enterococos: [],
+    historico_datas: [],
+    historico_ids: [],
+    lista_historico: [],
+    lista_previsao: [],
   }
 };
