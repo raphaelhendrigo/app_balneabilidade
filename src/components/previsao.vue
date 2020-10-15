@@ -1,6 +1,17 @@
 <template>
   <div class="q-pa-md">
-    <p>
+    <q-spinner
+      color="primary"
+      size="3em"
+      v-if="!this.$store.getters['exemplo/getPrevisaoCarregada']"
+    />
+    <p
+      v-if="!this.$store.getters['exemplo/getPrevisaoCarregada']"
+      class="text-primary"
+    >
+      Aguarde por favor... Este processo leva cerca de 20 segundos
+    </p>
+    <p v-if="this.$store.getters['exemplo/getPrevisaoCarregada']">
       Previsão referente somente à praia "Grande" da cidade de "Ubatuba"
     </p>
     <q-table
@@ -8,6 +19,7 @@
       :data="previsaoProximasCincoSemanas"
       :columns="colunasTabelaPrevisao"
       row-key="id"
+      v-if="this.$store.getters['exemplo/getPrevisaoCarregada']"
     >
     </q-table>
   </div>
@@ -61,6 +73,12 @@ export default {
   },
   methods: {
     async retornaPrevisaoProximasCincoSemanas() {
+      /* while (this.$store.getters["exemplo/getPrevisaoCarregada"] == false) {
+        this.teste = true;
+      }
+
+      this.teste = false; */
+
       this.previsaoProximasCincoSemanas = this.$store.getters[
         "exemplo/getListaPrevisao"
       ];

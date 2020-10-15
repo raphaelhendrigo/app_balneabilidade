@@ -212,6 +212,8 @@ export default {
         }
       );
 
+      this.$store.commit("exemplo/setPrevisaoCarregada", true);
+
       this.renderizarTabelaPrevisao++;
     }
   }

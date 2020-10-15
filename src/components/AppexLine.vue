@@ -1,12 +1,16 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <span style="font-weight: bold;">UFC Enterococos/100ml</span>
-    <q-btn
-      icon="help"
-      color="primary"
-      @click="popupCriteriosClassificacao = true"
-      flat
-    />
+  <!--<div class="q-pa-md q-gutter-sm">-->
+  <div class="full-width">
+    <div class="full-width">
+      <span style="font-weight: bold;">UFC Enterococos/100ml</span>
+      <q-btn
+        icon="help"
+        color="primary"
+        @click="popupCriteriosClassificacao = true"
+        flat
+        style="margin-top:-1%;"
+      />
+    </div>
     <q-dialog v-model="popupCriteriosClassificacao">
       <q-card style="width: 300px">
         <q-card-section>
@@ -30,7 +34,6 @@
     <apexchart
       ref="nomeDoGrafico"
       type="line"
-      height="200"
       :options="chartOptions"
       :series="series"
     />
@@ -62,7 +65,22 @@ export default {
         chart: {
           height: 500,
           width: "100%",
-          type: "line"
+          type: "line",
+          toolbar: {
+            show: true,
+            offsetX: 0,
+            offsetY: 0,
+            tools: {
+              download: false,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: false,
+              reset: false | '<img src="/static/icons/reset.png" width="20">',
+              customIcons: []
+            }
+          }
         },
         grid: {
           show: true,

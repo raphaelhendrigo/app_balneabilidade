@@ -122,9 +122,9 @@
 
        <q-list>
         <q-expansion-item
-          :group="$q.screen.width > 1000 ? 'a' : 'sobre_app'"
+          :group="$q.screen.width > 1000 ? 'b' : 'sobre_app'"
           label="Processo de Criação"
-          class="bg-secondary text-justify"
+          :class="$q.screen.width > 1000 ? 'bg-secondary text-justify' : 'text-justify'"
           :default-opened="$q.screen.width > 1000"
           :style="
             $q.screen.width > 1000 ? 'font-size: 18px;' : 'font-size: 16px;'
@@ -134,7 +134,7 @@
             <q-card-section>
               <div class="text-justify">
                 <p>
-                  tstestestestestestesO aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: 
+                  O aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: 
                   Python, Quasar, Vue, Cordova e Anaconda e Flask.
 
                 </p>
@@ -181,7 +181,7 @@
 
       <q-list>
         <q-expansion-item
-          :group="$q.screen.width > 1000 ? 'a' : 'sobre_app'"
+          :group="$q.screen.width > 1000 ? 'c' : 'sobre_app'"
           label="Disclaimer"
           class="bg-secondary text-justify"
           :default-opened="$q.screen.width > 1000"

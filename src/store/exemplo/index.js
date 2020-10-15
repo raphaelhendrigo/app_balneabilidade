@@ -16,7 +16,7 @@ export default {
     getIpWebservice: state => {
       return state.ip_webservice;
     },
-    getHistoricoEnterococos: state => {
+    /* getHistoricoEnterococos: state => {
       return state.lista_historico["enterococos"];
     },
     getHistoricoDatas: state => {
@@ -24,12 +24,15 @@ export default {
     },
     getHistoricoIds: state => {
       return state.lista_historico["id"];
-    },
+    }, */
     getListaHistorico: state => {
       return state.lista_historico;
     },
     getListaPrevisao: state => {
       return state.lista_previsao;
+    },
+    getPrevisaoCarregada: state => {
+      return state.previsao_carregada;
     },
   },
   mutations: {
@@ -57,12 +60,16 @@ export default {
     setListaPrevisao(state, param) {
       state.lista_previsao = param;
     },
+    setPrevisaoCarregada(state, param) {
+      state.previsao_carregada = param;
+    },
   },
   actions,
   state: {
     cidade: "",
     praia: "",
     ip_webservice: "",
+    previsao_carregada: false,
     historico_enterococos: [],
     historico_datas: [],
     historico_ids: [],
