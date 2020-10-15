@@ -63,7 +63,7 @@
           <Historico :key="renderizarComponente"></Historico>
         </q-tab-panel>
         <q-tab-panel name="previsao">
-          <Previsao :key="renderizarComponente"></Previsao>
+          <Previsao :key="renderizarTabelaPrevisao"></Previsao>
         </q-tab-panel>
       </q-tab-panels>
       <!--</q-card>-->
@@ -115,6 +115,7 @@ export default {
       praias: [],
       objcidadepraias: [],
       renderizarComponente: 0,
+      renderizarTabelaPrevisao: 0,
       nomePanel: "grafico",
       colors: [
         "linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%)",
@@ -139,7 +140,79 @@ export default {
       this.$store.commit("exemplo/setCidade", this.modelCidade);
       this.$store.commit("exemplo/setPraia", this.modelPraia);
 
+      await axios({
+        method: "GET",
+        url:
+          "http://" +
+          this.ip_webservice.concat(
+            ":5000/resultadosUltimosDoisAnos?cidade=" +
+              this.cidade.toUpperCase() +
+              "&praia=" +
+              this.praia.toUpperCase()
+          )
+      }).then(
+        result => {
+          /* let historicodatas = result.data.map(item => {
+            return item[0];
+          });
+
+          let historicoenterococos = result.data.map((item, key) => {
+            return item[1];
+          });
+
+          let historicoids = result.data.map((item, key) => {
+            return key;
+          }); */
+
+          let historico = result.data.map((item, key) => {
+            let arr = [];
+            arr["dataMedicao"] = item[0];
+            arr["enterococos"] = item[1];
+            arr["id"] = key;
+            return arr;
+          });
+
+          /* this.$store.commit(
+            "exemplo/setHistoricoEnterococos",
+            historicoenterococos
+          );
+          this.$store.commit("exemplo/setHistoricoDatas", historicodatas);
+
+          this.$store.commit("exemplo/setHistoricoIds", historicoids); */
+
+          this.$store.commit("exemplo/setListaHistorico", historico);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+
       this.renderizarComponente++;
+
+      await axios({
+        method: "GET",
+        url:
+          "http://" +
+          this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
+      }).then(
+        result => {
+          let previsao = result.data.map((item, key) => {
+            let arr = [];
+            arr["dataMedicao"] = item[0];
+            arr["enterococos"] = parseFloat(item[1]).toFixed(2);
+            //arr["enterococos"] = item[1];
+            arr["id"] = key;
+            return arr;
+          });
+
+          this.$store.commit("exemplo/setListaPrevisao", previsao);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+
+      this.renderizarTabelaPrevisao++;
     }
   }
 };

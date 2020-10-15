@@ -66,21 +66,30 @@ export default {
     },
     ip_webservice: function() {
       return this.$store.getters["exemplo/getIpWebservice"];
+    },
+    /* historico_enterococos: function() {
+      return this.$store.getters["exemplo/getHistoricoEnterococos"];
+    },
+    historico_datas: function() {
+      return this.$store.getters["exemplo/getHistoricoDatas"];
+    }, */
+    lista_historico: function() {
+      return this.$store.getters["exemplo/getListaHistorico"];
     }
   },
-  async mounted() {
+  mounted() {
     this.onRequest({
       pagination: this.pagination,
       filter: undefined
     });
 
     if (this.cidade != "" && this.praia != "") {
-      await this.carregarHistorico(this.cidade, this.praia);
+      this.carregarHistorico(this.cidade, this.praia);
     }
   },
   methods: {
     async carregarHistorico(cidade, praia) {
-      await axios({
+      /* await axios({
         method: "GET",
         url:
           "http://" +
@@ -93,8 +102,8 @@ export default {
       }).then(
         result => {
           this.original = result.data.map((item, key) => {
-            //console.log("chave: ", key);
-            //console.log("item: ", item[0]);
+            console.log("chave: ", key);
+            console.log("item: ", item[0]);
             let arr = [];
             arr["dataMedicao"] = item[0];
             arr["enterococos"] = item[1];
@@ -102,7 +111,7 @@ export default {
             return arr;
           });
 
-          //console.log("original", this.original);
+          console.log("original", this.original);
 
           this.historicoCincoSemanas = [];
 
@@ -138,7 +147,46 @@ export default {
         error => {
           console.error(error);
         }
-      );
+      ); */
+
+      /* this.original = [];
+
+      for (i = 0; i < this.historico_ids.length; i++) {
+        this.original[i] = [];
+        this.original[i]["dataMedicao"] = this.historico_datas[i];
+        this.original[i]["enterococos"] = this.historico_enterococos[i];
+        this.original[i]["id"] = this.historico_ids[i];
+      } */
+
+      this.historicoCincoSemanas = [];
+
+      for (var i = 1; i <= 5; i++) {
+        this.historicoCincoSemanas.push(
+          this.lista_historico[this.lista_historico.length - i]
+        );
+      }
+
+      let qtd_item_100 = 0;
+      let qtd_item_400 = 0;
+
+      for (var i = 0; i < this.historicoCincoSemanas.length; i++) {
+        if (this.historicoCincoSemanas[i]["enterococos"] >= 100) {
+          qtd_item_100++;
+          console.log(qtd_item_100);
+        }
+        if (this.historicoCincoSemanas[i]["enterococos"] >= 400) {
+          qtd_item_400++;
+          console.log(qtd_item_400);
+        }
+      }
+
+      if (qtd_item_100 >= 2 || qtd_item_400 >= 1) {
+        this.mensagem = "Situação Atual: IMPRÓPRIA";
+        this.cardMensagem = "#FF0000";
+      } else {
+        this.mensagem = "Situação Atual: BALNEÁVEL";
+        this.cardMensagem = "#007C3D";
+      }
     },
     onRequest(props) {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
