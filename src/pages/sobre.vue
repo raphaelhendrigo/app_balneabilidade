@@ -140,20 +140,56 @@
                 </p>
                 <p>
                   A primeira etapa do projeto foi a captura dos dados presentes no dataset 
-                  (inserir o link https://www.kaggle.com/amandalk/sp-beaches-water-quality/activity) 
-                  disponibilizado pela usuária Amanda na plataforma Kaggle.
+                  <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://www.kaggle.com/amandalk/sp-beaches-water-quality/activity'
+                  )
+                "
+                >Beach Water Quality in São Paulo, Brazil</a
+              >
+                  disponibilizado pela usuária <b>Amanda</b> na plataforma Kaggle.
 
                 </p>
                 <p>
                   A segunda etapa do projeto foi o treinamento da rede neural em Python 
-                  utilizando o modelo Seasonal Autoregressive Integrated Moving Average.
-
+                  utilizando o modelo Seasonal Autoregressive Integrated Moving Average (SARIMA). Foi utilizado como base o curso 
+                  <a
+                    href="#"
+                    v-on:click="
+                      abrirLink(
+                        'https://www.coursera.org/learn/practical-time-series-analysis'
+                      )
+                    "
+                  >Pratical Time Series Analysis</a> disponibilizado pela Universidade Estadual de Nova York na plataforma Coursera.
                 </p>
                 <p>
                   Após esta etapa foi realizada a criação de um webservice REST simples 
                   elaborado com a biblioteca Flask para disponibilizar as funcionalidades 
                   do modelo de predição. O código do webservice pode ser acessado através 
-                  do link https://github.com/tymonsx/rest_balneabilidade
+                  do link 
+                  <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://github.com/tymonsx/rest_balneabilidade'
+                  )
+                "
+                >Rest_Balneabilidade</a>
+
+                </p>
+                <p>
+                  A última etapa foi a elaboração de um aplicativo para dispositivos móveis (plataforma Android) utilizando os frameworks Quasar, VueJS e Cordova. O código do aplicativo pode ser acessado através 
+                  do link 
+                  <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://github.com/raphaelhendrigo/app_balneabilidade'
+                  )
+                "
+                >App_Balneabilidade</a>
 
                 </p>
                 <p>
@@ -179,7 +215,7 @@
         </q-expansion-item>
       </q-list>
 
-      <q-list>
+      <!--<q-list>
         <q-expansion-item
           :group="$q.screen.width > 1000 ? 'c' : 'sobre_app'"
           label="Disclaimer"
@@ -208,12 +244,14 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
-      </q-list>
+      </q-list>-->
     </div>
   </q-page>
 </template>
 
 <script>
+import { openURL } from "quasar";
+
 export default {
   name: "Sobre_Balneabilidade",
 
@@ -221,6 +259,11 @@ export default {
     return {
       slide: 1
     };
-  }
+  },
+  methods: {
+    abrirLink(url) {
+      openURL(url);
+    }
+  },
 };
 </script>

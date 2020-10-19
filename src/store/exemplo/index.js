@@ -6,7 +6,12 @@ import Vuex from "vuex";
 
 export default {
   namespaced: true,
-  getters: {
+  getters,
+  mutations,
+  actions,
+  state
+
+  /* getters: {
     getCidade: state => {
       return state.cidade;
     },
@@ -16,15 +21,6 @@ export default {
     getIpWebservice: state => {
       return state.ip_webservice;
     },
-    /* getHistoricoEnterococos: state => {
-      return state.lista_historico["enterococos"];
-    },
-    getHistoricoDatas: state => {
-      return state.lista_historico["dataMedicao"];
-    },
-    getHistoricoIds: state => {
-      return state.lista_historico["id"];
-    }, */
     getListaHistorico: state => {
       return state.lista_historico;
     },
@@ -33,10 +29,11 @@ export default {
     },
     getPrevisaoCarregada: state => {
       return state.previsao_carregada;
-    },
-  },
-  mutations: {
-    setCidade(state, param) {
+    }, 
+  }, */
+
+  /* mutations: {
+    /* setCidade(state, param) {
       state.cidade = param;
     },
     setPraia(state, param) {
@@ -45,15 +42,6 @@ export default {
     setIpWebservice(state, param) {
       state.ip_webservice = param;
     },
-    /* setHistoricoEnterococos(state, param) {
-      state.historico_enterococos = param;
-    },
-    setHistoricoDatas(state, param) {
-      state.historico_datas = param;
-    },
-    setHistoricoIds(state, param) {
-      state.historico_ids = param;
-    }, */
     setListaHistorico(state, param) {
       state.lista_historico = param;
     },
@@ -62,10 +50,12 @@ export default {
     },
     setPrevisaoCarregada(state, param) {
       state.previsao_carregada = param;
-    },
-  },
-  actions,
-  state: {
+    }, 
+  }, */
+
+  /* actions, */
+
+  /* state: {
     cidade: "",
     praia: "",
     ip_webservice: "",
@@ -75,5 +65,5 @@ export default {
     historico_ids: [],
     lista_historico: [],
     lista_previsao: [],
-  }
+  } */
 };
