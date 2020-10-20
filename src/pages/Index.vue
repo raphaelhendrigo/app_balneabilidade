@@ -122,6 +122,20 @@ export default {
         "linear-gradient( 135deg, #2AFADF 10%, #4C83FF 100%)",
         "linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%)",
         "linear-gradient( 135deg, #EE9AE5 10%, #5961F9 100%)"
+      ],
+      /* enterococosAleatorios: [
+        { dataMedicao: "2020-10-19", enterococos: "" },
+        { dataMedicao: "2020-10-25", enterococos: "" },
+        { dataMedicao: "2020-11-02", enterococos: "" },
+        { dataMedicao: "2020-11-09", enterococos: "" },
+        { dataMedicao: "2020-11-16", enterococos: "" }
+      ] */
+      enterococosAleatorios: [
+        { dataMedicao: "", enterococos: "" },
+        { dataMedicao: "", enterococos: "" },
+        { dataMedicao: "", enterococos: "" },
+        { dataMedicao: "", enterococos: "" },
+        { dataMedicao: "", enterococos: "" }
       ]
     };
   },
@@ -189,28 +203,61 @@ export default {
 
       this.renderizarComponente++;
 
-      await axios({
-        method: "GET",
-        url:
-          "http://" +
-          this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
-      }).then(
-        result => {
-          let previsao = result.data.map((item, key) => {
-            let arr = [];
-            arr["dataMedicao"] = item[0];
-            arr["enterococos"] = parseFloat(item[1]).toFixed(2);
-            //arr["enterococos"] = item[1];
-            arr["id"] = key;
-            return arr;
-          });
+      if (
+        this.cidade.toUpperCase() == "UBATUBA" &&
+        this.praia.toUpperCase() == "GRANDE"
+      ) {
+        await axios({
+          method: "GET",
+          url:
+            "http://" +
+            this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
+        }).then(
+          result => {
+            let previsao = result.data.map((item, key) => {
+              let arr = [];
+              arr["dataMedicao"] = item[0];
+              arr["enterococos"] = parseFloat(item[1]).toFixed(2);
+              //arr["enterococos"] = item[1];
+              arr["id"] = key;
+              return arr;
+            });
 
-          this.$store.commit("exemplo/setListaPrevisao", previsao);
-        },
-        error => {
-          console.error(error);
+            this.$store.commit("exemplo/setListaPrevisao", previsao);
+          },
+          error => {
+            console.error(error);
+          }
+        );
+      } else {
+        for (var cont = 0; cont < 5; cont++) {
+          if (cont == 0) {
+            var conversaoDataMedicao = new Date();
+          }
+
+          conversaoDataMedicao.setDate(
+            conversaoDataMedicao.getDate() +
+              ((0 - conversaoDataMedicao.getDay() + 7) % 7) +
+              1
+          );
+          console.log(conversaoDataMedicao);
+
+          this.enterococosAleatorios[cont]["dataMedicao"] =
+            conversaoDataMedicao.getFullYear() +
+            "-" +
+            (conversaoDataMedicao.getMonth() + 1) +
+            "-" +
+            conversaoDataMedicao.getDate();
+          this.enterococosAleatorios[cont]["enterococos"] =
+            Math.floor(Math.random() * (500 - 5 + 1)) + 5;
+          console.log(cont + " " + this.enterococosAleatorios[cont]);
         }
-      );
+
+        this.$store.commit(
+          "exemplo/setListaPrevisao",
+          this.enterococosAleatorios
+        );
+      }
 
       this.$store.commit("exemplo/setPrevisaoCarregada", true);
 

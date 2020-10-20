@@ -265,17 +265,17 @@ export default {
                 "November",
                 "December"
               ];
-              /* let dataformatada =
+              let dataformatada =
                 data.getDate() +
                 1 +
                 "/" +
                 meses[data.getMonth()] +
                 "/" +
                 data.getFullYear();
-              return dataformatada; */
-              let dataformatada =
-                meses[data.getMonth()] + " " + data.getFullYear();
               return dataformatada;
+              /* let dataformatada =
+                meses[data.getMonth()] + " " + data.getFullYear();
+              return dataformatada; */
             }
           }
         },

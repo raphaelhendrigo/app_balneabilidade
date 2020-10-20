@@ -11,8 +11,13 @@
     >
       Aguarde por favor... Este processo leva cerca de 20 segundos
     </p>
-    <p v-if="this.$store.getters['exemplo/getPrevisaoCarregada']">
-      Previsão referente somente à praia "Grande" da cidade de "Ubatuba"
+    <p
+      v-if="this.$store.getters['exemplo/getPrevisaoCarregada']"
+      class="text-justify"
+    >
+      Obs: No momento, o modelo preditivo refere-se unicamente à praia "Grande"
+      da cidade de "Ubatuba". Demais praias possuem números aleatórios de
+      enterococos.
     </p>
     <q-table
       title="Previsão Próximas 5 semanas"
