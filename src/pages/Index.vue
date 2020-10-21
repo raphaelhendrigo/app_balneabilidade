@@ -245,9 +245,9 @@ export default {
           this.enterococosAleatorios[cont]["dataMedicao"] =
             conversaoDataMedicao.getFullYear() +
             "-" +
-            (conversaoDataMedicao.getMonth() + 1) +
+            ("0" + (conversaoDataMedicao.getMonth() + 1)).slice(-2) +
             "-" +
-            conversaoDataMedicao.getDate();
+            ("0" + conversaoDataMedicao.getDate()).slice(-2);
           this.enterococosAleatorios[cont]["enterococos"] =
             Math.floor(Math.random() * (500 - 5 + 1)) + 5;
           console.log(cont + " " + this.enterococosAleatorios[cont]);
