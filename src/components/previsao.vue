@@ -11,16 +11,16 @@
     >
       Aguarde por favor... Este processo leva cerca de 30 segundos
     </p>
-    <p
+    <!--<p
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
       class="text-justify"
     >
       No momento, o modelo preditivo refere-se unicamente à praia "Grande" da
       cidade de "Ubatuba". Demais praias possuem números aleatórios de
       enterococos.
-    </p>
+    </p>-->
     <q-table
-      title="Previsão Próximas 5 semanas"
+      title="Previsão 5 semanas"
       :data="previsaoProximasCincoSemanas"
       :columns="colunasTabelaPrevisao"
       row-key="id"

@@ -17,7 +17,6 @@
         @input="atualizarEstadosAxios()"
       >
       </q-select>
-      <br />
       <!--<div class="q-pa-md q-gutter-sm">
         <q-btn
           icon="help"
@@ -60,10 +59,16 @@
           <apex-line :key="renderizarComponente"></apex-line>
         </q-tab-panel>
         <q-tab-panel name="historico">
-          <Historico :key="renderizarComponente"></Historico>
+          <Historico
+            style="margin-top: -7%;"
+            :key="renderizarComponente"
+          ></Historico>
         </q-tab-panel>
         <q-tab-panel name="previsao">
-          <Previsao :key="renderizarTabelaPrevisao"></Previsao>
+          <Previsao
+            style="margin-top: -7%;"
+            :key="renderizarTabelaPrevisao"
+          ></Previsao>
         </q-tab-panel>
       </q-tab-panels>
       <!--</q-card>-->

@@ -5,7 +5,6 @@
       style="color:white;"
       >{{ mensagem }}</q-card
     >
-    <br />
     <q-table
       title="Histórico Últimas 5 semanas"
       :data="historicoCincoSemanas"

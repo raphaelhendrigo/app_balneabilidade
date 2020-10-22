@@ -64,7 +64,7 @@ export default {
       ],
       chartOptions: {
         chart: {
-          height: 450,
+          height: 330,
           type: "line",
           toolbar: {
             show: true,
@@ -180,7 +180,7 @@ export default {
 
       this.chartOptions = {
         chart: {
-          height: 450,
+          height: 330,
           type: "line",
           toolbar: {
             show: true,
