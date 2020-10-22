@@ -4,7 +4,7 @@ export default function estadoInicial () {
     cidade: "",
     praia: "",
     ip_webservice: "",
-    previsao_carregada: false,
+    carregando_previsao: false,
     /* historico_enterococos: [],
     historico_datas: [],
     historico_ids: [], */

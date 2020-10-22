@@ -23,6 +23,6 @@ export function getListaPrevisao(state) {
     return state.lista_previsao;
 }
 
-export function getPrevisaoCarregada(state) {
-    return state.previsao_carregada;
+export function getCarregandoPrevisao(state) {
+    return state.carregando_previsao;
 }

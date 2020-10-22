@@ -1,16 +1,16 @@
 <template>
   <!--<div class="q-pa-md q-gutter-sm">-->
   <div class="full-width">
-    <div class="full-width">
-      <span style="font-weight: bold;">UFC Enterococos/100ml</span>
-      <q-btn
-        icon="help"
-        color="primary"
-        @click="popupCriteriosClassificacao = true"
-        flat
-        style="margin-top:-1%;"
-      />
-    </div>
+    <!--div class="full-width">-->
+    <span style="font-weight: bold;">UFC Enterococos/100ml</span>
+    <q-btn
+      icon="help"
+      color="primary"
+      @click="popupCriteriosClassificacao = true"
+      flat
+      style="margin-top:-1%;"
+    />
+    <!--</div>-->
     <q-dialog v-model="popupCriteriosClassificacao">
       <q-card style="width: 300px">
         <q-card-section>
@@ -36,6 +36,7 @@
       type="line"
       :options="chartOptions"
       :series="series"
+      class="full-width"
     />
   </div>
 </template>
@@ -63,8 +64,7 @@ export default {
       ],
       chartOptions: {
         chart: {
-          height: 500,
-          width: "100%",
+          height: 450,
           type: "line",
           toolbar: {
             show: true,
@@ -72,12 +72,12 @@ export default {
             offsetY: 0,
             tools: {
               download: false,
-              selection: true,
-              zoom: true,
+              selection: false,
+              zoom: false,
               zoomin: true,
               zoomout: true,
               pan: false,
-              reset: false | '<img src="/static/icons/reset.png" width="20">',
+              reset: true | '<img src="/static/icons/reset.png" width="20">',
               customIcons: []
             }
           }
@@ -180,9 +180,23 @@ export default {
 
       this.chartOptions = {
         chart: {
-          height: 400,
-          width: "100%",
-          type: "line"
+          height: 450,
+          type: "line",
+          toolbar: {
+            show: true,
+            offsetX: 0,
+            offsetY: 0,
+            tools: {
+              download: false,
+              selection: false,
+              zoom: false,
+              zoomin: true,
+              zoomout: true,
+              pan: false,
+              reset: true | '<img src="/static/icons/reset.png" width="20">',
+              customIcons: []
+            }
+          }
         },
         responsive: [
           {
@@ -265,17 +279,17 @@ export default {
                 "November",
                 "December"
               ];
-              let dataformatada =
+              /* let dataformatada =
                 data.getDate() +
                 1 +
                 "/" +
                 meses[data.getMonth()] +
                 "/" +
                 data.getFullYear();
-              return dataformatada;
-              /* let dataformatada =
-                meses[data.getMonth()] + " " + data.getFullYear();
               return dataformatada; */
+              let dataformatada =
+                meses[data.getMonth()] + " " + data.getFullYear();
+              return dataformatada;
             }
           }
         },

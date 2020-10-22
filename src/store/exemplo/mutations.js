@@ -22,6 +22,6 @@ export function setListaPrevisao(state, param) {
     state.lista_previsao = param;
 }
 
-export function setPrevisaoCarregada(state, param) {
-    state.previsao_carregada = param;
+export function setCarregandoPrevisao(state, param) {
+    state.carregando_previsao = param;
 }

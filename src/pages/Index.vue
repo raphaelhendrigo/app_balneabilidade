@@ -207,6 +207,7 @@ export default {
         this.cidade.toUpperCase() == "UBATUBA" &&
         this.praia.toUpperCase() == "GRANDE"
       ) {
+        this.$store.commit("exemplo/setCarregandoPrevisao", true);
         await axios({
           method: "GET",
           url:
@@ -259,7 +260,7 @@ export default {
         );
       }
 
-      this.$store.commit("exemplo/setPrevisaoCarregada", true);
+      this.$store.commit("exemplo/setCarregandoPrevisao", false);
 
       this.renderizarTabelaPrevisao++;
     }

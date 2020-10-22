@@ -3,20 +3,20 @@
     <q-spinner
       color="primary"
       size="3em"
-      v-if="!this.$store.getters['exemplo/getPrevisaoCarregada']"
+      v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
     />
     <p
-      v-if="!this.$store.getters['exemplo/getPrevisaoCarregada']"
+      v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
       class="text-primary"
     >
-      Aguarde por favor... Este processo leva cerca de 20 segundos
+      Aguarde por favor... Este processo leva cerca de 30 segundos
     </p>
     <p
-      v-if="this.$store.getters['exemplo/getPrevisaoCarregada']"
+      v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
       class="text-justify"
     >
-      Obs: No momento, o modelo preditivo refere-se unicamente à praia "Grande"
-      da cidade de "Ubatuba". Demais praias possuem números aleatórios de
+      No momento, o modelo preditivo refere-se unicamente à praia "Grande" da
+      cidade de "Ubatuba". Demais praias possuem números aleatórios de
       enterococos.
     </p>
     <q-table
@@ -24,7 +24,6 @@
       :data="previsaoProximasCincoSemanas"
       :columns="colunasTabelaPrevisao"
       row-key="id"
-      v-if="this.$store.getters['exemplo/getPrevisaoCarregada']"
     >
     </q-table>
   </div>
