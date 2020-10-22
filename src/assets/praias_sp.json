@@ -1,239 +1,226 @@
 {
-  "UBATUBA": {
-    "praias": [
-      "Picinguaba",
-      "Prumirim",
-      "Félix",
-      "Itamambuca",
-      "Rio Itamambuca",
-      "Vermelha do Norte",
-      "Perequê-Açu",
-      "Iperoig",
-      "Itaguá (Nº 230 da Av. Leovegildo)",
-      "Itaguá (Nº 1724 da Av. Leovegildo)",
-      "Tenório",
-      "Vermelha",
-      "Grande",
-      "Toninhas",
-      "Enseada",
-      "Santa Rita",
-      "Perequê-Mirim",
-      "Sununga",
-      "Lázaro",
-      "Domingas Dias",
-      "Dura",
-      "Lagoinha (R. Engenho Velho)",
-      "Lagoinha (Camping)",
-      "Sapé",
-      "Maranduba",
-      "Pulso"
-    ]
-  },
-
-  "CARAGUATATUBA": {
-    "praias": [
-      "Tabatinga (250m  Rio Tabatinga)",
-      "Tabatinga (Condom. Gaivotas)",
-      "Mocoóca",
-      "Cocanha",
-      "Massaguaçu (R. Maria Carlota)",
-      "Massaguaçu (Av. M. H. Carvalho)",
-      "Capricórnio",
-      "Lagoa Azul",
-      "Martim de Sá",
-      "Prainha",
-      "Centro",
-      "Indaiá",
-      "Pan Brasil",
-      "Palmeiras",
-      "Porto Novo"
-    ]
-  },
-
-  "SÃO SEBASTIÃO": {
-    "praias": [
-      "Prainha",
-      "Cigarras",
-      "São Francisco",
-      "Arrastão",
-      "Pontal da Cruz",
-      "Deserta",
-      "Porto Grande",
-      "Preta do Norte",
-      "Grande",
-      "Barequeçaba",
-      "Guaecá",
-      "Toque-Toque Grande",
-      "Toque-Toque Pequeno",
-      "Santiago",
-      "Paúba",
-      "Maresias - Pça do Surfe",
-      "Maresias - Travessa XV",
-      "Boiçucanga",
-      "Camburizinho",
-      "Camburi",
-      "Baleia",
-      "Saí",
-      "Preta",
-      "Juqueí - Trav. Simão Faustino",
-      "Juqueí - R. Cristiana",
-      "Una",
-      "Engenho",
-      "Juréia do Norte",
-      "Boracéia",
-      "Boracéia - R. Cubatão"
-    ]
-  },
-
-  "ILHABELA": {
-    "praias": [
-      "Armação",
-      "Pinto",
-      "Sino",
-      "Siriúba",
-      "Viana",
-      "Barreiros Norte",
-      "Barreiros Sul",
-      "Saco da Capela",
-      "Engenho D'água",
-      "Itaquanduba",
-      "Itaguaçu",
-      "Perequê",
-      "Ilha das Cabras",
-      "Portinho",
-      "Feiticeira",
-      "Julião",
-      "Grande",
-      "Curral",
-      "Veloso"
-    ]
-  },
-
+  
   "BERTIOGA": {
     "praias": [
-      "Boracéia - C. Marista",
-      "Boracéia",
-      "Guaratuba",
-      "São Lourenço - Junto ao morro",
-      "São Lourenço - Rua 2",
-      "Enseada - Indaiá",
-      "Enseada - Vista Linda",
+      "Boracéia - Col. Marista",
+      "Boracéia - Sul",
       "Enseada - Colônia do Sesc",
-      "Enseada - R. Rafael Costabili"
+      "Enseada - Indaiá",
+      "Enseada - R. Rafael Costabili",
+      "Enseada - Vista Linda",
+      "Guaratuba",
+      "São Lourenço (Junto ao morro)",
+      "São Lourenço (Rua 2)"
     ]
   },
-
+  "CARAGUATATUBA": {
+    "praias": [
+      "Capricórnio",
+      "Centro",
+      "Cocanha",
+      "Indaiá",
+      "Lagoa Azul",
+      "Martim de Sá",
+      "Massaguaçu (Av. M. H. Carvalho)",
+      "Massaguaçu (R. Maria Carlota)",
+      "Mocoóca",
+      "Palmeiras",
+      "Pan Brasil",
+      "Porto Novo",
+      "Prainha",
+      "Tabatinga (250m Rio Tabatinga)",
+      "Tabatinga (Condom. Gaivotas)"
+    ]
+  },
+  "CUBATÃO": {
+    "praias": ["Rio Perequê"]
+  },
   "GUARUJÁ": {
     "praias": [
+      "Astúrias",
+      "Enseada (Av. Atlântica)",
+      "Enseada (Av. Santa Maria)",
+      "Enseada (Estr. de Pernambuco)",
+      "Enseada (R. Chile)",
+      "Guaiúba",
       "Iporanga",
       "Perequê",
       "Pernambuco",
-      "Enseada - Estr. Pernambuco",
-      "Enseada - Av. Atlântica",
-      "Enseada - R. Chile",
-      "Enseada - Av. Santa Maria",
-      "Pitangueiras - Av. Puglisi",
-      "Pitangueiras - R. Silvia Valadão",
-      "Astúrias",
-      "Tombo",
-      "Guaiúba"
+      "Pitangueiras (Av. Puglisi)",
+      "Pitangueiras (R. Silvia Valadão)",
+      "Tombo"
     ]
   },
-
-  "CUBATÃO": {
-    "praias": ["Perequê"]
-  },
-
-  "SANTOS": {
-    "praias": [
-      "Ponta da Praia",
-      "Aparecida",
-      "Embaré",
-      "Boqueirão",
-      "Gonzaga",
-      "José Menino - R. Olavo Bilac",
-      "José Menino - R. Fred. Ozanan"
-    ]
-  },
-
-  "SÃO VICENTE": {
-    "praias": [
-      "Praia da Divisa",
-      "Itararé - Posto 2",
-      "Praia da Ilha Porchat",
-      "Milionários",
-      "Gonzaguinha",
-      "Prainha (Av. Santino Brito)"
-    ]
-  },
-
-  "PRAIA GRANDE": {
-    "praias": [
-      "Canto do Forte",
-      "Boqueirão",
-      "Guilhermina",
-      "Aviação",
-      "Vila Tupi",
-      "Ocian",
-      "Vila Mirim",
-      "Maracanã",
-      "Vila Caiçara",
-      "Real",
-      "Florida",
-      "Jardim Solemar"
-    ]
-  },
-
-  "MONGAGUÁ": {
-    "praias": [
-      "Itapoã",
-      "Central",
-      "Vera Cruz",
-      "Santa Eugênia",
-      "Itaóca",
-      "Agenor de Campos",
-      "Flórida Mirim"
-    ]
-  },
-
-  "ITANHAÉM": {
-    "praias": [
-      "Campos Elíseos",
-      "Jardim Suarão",
-      "Suarão - AFPESP",
-      "Parque Balneário",
-      "Centro",
-      "Praia dos Pescadores",
-      "Sonho",
-      "Jardim Cibratel",
-      "Estância Balneária",
-      "Jardim São Fernando",
-      "Balneário Jd. Regina",
-      "Balneário Gaivota"
-    ]
-  },
-
-  "PERUÍBE": {
-    "praias": [
-      "Peruíbe - R. Icaraíba",
-      "Peruíbe - R. das Orquídeas",
-      "Peruíbe - Bal. S.João Batista",
-      "Peruíbe - Av. S. João",
-      "Prainha",
-      "Guaraú"
-    ]
-  },
-
   "IGUAPE": {
     "praias": ["Juréia"]
   },
-
+  "ILHABELA": {
+    "praias": [
+      "Armação",
+      "Barreiros Norte",
+      "Barreiros Sul",
+      "Curral",
+      "Engenho D'água",
+      "Feiticeira",
+      "Grande",
+      "Ilha das Cabras",
+      "Itaguaçu",
+      "Itaquanduba",
+      "Julião",
+      "Perequê",
+      "Pinto",
+      "Portinho",
+      "Saco da Capela",
+      "Sino",
+      "Siriúba",
+      "Veloso",
+      "Viana"
+    ]
+  },
   "ILHA COMPRIDA": {
     "praias": [
       "Balneário Adriana",
       "Centro",
-      "Pontal - Boqueirão Sul",
-      "Prainha - Balsa"
+      "Prainha (Balsa)",
+      "Pontal"
+    ]
+  },
+  "ITANHAÉM": {
+    "praias": [
+      "Balneário Gaivota",
+      "Campos Elíseos",
+      "Centro",
+      "Estância Balneária",
+      "Jardim Cibratel",
+      "Jardim Regina",
+      "Jardim São Fernando",
+      "Parque Balneário",
+      "Praia dos Pescadores",
+      "Sonho",
+      "Suarão",
+      "Suarão - AFPESP"
+    ]
+  },
+  "MONGAGUÁ": {
+    "praias": [
+      "Agenor de Campos",
+      "Central",
+      "Flórida Mirim",
+      "Itaóca",
+      "Itapoã - Vila São Paulo",
+      "Santa Eugênia",
+      "Vera Cruz"
+    ]
+  },
+  "PRAIA GRANDE": {
+    "praias": [
+      "Aviação",
+      "Balneário Flórida",
+      "Boqueirão",
+      "Canto do Forte",
+      "Guilhermina",
+      "Jardim Solemar",
+      "Maracanã",
+      "Ocian",
+      "Real",
+      "Vila Caiçara",
+      "Vila Mirim",
+      "Vila Tupi"
+    ]
+  },
+  "PERUÍBE": {
+    "praias": [
+      "Guaraú",
+      "Peruíbe (Av. S. João)",
+      "Peruíbe (Baln. São João Batista)",
+      "Peruíbe (Parque Turístico)",
+      "Peruíbe (R. Icaraíba)",
+      "Prainha"
+    ]
+  },
+  "SANTOS": {
+    "praias": [
+      "Aparecida",
+      "Boqueirão",
+      "Embaré",
+      "Gonzaga",
+      "José Menino (R. Olavo Bilac)",
+      "José Menino (R. Frederico Ozanan)",
+      "Ponta da Praia"
+    ]
+  },
+  "SÃO SEBASTIÃO": {
+    "praias": [
+      "Arrastão",
+      "Baleia",
+      "Barequeçaba",
+      "Boiçucanga",
+      "Boracéia - Norte",
+      "Boracéia - R. Cubatão",
+      "Camburizinho",
+      "Camburi",
+      "Cigarras",
+      "Deserta",
+      "Engenho",
+      "Guaecá",
+      "Grande",
+      "Juqueí (R. Cristiana)",
+      "Juqueí (Trav. Simão Faustino)",
+      "Juréia do Norte",
+      "Maresias",
+      "Maresias - Totem",
+      "Paúba",
+      "Pontal da Cruz",
+      "Porto Grande",
+      "Prainha",
+      "Preta",
+      "Preta do Norte",
+      "Saí",
+      "Santiago",
+      "São Francisco",
+      "Toque-Toque Grande",
+      "Toque-Toque Pequeno",
+      "Una"
+    ]
+  },
+  "SÃO VICENTE": {
+    "praias": [
+      "Itararé (Posto 2)",
+      "Gonzaguinha",
+      "Milionários",
+      "Praia da Divisa",
+      "Praia da Ilha Porchat",
+      "Prainha (Av. Santino Brito)"
+    ]
+  },
+  "UBATUBA": {
+    "praias": [
+      "Domingas Dias",
+      "Dura",
+      "Enseada",
+      "Félix",
+      "Grande",
+      "Iperoig",
+      "Itaguá (Nº 230 da Av. Leovegildo)",
+      "Itaguá (Nº 1724 da Av. Leovegildo)",
+      "Itamambuca",
+      "Lagoinha (Camping)",
+      "Lagoinha (R. Engenho Velho)",
+      "Lázaro",
+      "Maranduba",
+      "Perequê-Açu",
+      "Perequê-Mirim",
+      "Picinguaba",
+      "Prumirim",
+      "Pulso",
+      "Rio Itamambuca",
+      "Santa Rita",
+      "Sapé",
+      "Sununga",
+      "Tenório",
+      "Toninhas",
+      "Vermelha",
+      "Vermelha do Norte"
     ]
   }
 }
