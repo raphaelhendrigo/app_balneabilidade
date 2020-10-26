@@ -6,7 +6,7 @@
         label="Selecione Cidade"
         :options="cidades"
         style="margin-left:3%;width: 95%;"
-        @input="carregapraias"
+        @input="carregarPraias"
       />
 
       <q-select
@@ -150,10 +150,11 @@ export default {
     this.modelCidade = this.$store.getters["exemplo/getCidade"];
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
     this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
+    this.carregarPraias(this.modelCidade);
   },
   methods: {
-    carregapraias(val) {
-      this.praias = this.objcidadepraias[val].praias;
+    carregarPraias() {
+      this.praias = this.objcidadepraias[this.modelCidade].praias;
     },
     async atualizarEstadosAxios() {
       this.$store.commit("exemplo/setCidade", this.modelCidade);
