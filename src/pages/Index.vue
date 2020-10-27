@@ -1,11 +1,13 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="full-width text-center">
+  <!--<q-page class="flex flex-center">-->
+  <q-page class="full-height q-pa-xs q-gutter-sm">
+    <!--<div class="full-width text-center">-->
+    <div class="row items-start">
       <q-select
         v-model="modelCidade"
         label="Selecione Cidade"
         :options="cidades"
-        style="margin-left:3%;width: 95%;"
+        class="full-width"
         @input="carregarPraias"
       />
 
@@ -13,11 +15,12 @@
         v-model="modelPraia"
         label="Selecione Praia"
         :options="praias"
-        style="margin-left:3%;width: 95%;"
+        class="full-width"
         @input="atualizarEstadosAxios()"
       >
       </q-select>
-      <!--<div class="q-pa-md q-gutter-sm">
+    </div>
+    <!--<div class="q-pa-md q-gutter-sm">
         <q-btn
           icon="help"
           color="primary"
@@ -45,30 +48,25 @@
         </q-dialog>
       </div>-->
 
-      <!--<q-card>-->
-      <!--<div class="row q-col-gutter-md q-px-md q-py-md">
+    <!--<q-card>-->
+    <!--<div class="row q-col-gutter-md q-px-md q-py-md">
           <div class="col-sx-6 col-sx-12 col-sx-6">-->
-      <q-tabs v-model="nomePanel" style="width:100%¨;" class="estilo-tab-panel">
+    <div class="row">
+      <q-tabs v-model="nomePanel" class="estilo-tab-panel">
         <q-tab name="grafico" label="Gráfico" />
         <q-tab name="historico" label="Histórico" />
         <q-tab name="previsao" label="Previsão" />
       </q-tabs>
       <q-separator />
-      <q-tab-panels v-model="nomePanel">
+      <q-tab-panels v-model="nomePanel" class="full-width">
         <q-tab-panel name="grafico">
           <apex-line :key="renderizarComponente"></apex-line>
         </q-tab-panel>
         <q-tab-panel name="historico">
-          <Historico
-            style="margin-top: -7%;"
-            :key="renderizarComponente"
-          ></Historico>
+          <Historico :key="renderizarComponente"></Historico>
         </q-tab-panel>
         <q-tab-panel name="previsao">
-          <Previsao
-            style="margin-top: -7%;"
-            :key="renderizarTabelaPrevisao"
-          ></Previsao>
+          <Previsao :key="renderizarTabelaPrevisao"></Previsao>
         </q-tab-panel>
       </q-tab-panels>
       <!--</q-card>-->
@@ -79,7 +77,7 @@
 <style scoped>
 .estilo-tab-panel {
   color: #007c3d;
-  width: 95%;
+  width: 100%;
 }
 </style>
 
@@ -224,7 +222,7 @@ export default {
             let previsao = result.data.map((item, key) => {
               let arr = [];
               arr["dataMedicao"] = item[0];
-              arr["enterococos"] = parseFloat(item[1]).toFixed(2);
+              arr["enterococos"] = parseFloat(item[1]).toFixed(1);
               //arr["enterococos"] = item[1];
               arr["id"] = key;
               return arr;

@@ -1,16 +1,18 @@
 <template>
-  <div class="q-pa-md">
-    <q-spinner
-      color="primary"
-      size="3em"
-      v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
-    />
-    <p
-      v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
-      class="text-primary"
-    >
-      Aguarde por favor... Este processo leva cerca de 30 segundos
-    </p>
+  <div class="q-pa-xs">
+    <div class="text-center">
+      <q-spinner
+        color="primary"
+        size="3em"
+        v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
+      />
+      <p
+        v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
+        class="text-primary"
+      >
+        Aguarde por favor... Este processo leva cerca de 30 segundos
+      </p>
+    </div>
     <!--<p
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
       class="text-justify"
@@ -20,10 +22,11 @@
       enterococos.
     </p>-->
     <q-table
-      title="Previsão 5 semanas"
       :data="previsaoProximasCincoSemanas"
       :columns="colunasTabelaPrevisao"
       row-key="id"
+      hide-bottom
+      v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
     >
     </q-table>
   </div>

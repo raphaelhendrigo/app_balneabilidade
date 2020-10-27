@@ -1,12 +1,12 @@
 <template>
-  <div class="q-pa-md">
+  <q-page class="q-pa-xs">
     <q-card
       :style="{ 'background-color': cardMensagem }"
       style="color:white;"
+      class="text-center"
       >{{ mensagem }}</q-card
     >
     <q-table
-      title="Histórico Últimas 5 semanas"
       :data="historicoCincoSemanas"
       :columns="colunasTabelaHistorico"
       row-key="id"
@@ -14,9 +14,11 @@
       :filter="filter"
       @request="onRequest"
       binary-state-sort
+      hide-bottom
+      style="text-align:center; font-size: 12px;"
     >
     </q-table>
-  </div>
+  </q-page>
 </template>
 <script>
 import axios from "axios";

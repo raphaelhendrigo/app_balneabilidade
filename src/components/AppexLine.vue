@@ -1,18 +1,20 @@
 <template>
   <!--<div class="q-pa-md q-gutter-sm">-->
-  <div class="full-width">
+  <div>
     <!--div class="full-width">-->
-    <span style="font-weight: bold;">UFC Enterococos/100ml</span>
+    <span style="font-weight: bold; margin-left:25%;"
+      >UFC Enterococos/100ml</span
+    >
     <q-btn
       icon="help"
       color="primary"
       @click="popupCriteriosClassificacao = true"
       flat
-      style="margin-top:-1%;"
+      style="margin-top: -1%;"
     />
     <!--</div>-->
     <q-dialog v-model="popupCriteriosClassificacao">
-      <q-card style="width: 300px">
+      <q-card class="full-width">
         <q-card-section>
           <div class="text-h6">Critérios de Balneabilidade</div>
         </q-card-section>
@@ -30,13 +32,11 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-
     <apexchart
       ref="nomeDoGrafico"
       type="line"
       :options="chartOptions"
       :series="series"
-      class="full-width"
     />
   </div>
 </template>
@@ -64,7 +64,7 @@ export default {
       ],
       chartOptions: {
         chart: {
-          height: 330,
+          height: 280,
           type: "line",
           toolbar: {
             show: true,
@@ -180,7 +180,7 @@ export default {
 
       this.chartOptions = {
         chart: {
-          height: 330,
+          height: 280,
           type: "line",
           toolbar: {
             show: true,

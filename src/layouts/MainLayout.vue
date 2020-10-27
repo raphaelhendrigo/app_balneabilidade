@@ -68,9 +68,6 @@
 
 <script>
 export default {
-  name: "MainLayout",
-  mounted() {
-    localStorage.clear();
-  }
+  name: "MainLayout"
 };
 </script>
