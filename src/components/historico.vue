@@ -15,7 +15,7 @@
       @request="onRequest"
       binary-state-sort
       hide-bottom
-      style="text-align:center; font-size: 12px;"
+      style="text-align:center"
     >
     </q-table>
   </q-page>

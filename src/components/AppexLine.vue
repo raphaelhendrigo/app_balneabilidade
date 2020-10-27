@@ -2,17 +2,19 @@
   <!--<div class="q-pa-md q-gutter-sm">-->
   <div>
     <!--div class="full-width">-->
-    <span style="font-weight: bold; margin-left:25%;"
-      >UFC Enterococos/100ml</span
-    >
-    <q-btn
-      icon="help"
-      color="primary"
-      @click="popupCriteriosClassificacao = true"
-      flat
-      style="margin-top: -1%;"
-    />
-    <!--</div>-->
+    <div class="row justify-center">
+      <span style="font-weight: bold; margin-right:8px;"
+        >UFC Enterococos/100ml</span
+      >
+      <q-btn
+        icon="help"
+        color="primary"
+        @click="popupCriteriosClassificacao = true"
+        flat
+        padding="none"
+        style="margin-top: -2.5px;"
+      />
+    </div>
     <q-dialog v-model="popupCriteriosClassificacao">
       <q-card class="full-width">
         <q-card-section>
