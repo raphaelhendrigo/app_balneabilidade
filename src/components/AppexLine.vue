@@ -18,7 +18,7 @@
     <q-dialog v-model="popupCriteriosClassificacao">
       <q-card class="full-width">
         <q-card-section>
-          <div class="text-h6">Critérios de Balneabilidade</div>
+          <div class="text-h6 text-center">Critérios de Balneabilidade</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none text-justify">

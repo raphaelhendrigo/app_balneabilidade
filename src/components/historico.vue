@@ -171,13 +171,17 @@ export default {
       let qtd_item_400 = 0;
 
       for (var i = 0; i < this.historicoCincoSemanas.length; i++) {
-        if (this.historicoCincoSemanas[i]["enterococos"] >= 100) {
+        if (this.historicoCincoSemanas[i]["enterococos"] > 100) {
           qtd_item_100++;
-          console.log(qtd_item_100);
+          //console.log(qtd_item_100);
         }
-        if (this.historicoCincoSemanas[i]["enterococos"] >= 400) {
+        if (
+          this.historicoCincoSemanas[this.historicoCincoSemanas.length - 1][
+            "enterococos"
+          ] > 400
+        ) {
           qtd_item_400++;
-          console.log(qtd_item_400);
+          //console.log(qtd_item_400);
         }
       }
 

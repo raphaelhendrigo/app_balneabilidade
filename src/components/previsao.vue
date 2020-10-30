@@ -21,6 +21,68 @@
       cidade de "Ubatuba". Demais praias possuem números aleatórios de
       enterococos.
     </p>-->
+    <q-btn
+      icon="help"
+      color="primary"
+      @click="popupLegendaCores = true"
+      flat
+      padding="none"
+      style="margin-top: -2.5px; margin-left:50%; margin-right:50%;"
+    />
+    <q-dialog v-model="popupLegendaCores">
+      <q-card class="full-width">
+        <q-card-section>
+          <div class="text-h6 text-center">Legenda das Cores</div>
+        </q-card-section>
+
+        <q-card-section class="row text-justify">
+          <p>Até 25 UFC/100ml em 4 de 5 semanas</p>
+          <q-space />
+          <div
+            class="square text-right"
+            style="background-color: #0000FF; height: 1%;"
+          >
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        </q-card-section>
+
+        <q-card-section class="row text-justify">
+          <p>Até 50 UFC/100ml em 4 de 5 semanas</p>
+          <q-space />
+          <div class="square" style="background-color: #FFFF00; height: 1%;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        </q-card-section>
+
+        <q-card-section class="row text-justify">
+          <p>Até 100 UFC/100ml em 4 de 5 semanas</p>
+          <q-space />
+          <div class="square" style="background-color: #007C3D; height: 1%;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        </q-card-section>
+
+        <q-card-section class="row text-justify">
+          <p>Mais de 100 UFC em 2/5 semanas</p>
+          <q-space />
+          <div class="square" style="background-color: #FF0000; height: 1%;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        </q-card-section>
+
+        <q-card-section class="row text-justify">
+          <p>Mais de 400 UFC/100ml última semana</p>
+          <q-space />
+          <div class="square" style="background-color: #4B0082; height: 1%;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="OK" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     <q-table
       :data="previsaoProximasCincoSemanas"
       :columns="colunasTabelaPrevisao"
@@ -28,6 +90,24 @@
       hide-bottom
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
     >
+      <template v-slot:body="props">
+        <q-tr>
+          <q-td
+            key="dataMedicao"
+            :props="props"
+            :style="{ 'background-color': corArray[props.row.id] }"
+          >
+            {{ props.row.dataMedicao }}
+          </q-td>
+          <q-td
+            key="enterococos"
+            :props="props"
+            :style="{ 'background-color': corArray[props.row.id] }"
+          >
+            {{ props.row.enterococos }}
+          </q-td>
+        </q-tr>
+      </template>
     </q-table>
   </div>
 </template>
@@ -39,6 +119,7 @@ export default {
     return {
       filter: "",
       loading: false,
+      popupLegendaCores: false,
       colunasTabelaPrevisao: [
         {
           name: "dataMedicao",
@@ -47,19 +128,24 @@ export default {
           align: "left",
           field: row => row.dataMedicao,
           format: val => `${val}`,
-          sortable: false
+          sortable: false,
+          style: "color:white;"
         },
         {
           name: "enterococos",
           align: "center",
           label: "UFC/100 ml",
           field: "enterococos",
-          sortable: false
+          sortable: false,
+          style: "color:white;"
         }
       ],
-      mensagem: "",
+      //mensagem: "",
       previsaoProximasCincoSemanas: [],
-      cardMensagem: ""
+      //cardMensagem: "",
+      balneabilidadePrevisao: [],
+      corTabela: "",
+      corArray: []
     };
   },
   computed: {
@@ -71,6 +157,9 @@ export default {
     },
     ip_webservice: function() {
       return this.$store.getters["exemplo/getIpWebservice"];
+    },
+    historico: function() {
+      return this.$store.getters["exemplo/getListaHistorico"];
     }
   },
   async mounted() {
@@ -89,6 +178,108 @@ export default {
       this.previsaoProximasCincoSemanas = this.$store.getters[
         "exemplo/getListaPrevisao"
       ];
+
+      //this.balneabilidadePrevisao = [];
+
+      /* for (var cont = 1; cont <= 5; cont++) {
+        this.balneabilidadePrevisao.push(
+          this.historico[this.historico.length - cont]
+        );
+      } */
+
+      let qtd_item_max_25 = 0;
+      let qtd_item_max_50 = 0;
+      let qtd_item_max_100 = 0;
+      let qtd_item_min_100 = 0;
+      let qtd_item_last_400 = 0;
+
+      for (var i = 0; i < this.previsaoProximasCincoSemanas.length; i++) {
+        if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 25) {
+          qtd_item_max_25++;
+        }
+        if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 50) {
+          qtd_item_max_50++;
+        }
+        if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 100) {
+          qtd_item_max_100++;
+        }
+        if (this.previsaoProximasCincoSemanas[i]["enterococos"] > 100) {
+          qtd_item_min_100++;
+        }
+
+        if (this.previsaoProximasCincoSemanas[4]["enterococos"] > 400) {
+          qtd_item_last_400++;
+        }
+
+        for (var cont = 5; cont > i; cont--) {
+          if (this.historico[cont]["enterococos"] <= 25) {
+            qtd_item_max_25++;
+          }
+          if (this.historico[cont]["enterococos"] <= 50) {
+            qtd_item_max_50++;
+          }
+          if (this.historico[cont]["enterococos"] <= 100) {
+            qtd_item_max_100++;
+          }
+          if (this.historico[cont]["enterococos"] > 100) {
+            qtd_item_min_100++;
+          }
+          if (this.previsaoProximasCincoSemanas[4]["enterococos"] > 400) {
+            qtd_item_last_400++;
+          }
+
+          if (qtd_item_max_25 >= 4) {
+            this.corArray[i] = "#0000FF";
+            this.corTabela = "#0000FF";
+            this.colunasTabelaPrevisao[0].style = "color:white;";
+            this.colunasTabelaPrevisao[1].style = "color:white;";
+          }
+          if (qtd_item_max_50 >= 4) {
+            this.corArray[i] = "#FFFF00";
+            this.corTabela = "#FFFF00";
+            this.colunasTabelaPrevisao[0].style = "color:black;";
+            this.colunasTabelaPrevisao[1].style = "color:black;";
+          }
+          if (qtd_item_max_100 >= 4) {
+            this.corArray[i] = "#007C3D";
+            this.corTabela = "#007C3D";
+            this.colunasTabelaPrevisao[0].style = "color:white;";
+            this.colunasTabelaPrevisao[1].style = "color:white;";
+          }
+          if (qtd_item_min_100 >= 2) {
+            this.corArray[i] = "#FF0000";
+            this.corTabela = "#FF0000";
+            this.colunasTabelaPrevisao[0].style = "color:white;";
+            this.colunasTabelaPrevisao[1].style = "color:white;";
+          } else if (qtd_item_last_400 >= 1) {
+            this.corArray[i] = "#4B0082";
+            this.corTabela = "#4B0082";
+            this.colunasTabelaPrevisao[0].style = "color:white;";
+            this.colunasTabelaPrevisao[1].style = "color:white;";
+          }
+        }
+      }
+
+      /* if (
+        this.previsaoProximasCincoSemanas[
+          this.previsaoProximasCincoSemanas.length - 1
+        ]["enterococos"] > 400
+      ) {
+        qtd_item_last_400++;
+        console.log("last 100 ", qtd_item_last_400);
+      } */
+
+      /* this.colunasTabelaPrevisao[0].style +=
+        "background-color:" + this.corArray[props.row.id] + "";
+      this.colunasTabelaPrevisao[1].style +=
+        "background-color:" + this.corArray[props.row.id] + "";
+      this.colunasTabelaPrevisao[2].style +=
+        "background-color:" + this.corArray[props.row.id] + ""; */
+
+      console.log(this.corTabela);
+      console.log(this.corArray);
+
+      //console.log(this.colunasTabelaPrevisao);
 
       /* await axios({
         method: "GET",

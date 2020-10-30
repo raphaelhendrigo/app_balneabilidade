@@ -221,10 +221,10 @@ export default {
           result => {
             let previsao = result.data.map((item, key) => {
               let arr = [];
+              arr["id"] = key;
               arr["dataMedicao"] = item[0];
               arr["enterococos"] = parseFloat(item[1]).toFixed(1);
               //arr["enterococos"] = item[1];
-              arr["id"] = key;
               return arr;
             });
 
@@ -245,8 +245,10 @@ export default {
               ((0 - conversaoDataMedicao.getDay() + 7) % 7) +
               1
           );
-          console.log(conversaoDataMedicao);
 
+          //console.log(conversaoDataMedicao);
+
+          this.enterococosAleatorios[cont]["id"] = cont;
           this.enterococosAleatorios[cont]["dataMedicao"] =
             conversaoDataMedicao.getFullYear() +
             "-" +
@@ -255,7 +257,8 @@ export default {
             ("0" + conversaoDataMedicao.getDate()).slice(-2);
           this.enterococosAleatorios[cont]["enterococos"] =
             Math.floor(Math.random() * (500 - 5 + 1)) + 5;
-          console.log(cont + " " + this.enterococosAleatorios[cont]);
+
+          //console.log(cont + " " + this.enterococosAleatorios[cont]);
         }
 
         this.$store.commit(
