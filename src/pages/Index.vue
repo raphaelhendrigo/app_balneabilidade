@@ -126,13 +126,6 @@ export default {
         "linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%)",
         "linear-gradient( 135deg, #EE9AE5 10%, #5961F9 100%)"
       ],
-      /* enterococosAleatorios: [
-        { dataMedicao: "2020-10-19", enterococos: "" },
-        { dataMedicao: "2020-10-25", enterococos: "" },
-        { dataMedicao: "2020-11-02", enterococos: "" },
-        { dataMedicao: "2020-11-09", enterococos: "" },
-        { dataMedicao: "2020-11-16", enterococos: "" }
-      ] */
       enterococosAleatorios: [
         { dataMedicao: "", enterococos: "" },
         { dataMedicao: "", enterococos: "" },
@@ -170,33 +163,21 @@ export default {
           )
       }).then(
         result => {
-          /* let historicodatas = result.data.map(item => {
-            return item[0];
-          });
-
-          let historicoenterococos = result.data.map((item, key) => {
-            return item[1];
-          });
-
-          let historicoids = result.data.map((item, key) => {
-            return key;
-          }); */
-
           let historico = result.data.map((item, key) => {
             let arr = [];
+
             arr["dataMedicao"] = item[0];
+
+            /* arr["dataMedicao"] =
+              item[0].slice(-2) +
+              "/" +
+              item[0].slice(5, -3) +
+              "/" +
+              item[0].slice(0, 4); */
             arr["enterococos"] = item[1];
             arr["id"] = key;
             return arr;
           });
-
-          /* this.$store.commit(
-            "exemplo/setHistoricoEnterococos",
-            historicoenterococos
-          );
-          this.$store.commit("exemplo/setHistoricoDatas", historicodatas);
-
-          this.$store.commit("exemplo/setHistoricoIds", historicoids); */
 
           this.$store.commit("exemplo/setListaHistorico", historico);
         },
@@ -222,7 +203,14 @@ export default {
             let previsao = result.data.map((item, key) => {
               let arr = [];
               arr["id"] = key;
-              arr["dataMedicao"] = item[0];
+
+              //arr["dataMedicao"] = item[0];
+              arr["dataMedicao"] =
+                item[0].slice(-2) +
+                "/" +
+                item[0].slice(5, -3) +
+                "/" +
+                item[0].slice(0, 4);
               arr["enterococos"] = parseFloat(item[1]).toFixed(1);
               //arr["enterococos"] = item[1];
               return arr;
@@ -249,12 +237,13 @@ export default {
           //console.log(conversaoDataMedicao);
 
           this.enterococosAleatorios[cont]["id"] = cont;
+
           this.enterococosAleatorios[cont]["dataMedicao"] =
-            conversaoDataMedicao.getFullYear() +
-            "-" +
+            ("0" + conversaoDataMedicao.getDate()).slice(-2) +
+            "/" +
             ("0" + (conversaoDataMedicao.getMonth() + 1)).slice(-2) +
-            "-" +
-            ("0" + conversaoDataMedicao.getDate()).slice(-2);
+            "/" +
+            conversaoDataMedicao.getFullYear();
           this.enterococosAleatorios[cont]["enterococos"] =
             Math.floor(Math.random() * (500 - 5 + 1)) + 5;
 

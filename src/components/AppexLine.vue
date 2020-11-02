@@ -51,6 +51,14 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "ApexLine",
+  computed: {
+    lista_anos: function() {
+      return this.$store.getters["exemplo/getListaAnos"];
+    },
+    contador_anos: function() {
+      return this.$store.getters["exemplo/getContadorAnos"];
+    }
+  },
   data() {
     return {
       enterococos: [],
@@ -130,12 +138,6 @@ export default {
     ip_webservice: function() {
       return this.$store.getters["exemplo/getIpWebservice"];
     },
-    /* historico_enterococos: function() {
-      return this.$store.getters["exemplo/getHistoricoEnterococos"];
-    },
-    historico_datas: function() {
-      return this.$store.getters["exemplo/getHistoricoDatas"];
-    }, */
     lista_historico: function() {
       return this.$store.getters["exemplo/getListaHistorico"];
     }
@@ -155,6 +157,9 @@ export default {
         historicoDatas.push(this.lista_historico[i]["dataMedicao"]);
         historicoEnterococos.push(this.lista_historico[i]["enterococos"]);
       }
+
+      // CHAMADA DO AXIOS DENTRO DO PRÓPRIO COMPONENTE
+
       /*  await axios({
         method: "GET",
         url:
@@ -268,18 +273,18 @@ export default {
             formatter: function(value, timestamp) {
               let data = new Date(value);
               let meses = [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
               ];
               /* let dataformatada =
                 data.getDate() +
@@ -289,8 +294,10 @@ export default {
                 "/" +
                 data.getFullYear();
               return dataformatada; */
+
               let dataformatada =
                 meses[data.getMonth()] + " " + data.getFullYear();
+
               return dataformatada;
             }
           }

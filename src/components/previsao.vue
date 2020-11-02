@@ -21,14 +21,22 @@
       cidade de "Ubatuba". Demais praias possuem números aleatórios de
       enterococos.
     </p>-->
-    <q-btn
-      icon="help"
-      color="primary"
-      @click="popupLegendaCores = true"
-      flat
-      padding="none"
-      style="margin-top: -2.5px; margin-left:50%; margin-right:50%;"
-    />
+    <div
+      class="row justify-center"
+      v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
+    >
+      <span style="font-weight: bold; margin-right:8px;"
+        >Previsão Próximas 5 semanas</span
+      >
+      <q-btn
+        icon="help"
+        color="primary"
+        @click="popupLegendaCores = true"
+        flat
+        padding="none"
+        style="margin-top: -2.5px;"
+      />
+    </div>
     <q-dialog v-model="popupLegendaCores">
       <q-card class="full-width">
         <q-card-section>
@@ -63,7 +71,7 @@
         </q-card-section>
 
         <q-card-section class="row text-justify">
-          <p>Mais de 100 UFC em 2/5 semanas</p>
+          <p>Mais de 100 UFC/100ml - 2/5 semanas</p>
           <q-space />
           <div class="square" style="background-color: #FF0000; height: 1%;">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -280,6 +288,8 @@ export default {
       console.log(this.corArray);
 
       //console.log(this.colunasTabelaPrevisao);
+
+      // CHAMADA DO AXIOS DENTRO DO PRÓPRIO COMPONENTE
 
       /* await axios({
         method: "GET",

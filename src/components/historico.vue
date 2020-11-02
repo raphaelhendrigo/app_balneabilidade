@@ -68,12 +68,6 @@ export default {
     ip_webservice: function() {
       return this.$store.getters["exemplo/getIpWebservice"];
     },
-    /* historico_enterococos: function() {
-      return this.$store.getters["exemplo/getHistoricoEnterococos"];
-    },
-    historico_datas: function() {
-      return this.$store.getters["exemplo/getHistoricoDatas"];
-    }, */
     lista_historico: function() {
       return this.$store.getters["exemplo/getListaHistorico"];
     }
@@ -90,6 +84,8 @@ export default {
   },
   methods: {
     async carregarHistorico(cidade, praia) {
+      // CHAMADA DO AXIOS DENTRO DO PRÓPRIO COMPONENTE
+
       /* await axios({
         method: "GET",
         url:
@@ -162,9 +158,28 @@ export default {
       this.historicoCincoSemanas = [];
 
       for (var i = 1; i <= 5; i++) {
-        this.historicoCincoSemanas.push(
-          this.lista_historico[this.lista_historico.length - i]
-        );
+        let formatacaoData =
+          this.lista_historico[this.lista_historico.length - i][
+            "dataMedicao"
+          ].slice(-2) +
+          "/" +
+          this.lista_historico[this.lista_historico.length - i][
+            "dataMedicao"
+          ].slice(5, -3) +
+          "/" +
+          this.lista_historico[this.lista_historico.length - i][
+            "dataMedicao"
+          ].slice(0, 4);
+
+        let arrayTemp = [];
+        arrayTemp["dataMedicao"] = formatacaoData;
+        arrayTemp["enterococos"] = this.lista_historico[
+          this.lista_historico.length - i
+        ]["enterococos"];
+
+        console.log(formatacaoData);
+
+        this.historicoCincoSemanas.push(arrayTemp);
       }
 
       let qtd_item_100 = 0;
