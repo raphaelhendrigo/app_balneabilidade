@@ -51,14 +51,6 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "ApexLine",
-  computed: {
-    lista_anos: function() {
-      return this.$store.getters["exemplo/getListaAnos"];
-    },
-    contador_anos: function() {
-      return this.$store.getters["exemplo/getContadorAnos"];
-    }
-  },
   data() {
     return {
       enterococos: [],
@@ -269,22 +261,30 @@ export default {
         }, */
         xaxis: {
           categories: historicoDatas,
+          tickAmount: 5,
           labels: {
             formatter: function(value, timestamp) {
               let data = new Date(value);
+              data.setHours(data.getHours() + data.getTimezoneOffset() / 60);
+
+              /* data = data.toLocaleString("pt-BR", {
+                timeZone: "Europe/London"
+              }); */
+
+              //console.log(data);
               let meses = [
-                "Janeiro",
-                "Fevereiro",
-                "Março",
-                "Abril",
+                "Jan",
+                "Fev",
+                "Mar",
+                "Abr",
                 "Maio",
-                "Junho",
-                "Julho",
-                "Agosto",
-                "Setembro",
-                "Outubro",
-                "Novembro",
-                "Dezembro"
+                "Jun",
+                "Jul",
+                "Ago",
+                "Set",
+                "Out",
+                "Nov",
+                "Dez"
               ];
               /* let dataformatada =
                 data.getDate() +
@@ -296,7 +296,14 @@ export default {
               return dataformatada; */
 
               let dataformatada =
-                meses[data.getMonth()] + " " + data.getFullYear();
+                ("0" + data.getDate()).slice(-2) +
+                " " +
+                meses[data.getMonth()] +
+                " " +
+                (data.getFullYear() % 100);
+
+              /* let dataformatada =
+                meses[data.getMonth()] + " " + data.getFullYear(); */
 
               return dataformatada;
             }
