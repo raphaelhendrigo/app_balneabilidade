@@ -141,6 +141,7 @@ export default {
     this.modelCidade = this.$store.getters["exemplo/getCidade"];
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
     this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
+    //this.$store.commit("exemplo/setIpWebservice", "127.0.0.1");
     this.carregarPraias(this.modelCidade);
   },
   methods: {
@@ -188,11 +189,12 @@ export default {
 
       this.renderizarComponente++;
 
-      if (
+      /* if (
         this.cidade.toUpperCase() == "UBATUBA" &&
         this.praia.toUpperCase() == "GRANDE"
       ) {
         this.$store.commit("exemplo/setCarregandoPrevisao", true);
+
         await axios({
           method: "GET",
           url:
@@ -203,8 +205,6 @@ export default {
             let previsao = result.data.map((item, key) => {
               let arr = [];
               arr["id"] = key;
-
-              //arr["dataMedicao"] = item[0];
               arr["dataMedicao"] =
                 item[0].slice(-2) +
                 "/" +
@@ -212,18 +212,15 @@ export default {
                 "/" +
                 item[0].slice(0, 4);
               arr["enterococos"] = parseFloat(item[1]).toFixed(1);
-              //arr["enterococos"] = item[1];
               return arr;
             });
-
-            this.$store.commit("exemplo/setListaPrevisao", previsao);
           },
           error => {
             console.error(error);
           }
         );
       } else {
-        for (var cont = 0; cont < 5; cont++) {
+          for (var cont = 0; cont < 5; cont++) {
           if (cont == 0) {
             var conversaoDataMedicao = new Date();
           }
@@ -233,8 +230,6 @@ export default {
               ((0 - conversaoDataMedicao.getDay() + 7) % 7) +
               1
           );
-
-          //console.log(conversaoDataMedicao);
 
           this.enterococosAleatorios[cont]["id"] = cont;
 
@@ -246,15 +241,47 @@ export default {
             conversaoDataMedicao.getFullYear();
           this.enterococosAleatorios[cont]["enterococos"] =
             Math.floor(Math.random() * (500 - 5 + 1)) + 5;
-
-          //console.log(cont + " " + this.enterococosAleatorios[cont]);
         }
 
         this.$store.commit(
           "exemplo/setListaPrevisao",
           this.enterococosAleatorios
-        );
-      }
+        ); */
+
+      this.$store.commit("exemplo/setCarregandoPrevisao", true);
+
+      await axios({
+        method: "GET",
+        url:
+          "http://" +
+          this.ip_webservice.concat(
+            ":5000/previsaoProximasSemanas?cidade=" +
+              this.cidade.toUpperCase() +
+              "&praia=" +
+              this.praia.toUpperCase() +
+              "&numPredicoes=5"
+          )
+      }).then(
+        result => {
+          let previsao = result.data.map((item, key) => {
+            let arr = [];
+            arr["id"] = key;
+            arr["dataMedicao"] =
+              item[0].slice(-2) +
+              "/" +
+              item[0].slice(5, -3) +
+              "/" +
+              item[0].slice(0, 4);
+            //arr["dataMedicao"] = "16/11/2020";
+            arr["enterococos"] = parseFloat(item[1]).toFixed(1);
+            return arr;
+          });
+          this.$store.commit("exemplo/setListaPrevisao", previsao);
+        },
+        error => {
+          console.error(error);
+        }
+      );
 
       this.$store.commit("exemplo/setCarregandoPrevisao", false);
 
