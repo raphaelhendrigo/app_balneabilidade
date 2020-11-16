@@ -10,7 +10,7 @@
         v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
         class="text-primary"
       >
-        Aguarde por favor... Este processo leva cerca de 30 segundos
+        Aguarde por favor... Este processo leva cerca de 15 segundos
       </p>
     </div>
     <!--<p
@@ -110,7 +110,9 @@
           <q-td
             key="enterococos"
             :props="props"
-            :style="{ 'background-color': corArray[props.row.id] }"
+            :style="{
+              'background-color': corArray[props.row.id]
+            }"
           >
             {{ props.row.enterococos }}
           </q-td>
@@ -137,7 +139,7 @@ export default {
           field: row => row.dataMedicao,
           format: val => `${val}`,
           sortable: false,
-          style: "color:white;"
+          style: "color:black;"
         },
         {
           name: "enterococos",
@@ -145,15 +147,16 @@ export default {
           label: "UFC/100 ml",
           field: "enterococos",
           sortable: false,
-          style: "color:white;"
+          style: "color:black;"
         }
       ],
       //mensagem: "",
       previsaoProximasCincoSemanas: [],
       //cardMensagem: "",
       balneabilidadePrevisao: [],
-      corTabela: "",
-      corArray: []
+      corFonte: [],
+      corArray: [],
+      temp: []
     };
   },
   computed: {
@@ -195,23 +198,125 @@ export default {
         );
       } */
 
-      let qtd_item_max_25 = 0;
-      let qtd_item_max_50 = 0;
-      let qtd_item_max_100 = 0;
-      let qtd_item_min_100 = 0;
-      let qtd_item_last_400 = 0;
+      this.temp[0] = this.historico[this.historico.length - 4];
+      this.temp[1] = this.historico[this.historico.length - 3];
+      this.temp[2] = this.historico[this.historico.length - 2];
+      this.temp[3] = this.historico[this.historico.length - 1];
+      this.temp[4] = this.previsaoProximasCincoSemanas[0];
+      this.temp[5] = this.previsaoProximasCincoSemanas[1];
+      this.temp[6] = this.previsaoProximasCincoSemanas[2];
+      this.temp[7] = this.previsaoProximasCincoSemanas[3];
+      this.temp[8] = this.previsaoProximasCincoSemanas[4];
 
-      for (var i = 0; i < this.previsaoProximasCincoSemanas.length; i++) {
+      console.log(this.temp);
+
+      console.log(this.previsaoProximasCincoSemanas);
+
+      for (var i = 0; i < 5; i++) {
+        let qtde_item_max_25 = 0;
+        let qtde_item_max_50 = 0;
+        let qtde_item_max_100 = 0;
+        let qtde_item_min_100 = 0;
+        let qtde_item_last_400 = 0;
+
+        console.log("i", i);
+
+        for (var cont = i; cont < i + 5; cont++) {
+          if (this.temp[cont]["enterococos"] < 25) {
+            qtde_item_max_25++;
+            qtde_item_max_50++;
+            qtde_item_max_100++;
+          }
+          if (
+            this.temp[cont]["enterococos"] > 25 &&
+            this.temp[cont]["enterococos"] <= 50
+          ) {
+            qtde_item_max_50++;
+            qtde_item_max_100++;
+          }
+          if (
+            this.temp[cont]["enterococos"] > 50 &&
+            this.temp[cont]["enterococos"] <= 100
+          ) {
+            qtde_item_max_100++;
+          }
+          if (
+            this.temp[cont]["enterococos"] > 100 &&
+            this.temp[cont]["enterococos"] <= 400
+          ) {
+            qtde_item_min_100++;
+          }
+          if (this.temp[4]["enterococos"] > 400) {
+            qtde_item_last_400++;
+          }
+        }
+
+        if (qtde_item_max_25 >= 4) {
+          this.corArray[i] = "#0000FF";
+          this.corFonte[i] = "#0000FF";
+          //this.colunasTabelaPrevisao[0].style = "color:white;";
+          //this.colunasTabelaPrevisao[1].style = "color:white;";
+        } else if (qtde_item_max_50 >= 4) {
+          this.corArray[i] = "#FFFF00";
+          this.corFonte[i] = "#FFFF00";
+          //this.colunasTabelaPrevisao[0][i].style = "color:black;";
+          //this.colunasTabelaPrevisao[1][i].style = "color:black;";
+        } else if (qtde_item_max_100 >= 4) {
+          this.corArray[i] = "#007C3D";
+          this.corFonte[i] = "#007C3D";
+          //this.colunasTabelaPrevisao[0].style = "color:white;";
+          //this.colunasTabelaPrevisao[1].style = "color:white;";
+        }
+        if (qtde_item_min_100 >= 2) {
+          this.corArray[i] = "#FF0000";
+          this.corFonte[i] = "#FF0000";
+          //this.colunasTabelaPrevisao[0].style = "color:white;";
+          //this.colunasTabelaPrevisao[1].style = "color:white;";
+        }
+        if (qtde_item_last_400 >= 1) {
+          this.corArray[i] = "#4B0082";
+          this.corFonte[i] = "#4B0082";
+          //this.colunasTabelaPrevisao[0].style = "color:white;";
+          //this.colunasTabelaPrevisao[1].style = "color:white;";
+        }
+
+        /* console.log("a", qtde_item_max_25);
+        console.log("b", qtde_item_max_50);
+        console.log("c", qtde_item_max_100);
+        console.log("d", qtde_item_min_100);
+        console.log("e", qtde_item_last_400); */
+
+        console.log(this.corArray[i]);
+      }
+
+      /* for (var i = 0; i < this.previsaoProximasCincoSemanas.length; i++) {
+        let qtd_item_max_25 = 0;
+        let qtd_item_max_50 = 0;
+        let qtd_item_max_100 = 0;
+        let qtd_item_min_100 = 0;
+        let qtd_item_last_400 = 0;
+
+        console.log(this.previsaoProximasCincoSemanas[i]);
+
         if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 25) {
           qtd_item_max_25++;
         }
-        if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 50) {
+        if (
+          this.previsaoProximasCincoSemanas[i]["enterococos"] > 25 &&
+          this.previsaoProximasCincoSemanas[i]["enterococos"] <= 50
+        ) {
           qtd_item_max_50++;
         }
-        if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 100) {
+        if (
+          this.previsaoProximasCincoSemanas[i]["enterococos"] > 50 &&
+          this.previsaoProximasCincoSemanas[i]["enterococos"] <= 100
+        ) {
           qtd_item_max_100++;
         }
-        if (this.previsaoProximasCincoSemanas[i]["enterococos"] > 100) {
+        if (
+          this.previsaoProximasCincoSemanas[i]["enterococos"] > 100 &&
+          this.previsaoProximasCincoSemanas[i]["enterococos"] <= 400
+        ) {
           qtd_item_min_100++;
         }
 
@@ -219,54 +324,75 @@ export default {
           qtd_item_last_400++;
         }
 
-        for (var cont = 5; cont > i; cont--) {
+        for (
+          var cont = this.historico.length - 1;
+          cont > this.historico.length - 1 - i;
+          cont--
+        )
+          console.log(this.historico[cont]);
+        {
           if (this.historico[cont]["enterococos"] <= 25) {
             qtd_item_max_25++;
-          }
-          if (this.historico[cont]["enterococos"] <= 50) {
+          } else if (
+            this.historico[cont]["enterococos"] > 25 &&
+            this.historico[cont]["enterococos"] <= 50
+          ) {
             qtd_item_max_50++;
-          }
-          if (this.historico[cont]["enterococos"] <= 100) {
+          } else if (
+            this.historico[cont]["enterococos"] > 50 &&
+            this.historico[cont]["enterococos"] <= 100
+          ) {
             qtd_item_max_100++;
           }
-          if (this.historico[cont]["enterococos"] > 100) {
+          if (
+            this.historico[cont]["enterococos"] > 100 &&
+            this.historico[cont]["enterococos"] < 400
+          ) {
             qtd_item_min_100++;
           }
           if (this.previsaoProximasCincoSemanas[4]["enterococos"] > 400) {
             qtd_item_last_400++;
           }
-
-          if (qtd_item_max_25 >= 4) {
-            this.corArray[i] = "#0000FF";
-            this.corTabela = "#0000FF";
-            this.colunasTabelaPrevisao[0].style = "color:white;";
-            this.colunasTabelaPrevisao[1].style = "color:white;";
-          }
-          if (qtd_item_max_50 >= 4) {
-            this.corArray[i] = "#FFFF00";
-            this.corTabela = "#FFFF00";
-            this.colunasTabelaPrevisao[0].style = "color:black;";
-            this.colunasTabelaPrevisao[1].style = "color:black;";
-          }
-          if (qtd_item_max_100 >= 4) {
-            this.corArray[i] = "#007C3D";
-            this.corTabela = "#007C3D";
-            this.colunasTabelaPrevisao[0].style = "color:white;";
-            this.colunasTabelaPrevisao[1].style = "color:white;";
-          }
-          if (qtd_item_min_100 >= 2) {
-            this.corArray[i] = "#FF0000";
-            this.corTabela = "#FF0000";
-            this.colunasTabelaPrevisao[0].style = "color:white;";
-            this.colunasTabelaPrevisao[1].style = "color:white;";
-          } else if (qtd_item_last_400 >= 1) {
-            this.corArray[i] = "#4B0082";
-            this.corTabela = "#4B0082";
-            this.colunasTabelaPrevisao[0].style = "color:white;";
-            this.colunasTabelaPrevisao[1].style = "color:white;";
-          }
         }
-      }
+
+        if (qtd_item_max_25 >= 4) {
+          this.corArray[i] = "#0000FF";
+          this.corTabela = "#0000FF";
+          this.colunasTabelaPrevisao[0].style = "color:white;";
+          this.colunasTabelaPrevisao[1].style = "color:white;";
+        }
+        if (qtd_item_max_50 >= 4) {
+          this.corArray[i] = "#FFFF00";
+          this.corTabela = "#FFFF00";
+          this.colunasTabelaPrevisao[0].style = "color:black;";
+          this.colunasTabelaPrevisao[1].style = "color:black;";
+        }
+        if (qtd_item_max_100 >= 4) {
+          this.corArray[i] = "#007C3D";
+          this.corTabela = "#007C3D";
+          this.colunasTabelaPrevisao[0].style = "color:white;";
+          this.colunasTabelaPrevisao[1].style = "color:white;";
+        }
+        if (qtd_item_min_100 >= 2) {
+          this.corArray[i] = "#FF0000";
+          this.corTabela = "#FF0000";
+          this.colunasTabelaPrevisao[0].style = "color:white;";
+          this.colunasTabelaPrevisao[1].style = "color:white;";
+        } else if (qtd_item_last_400 >= 1) {
+          this.corArray[i] = "#4B0082";
+          this.corTabela = "#4B0082";
+          this.colunasTabelaPrevisao[0].style = "color:white;";
+          this.colunasTabelaPrevisao[1].style = "color:white;";
+        }
+
+        console.log("a", qtd_item_max_25);
+        console.log("b", qtd_item_max_50);
+        console.log("c", qtd_item_max_100);
+        console.log("d", qtd_item_min_100);
+        console.log("e", qtd_item_last_400);
+
+        console.log(this.corArray[i]);
+      } */
 
       /* if (
         this.previsaoProximasCincoSemanas[
@@ -284,8 +410,7 @@ export default {
       this.colunasTabelaPrevisao[2].style +=
         "background-color:" + this.corArray[props.row.id] + ""; */
 
-      console.log(this.corTabela);
-      console.log(this.corArray);
+      //console.log(this.corTabela);
 
       //console.log(this.colunasTabelaPrevisao);
 
