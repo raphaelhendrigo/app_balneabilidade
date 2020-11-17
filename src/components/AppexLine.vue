@@ -262,6 +262,7 @@ export default {
         xaxis: {
           categories: historicoDatas,
           tickAmount: 5,
+          offsetX: 9,
           labels: {
             formatter: function(value, timestamp) {
               let data = new Date(value);
@@ -272,6 +273,7 @@ export default {
               }); */
 
               //console.log(data);
+
               let meses = [
                 "Jan",
                 "Fev",
@@ -300,7 +302,7 @@ export default {
                 " " +
                 meses[data.getMonth()] +
                 " " +
-                (data.getFullYear() % 100);
+                data.getFullYear();
 
               /* let dataformatada =
                 meses[data.getMonth()] + " " + data.getFullYear(); */

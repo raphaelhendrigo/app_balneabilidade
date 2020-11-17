@@ -266,6 +266,7 @@ export default {
           let previsao = result.data.map((item, key) => {
             let arr = [];
             arr["id"] = key;
+            arr["cor"] = "#FFFFFF";
             arr["dataMedicao"] =
               item[0].slice(-2) +
               "/" +

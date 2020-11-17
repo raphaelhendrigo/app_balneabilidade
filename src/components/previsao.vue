@@ -10,7 +10,7 @@
         v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
         class="text-primary"
       >
-        Aguarde por favor... Este processo leva cerca de 15 segundos
+        Aguarde por favor... Este processo pode levar até 15 segundos
       </p>
     </div>
     <!--<p
@@ -24,6 +24,7 @@
     <div
       class="row justify-center"
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
+      style="margin-top:-1%;"
     >
       <span style="font-weight: bold; margin-right:8px;"
         >Previsão Próximas 5 semanas</span
@@ -97,23 +98,20 @@
       row-key="id"
       hide-bottom
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
+      style="margin-top:1%;"
     >
       <template v-slot:body="props">
         <q-tr>
           <q-td
-            key="dataMedicao"
+            key="cor"
             :props="props"
             :style="{ 'background-color': corArray[props.row.id] }"
           >
+          </q-td>
+          <q-td key="dataMedicao" :props="props">
             {{ props.row.dataMedicao }}
           </q-td>
-          <q-td
-            key="enterococos"
-            :props="props"
-            :style="{
-              'background-color': corArray[props.row.id]
-            }"
-          >
+          <q-td key="enterococos" :props="props">
             {{ props.row.enterococos }}
           </q-td>
         </q-tr>
@@ -131,6 +129,16 @@ export default {
       loading: false,
       popupLegendaCores: false,
       colunasTabelaPrevisao: [
+        {
+          name: "cor",
+          required: true,
+          label: "Cor",
+          align: "left",
+          field: row => row.cor,
+          format: val => `${val}`,
+          sortable: false,
+          style: "width:2%;"
+        },
         {
           name: "dataMedicao",
           required: true,
@@ -154,7 +162,6 @@ export default {
       previsaoProximasCincoSemanas: [],
       //cardMensagem: "",
       balneabilidadePrevisao: [],
-      corFonte: [],
       corArray: [],
       temp: []
     };
@@ -253,38 +260,17 @@ export default {
 
         if (qtde_item_max_25 >= 4) {
           this.corArray[i] = "#0000FF";
-          this.corFonte[i] = "#0000FF";
-          //this.colunasTabelaPrevisao[0].style = "color:white;";
-          //this.colunasTabelaPrevisao[1].style = "color:white;";
         } else if (qtde_item_max_50 >= 4) {
           this.corArray[i] = "#FFFF00";
-          this.corFonte[i] = "#FFFF00";
-          //this.colunasTabelaPrevisao[0][i].style = "color:black;";
-          //this.colunasTabelaPrevisao[1][i].style = "color:black;";
         } else if (qtde_item_max_100 >= 4) {
           this.corArray[i] = "#007C3D";
-          this.corFonte[i] = "#007C3D";
-          //this.colunasTabelaPrevisao[0].style = "color:white;";
-          //this.colunasTabelaPrevisao[1].style = "color:white;";
         }
         if (qtde_item_min_100 >= 2) {
           this.corArray[i] = "#FF0000";
-          this.corFonte[i] = "#FF0000";
-          //this.colunasTabelaPrevisao[0].style = "color:white;";
-          //this.colunasTabelaPrevisao[1].style = "color:white;";
         }
         if (qtde_item_last_400 >= 1) {
           this.corArray[i] = "#4B0082";
-          this.corFonte[i] = "#4B0082";
-          //this.colunasTabelaPrevisao[0].style = "color:white;";
-          //this.colunasTabelaPrevisao[1].style = "color:white;";
         }
-
-        /* console.log("a", qtde_item_max_25);
-        console.log("b", qtde_item_max_50);
-        console.log("c", qtde_item_max_100);
-        console.log("d", qtde_item_min_100);
-        console.log("e", qtde_item_last_400); */
 
         console.log(this.corArray[i]);
       }
