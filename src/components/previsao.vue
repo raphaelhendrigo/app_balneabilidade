@@ -49,7 +49,7 @@
           <q-space />
           <div
             class="square text-right"
-            style="background-color: #0000FF; height: 1%; border-radius: 50%;"
+            style="background-color: #00ffff; height: 1%; border-radius: 50%;"
           >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
@@ -59,7 +59,7 @@
           <p>Até 50 UFC/100ml em 4 de 5 semanas</p>
           <q-space />
           <div
-            style="background-color: #FFFF00; height: 1%; border-radius: 50%;"
+            style="background-color: #0000FF; height: 1%; border-radius: 50%;"
           >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
@@ -131,8 +131,8 @@
 <style>
 .circulo {
   border-radius: 50%;
-  height: 50%;
-  width: 60%;
+  height: 20px;
+  width: 20px;
   margin-left: 20%;
   margin-right: 20%;
 }
@@ -147,9 +147,9 @@ export default {
       popupLegendaCores: false,
       colunasTabelaPrevisao: [
         {
-          name: "atual",
+          name: "previsao",
           required: true,
-          label: "Atual",
+          label: "Previsão",
           align: "left",
           field: row => row.atual,
           format: val => `${val}`,
@@ -276,9 +276,9 @@ export default {
         }
 
         if (qtde_item_max_25 >= 4) {
-          this.corArray[i] = "#0000FF";
+          this.corArray[i] = "#00ffff";
         } else if (qtde_item_max_50 >= 4) {
-          this.corArray[i] = "#FFFF00";
+          this.corArray[i] = "#0000FF";
         } else if (qtde_item_max_100 >= 4) {
           this.corArray[i] = "#007C3D";
         }

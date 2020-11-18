@@ -140,8 +140,8 @@ export default {
     this.cidades = Object.keys(this.objcidadepraias);
     this.modelCidade = this.$store.getters["exemplo/getCidade"];
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
-    this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
-    //this.$store.commit("exemplo/setIpWebservice", "127.0.0.1");
+    //this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
+    this.$store.commit("exemplo/setIpWebservice", "127.0.0.1");
     this.carregarPraias(this.modelCidade);
   },
   methods: {
@@ -157,7 +157,7 @@ export default {
         url:
           "http://" +
           this.ip_webservice.concat(
-            ":5000/resultadosUltimosDoisAnos?cidade=" +
+            "/resultadosUltimosDoisAnos?cidade=" +
               this.cidade.toUpperCase() +
               "&praia=" +
               this.praia.toUpperCase()
@@ -255,7 +255,7 @@ export default {
         url:
           "http://" +
           this.ip_webservice.concat(
-            ":5000/previsaoProximasSemanas?cidade=" +
+            "/previsaoProximasSemanas?cidade=" +
               this.cidade.toUpperCase() +
               "&praia=" +
               this.praia.toUpperCase() +
@@ -266,7 +266,7 @@ export default {
           let previsao = result.data.map((item, key) => {
             let arr = [];
             arr["id"] = key;
-            arr["atual"] = "#FFFFFF";
+            arr["previsao"] = "#FFFFFF";
             arr["dataMedicao"] =
               item[0].slice(-2) +
               "/" +
