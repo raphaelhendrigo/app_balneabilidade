@@ -110,7 +110,7 @@
     >
       <template v-slot:body="props">
         <q-tr>
-          <q-td key="atual" :props="props">
+          <q-td key="previsao" :props="props">
             <div
               class="circulo"
               :style="{ 'background-color': corArray[props.row.id] }"

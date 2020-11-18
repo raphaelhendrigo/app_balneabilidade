@@ -274,7 +274,7 @@ export default {
               "/" +
               item[0].slice(0, 4);
             //arr["dataMedicao"] = "16/11/2020";
-            arr["enterococos"] = parseFloat(item[1]).toFixed(1);
+            arr["enterococos"] = item[1];
             return arr;
           });
           this.$store.commit("exemplo/setListaPrevisao", previsao);
