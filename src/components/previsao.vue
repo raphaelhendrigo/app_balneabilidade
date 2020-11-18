@@ -24,7 +24,7 @@
     <div
       class="row justify-center"
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
-      style="margin-top:-1%;"
+      style="margin-top:-2%;"
     >
       <span style="font-weight: bold; margin-right:8px;"
         >Previsão Próximas 5 semanas</span
@@ -49,7 +49,7 @@
           <q-space />
           <div
             class="square text-right"
-            style="background-color: #0000FF; height: 1%;"
+            style="background-color: #0000FF; height: 1%; border-radius: 50%;"
           >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
@@ -58,7 +58,9 @@
         <q-card-section class="row text-justify">
           <p>Até 50 UFC/100ml em 4 de 5 semanas</p>
           <q-space />
-          <div class="square" style="background-color: #FFFF00; height: 1%;">
+          <div
+            style="background-color: #FFFF00; height: 1%; border-radius: 50%;"
+          >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
         </q-card-section>
@@ -66,7 +68,9 @@
         <q-card-section class="row text-justify">
           <p>Até 100 UFC/100ml em 4 de 5 semanas</p>
           <q-space />
-          <div class="square" style="background-color: #007C3D; height: 1%;">
+          <div
+            style="background-color: #007C3D; height: 1%; border-radius: 50%;"
+          >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
         </q-card-section>
@@ -74,7 +78,9 @@
         <q-card-section class="row text-justify">
           <p>Mais de 100 UFC/100ml - 2/5 semanas</p>
           <q-space />
-          <div class="square" style="background-color: #FF0000; height: 1%;">
+          <div
+            style="background-color: #FF0000; height: 1%; border-radius: 50%;"
+          >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
         </q-card-section>
@@ -82,7 +88,9 @@
         <q-card-section class="row text-justify">
           <p>Mais de 400 UFC/100ml última semana</p>
           <q-space />
-          <div class="square" style="background-color: #4B0082; height: 1%;">
+          <div
+            style="background-color: #4B0082; height: 1%; border-radius: 50%;"
+          >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
         </q-card-section>
@@ -102,11 +110,11 @@
     >
       <template v-slot:body="props">
         <q-tr>
-          <q-td
-            key="cor"
-            :props="props"
-            :style="{ 'background-color': corArray[props.row.id] }"
-          >
+          <q-td key="atual" :props="props">
+            <div
+              class="circulo"
+              :style="{ 'background-color': corArray[props.row.id] }"
+            ></div>
           </q-td>
           <q-td key="dataMedicao" :props="props">
             {{ props.row.dataMedicao }}
@@ -120,6 +128,15 @@
   </div>
 </template>
 
+<style>
+.circulo {
+  border-radius: 50%;
+  height: 50%;
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+</style>
 <script>
 import axios from "axios";
 export default {
@@ -130,11 +147,11 @@ export default {
       popupLegendaCores: false,
       colunasTabelaPrevisao: [
         {
-          name: "cor",
+          name: "atual",
           required: true,
-          label: "Cor",
+          label: "Atual",
           align: "left",
-          field: row => row.cor,
+          field: row => row.atual,
           format: val => `${val}`,
           sortable: false,
           style: "width:2%;"
