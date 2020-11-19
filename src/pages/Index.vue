@@ -166,7 +166,8 @@ export default {
         result => {
           let historico = result.data.map((item, key) => {
             let arr = [];
-
+            arr["id"] = key;
+            arr["atual"] = "#FFFFFF";
             arr["dataMedicao"] = item[0];
 
             /* arr["dataMedicao"] =
@@ -176,7 +177,7 @@ export default {
               "/" +
               item[0].slice(0, 4); */
             arr["enterococos"] = item[1];
-            arr["id"] = key;
+
             return arr;
           });
 
@@ -277,7 +278,20 @@ export default {
             arr["enterococos"] = item[1];
             return arr;
           });
-          this.$store.commit("exemplo/setListaPrevisao", previsao);
+
+          console.log(previsao);
+
+          let conv = [];
+
+          conv[0] = previsao[4];
+          conv[1] = previsao[3];
+          conv[2] = previsao[2];
+          conv[3] = previsao[1];
+          conv[4] = previsao[0];
+
+          console.log(conv);
+
+          this.$store.commit("exemplo/setListaPrevisao", conv);
         },
         error => {
           console.error(error);

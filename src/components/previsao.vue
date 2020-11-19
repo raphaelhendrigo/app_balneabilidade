@@ -24,10 +24,9 @@
     <div
       class="row justify-center"
       v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
-      style="margin-top:-2%;"
     >
       <span style="font-weight: bold; margin-right:8px;"
-        >Previsão Próximas 5 semanas</span
+        >Previsão Próximas 5 medições</span
       >
       <q-btn
         icon="help"
@@ -151,7 +150,7 @@ export default {
           required: true,
           label: "Previsão",
           align: "left",
-          field: row => row.atual,
+          field: row => row.previsao,
           format: val => `${val}`,
           sortable: false,
           style: "width:2%;"
@@ -222,15 +221,15 @@ export default {
         );
       } */
 
-      this.temp[0] = this.historico[this.historico.length - 4];
-      this.temp[1] = this.historico[this.historico.length - 3];
-      this.temp[2] = this.historico[this.historico.length - 2];
-      this.temp[3] = this.historico[this.historico.length - 1];
-      this.temp[4] = this.previsaoProximasCincoSemanas[0];
-      this.temp[5] = this.previsaoProximasCincoSemanas[1];
-      this.temp[6] = this.previsaoProximasCincoSemanas[2];
-      this.temp[7] = this.previsaoProximasCincoSemanas[3];
-      this.temp[8] = this.previsaoProximasCincoSemanas[4];
+      this.temp[0] = this.previsaoProximasCincoSemanas[0];
+      this.temp[1] = this.previsaoProximasCincoSemanas[1];
+      this.temp[2] = this.previsaoProximasCincoSemanas[2];
+      this.temp[3] = this.previsaoProximasCincoSemanas[3];
+      this.temp[4] = this.previsaoProximasCincoSemanas[4];
+      this.temp[5] = this.historico[this.historico.length - 4];
+      this.temp[6] = this.historico[this.historico.length - 3];
+      this.temp[7] = this.historico[this.historico.length - 2];
+      this.temp[8] = this.historico[this.historico.length - 1];
 
       console.log(this.temp);
 
@@ -246,7 +245,7 @@ export default {
         console.log("i", i);
 
         for (var cont = i; cont < i + 5; cont++) {
-          if (this.temp[cont]["enterococos"] < 25) {
+          if (this.temp[cont]["enterococos"] <= 25) {
             qtde_item_max_25++;
             qtde_item_max_50++;
             qtde_item_max_100++;
@@ -264,15 +263,13 @@ export default {
           ) {
             qtde_item_max_100++;
           }
-          if (
-            this.temp[cont]["enterococos"] > 100 &&
-            this.temp[cont]["enterococos"] <= 400
-          ) {
+          if (this.temp[cont]["enterococos"] > 100) {
             qtde_item_min_100++;
           }
-          if (this.temp[4]["enterococos"] > 400) {
-            qtde_item_last_400++;
-          }
+        }
+
+        if (this.temp[i]["enterococos"] > 400) {
+          qtde_item_last_400++;
         }
 
         if (qtde_item_max_25 >= 4) {
