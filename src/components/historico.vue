@@ -1,12 +1,19 @@
 <template>
   <q-page class="q-pa-xs">
-    <!--<q-card
-      :style="{ 'background-color': cardMensagem }"
-      style="color:white;"
+    <q-card
+      :style="{ 'background-color': cardMensagem, color: corMensagem }"
       class="text-center"
-      >{{ mensagem }}</q-card
-    >-->
-    <div class="row justify-center">
+      >{{ mensagem }}
+      <q-btn
+        icon="help"
+        :color="corMensagem"
+        @click="popupLegendaCores = true"
+        flat
+        padding="none"
+        style="margin-top: -2.5px;"
+      />
+    </q-card>
+    <!--<div class="row justify-center">
       <span style="font-weight: bold; margin-right:8px;"
         >Histórico Últimas 5 medições</span
       >
@@ -18,7 +25,7 @@
         padding="none"
         style="margin-top: -2.5px;"
       />
-    </div>
+    </div>-->
     <q-dialog v-model="popupLegendaCores">
       <q-card class="full-width">
         <q-card-section>
@@ -141,7 +148,7 @@ export default {
           name: "atual",
           required: true,
           align: "left",
-          label: "Atual",
+          label: "Bal.",
           field: "atual",
           field: row => row.atual,
           format: val => `${val}`,
@@ -167,8 +174,9 @@ export default {
       ],
       original: [],
       historicoCincoSemanas: [],
-      //mensagem: "",
+      mensagem: "SITUAÇÃO ATUAL: ",
       cardMensagem: "",
+      corMensagem: "",
       temp: [],
       corArray: [],
       popupLegendaCores: false
@@ -378,6 +386,30 @@ export default {
 
         console.log(this.corArray[i]);
       }
+
+      let ultimaPosicao = this.corArray.length - 1;
+      this.cardMensagem = this.corArray[ultimaPosicao];
+
+      console.log(this.corArray[ultimaPosicao]);
+
+      if (this.corArray[ultimaPosicao] == "#00ffff") {
+        this.mensagem += "EXCELENTE";
+        this.corMensagem = "black";
+      } else if (this.corArray[ultimaPosicao] == "#0000FF") {
+        this.mensagem += "MUITO BOA";
+        this.corMensagem = "white";
+      } else if (this.corArray[ultimaPosicao] == "#007C3D") {
+        this.mensagem += "SATISFATÓRIA";
+        this.corMensagem = "white";
+      } else if (this.corArray[ultimaPosicao] == "#FF0000") {
+        this.mensagem += "IMPRÓPRIA";
+        this.corMensagem = "white";
+      } else if (this.corArray[ultimaPosicao] == "#4B0082") {
+        this.mensagem += "IMPRÓPRIA";
+        this.corMensagem = "white";
+      }
+
+      //if(this.corArray[i] == #00ffff)
       /* let qtd_item_100 = 0;
       let qtd_item_400 = 0;
 

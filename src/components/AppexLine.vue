@@ -22,11 +22,11 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none text-justify">
-          Os critérios para classificação da balneabilidade das praias com base
-          na quantidade de unidades formadoras de colonia (UFC/100ml) de
-          enterococcos são: UFC/100ml acima de 100 em pelo menos 2 medições
+          Os critérios para classificação de balneabilidade imprópria das praias
+          com base na quantidade de unidades formadoras de colonia (UFC/100ml)
+          de enterococcos são: UFC/100ml acima de 100 em pelo menos 2 medições
           dentro de um período de 5 semanas; UFC/100ml acima de 400 na última
-          medição realizada
+          medição realizada.
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
