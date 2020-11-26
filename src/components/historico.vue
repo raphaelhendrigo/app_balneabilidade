@@ -158,7 +158,7 @@ export default {
         {
           name: "dataMedicao",
           required: true,
-          label: "Data medição",
+          label: "Data Medição",
           align: "left",
           field: row => row.dataMedicao,
           format: val => `${val}`,

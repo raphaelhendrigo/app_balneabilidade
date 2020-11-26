@@ -134,8 +134,7 @@
             <q-card-section>
               <div class="text-justify">
                 <p>
-                  O aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: 
-                  Python, Quasar, Vue, Cordova e Anaconda e Flask.
+                  O aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: Python, Tensorflow, Quasar, Cordova, Anaconda, Flask e Docker.
 
                 </p>
                 <p>
@@ -149,12 +148,19 @@
                 "
                 >Beach Water Quality in São Paulo, Brazil</a
               >
-                  disponibilizado pela usuária <b>Amanda</b> na plataforma Kaggle.
+                  disponibilizado pela usuária <b>Amanda</b> na plataforma Kaggle. O CSV está sendo atualizado semanalmente no link  <a
+                href="#"
+                v-on:click="
+                  abrirLink(
+                    'https://www.kaggle.com/ivcr24/sp-beaches-update/activity'
+                  )
+                "
+                >SP_Beaches_Update</a
+              >.
 
                 </p>
                 <p>
-                  A segunda etapa do projeto foi o treinamento da rede neural em Python 
-                  utilizando o modelo Seasonal Autoregressive Integrated Moving Average (SARIMA). Foi utilizado como base o curso 
+                  Na segunda etapa do projeto foi feito um treinamento na plataforma Coursera
                   <a
                     href="#"
                     v-on:click="
@@ -162,13 +168,11 @@
                         'https://www.coursera.org/learn/practical-time-series-analysis'
                       )
                     "
-                  >Pratical Time Series Analysis</a> disponibilizado pela Universidade Estadual de Nova York na plataforma Coursera.
+                  >"Pratical Time Series Analysis"</a> disponibilizado pela Universidade Estadual de Nova York onde foi indicado o uso do modelo Seasonal Autoregressive Integrated Moving Average (SARIMA) para este tipo de problema.
                 </p>
+                <p>Então o modelo SARIMA foi treinado para uma praia, exportado e disponibilizado através de um web service e um app foi criado para consumir este serviço.</p>
                 <p>
-                  Após esta etapa foi realizada a criação de um webservice REST simples 
-                  elaborado com a biblioteca Flask para disponibilizar as funcionalidades 
-                  do modelo de predição. O código do webservice pode ser acessado através 
-                  do link 
+                  Após esta etapa verificamos que o SARIMA não seria o mais adequado para o modelo pois o modelo salvo com os dados de uma praia deu 5GB. Então testamos o modelo LSTM com dados espaço-temporais que também não trouxe resultados satisfatórios. Por fim foi treinado um modelo LSTM de 2 camadas que atingiu resultados satisfatórios e um modelo de 1.5MB para cada praia. A partir destes modelos foi criado de um webservice REST elaborado com a biblioteca Flask e a ferramenta Docker para disponibilizar as funcionalidades do modelo de predição. O código do webservice pode ser acessado através do link
                   <a
                 href="#"
                 v-on:click="
@@ -180,8 +184,7 @@
 
                 </p>
                 <p>
-                  A última etapa foi a elaboração de um aplicativo para dispositivos móveis (plataforma Android) utilizando os frameworks Quasar, VueJS e Cordova. O código do aplicativo pode ser acessado através 
-                  do link 
+                  A última etapa foi a elaboração de um app utilizando os frameworks Quasar e Cordova. O código do aplicativo pode ser acessado através do link 
                   <a
                 href="#"
                 v-on:click="
