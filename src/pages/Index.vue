@@ -141,7 +141,7 @@ export default {
     this.modelCidade = this.$store.getters["exemplo/getCidade"];
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
     //this.$store.commit("exemplo/setIpWebservice", "172.23.93.116");
-    this.$store.commit("exemplo/setIpWebservice", "127.0.0.1");
+    this.$store.commit("exemplo/setIpWebservice", "127.0.0.1:5000");
     this.carregarPraias(this.modelCidade);
   },
   methods: {
@@ -170,6 +170,7 @@ export default {
             arr["atual"] = "#FFFFFF";
             arr["dataMedicao"] = item[0];
 
+            // SEM DATAS FORMATADAS
             /* arr["dataMedicao"] =
               item[0].slice(-2) +
               "/" +
@@ -274,7 +275,7 @@ export default {
               item[0].slice(5, -3) +
               "/" +
               item[0].slice(0, 4);
-            //arr["dataMedicao"] = "16/11/2020";
+            //arr["dataMedicao"] = item[0];
             arr["enterococos"] = item[1];
             return arr;
           });

@@ -148,7 +148,7 @@ export default {
           name: "atual",
           required: true,
           align: "left",
-          label: "Bal.",
+          label: "Atual",
           field: "atual",
           field: row => row.atual,
           format: val => `${val}`,
@@ -162,7 +162,8 @@ export default {
           align: "left",
           field: row => row.dataMedicao,
           format: val => `${val}`,
-          sortable: true
+          sortable: true,
+          style: "width:1%;"
         },
         {
           name: "enterococos",
@@ -285,11 +286,11 @@ export default {
         let formatacaoData =
           this.lista_historico[this.lista_historico.length - i][
             "dataMedicao"
-          ].slice(-2) +
+          ].slice(8, 10) +
           "/" +
           this.lista_historico[this.lista_historico.length - i][
             "dataMedicao"
-          ].slice(5, -3) +
+          ].slice(5, 7) +
           "/" +
           this.lista_historico[this.lista_historico.length - i][
             "dataMedicao"
@@ -302,6 +303,10 @@ export default {
         /*arrayTemp["atual"] = this.lista_historico[
           this.lista_historico.length - i
         ]["atual"];*/
+
+        // SEM DATAS FORMATADAS
+        //arrayTemp["dataMedicao"] = formatacaoData;
+
         arrayTemp["dataMedicao"] = formatacaoData;
         arrayTemp["enterococos"] = this.lista_historico[
           this.lista_historico.length - i

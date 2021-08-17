@@ -265,14 +265,17 @@ export default {
           offsetX: 9,
           labels: {
             formatter: function(value, timestamp) {
+              //console.log("a ", value);
+
               let data = new Date(value);
-              data.setHours(data.getHours() + data.getTimezoneOffset() / 60);
 
-              /* data = data.toLocaleString("pt-BR", {
-                timeZone: "Europe/London"
-              }); */
+              if (value != undefined) {
+                let temp = value;
 
-              //console.log(data);
+                data.setFullYear(temp.substring(0, 4));
+                data.setMonth(temp.substring(5, 7) - 1);
+                data.setDate(temp.substring(8, 10));
+              }
 
               let meses = [
                 "Jan",
@@ -288,6 +291,28 @@ export default {
                 "Nov",
                 "Dez"
               ];
+
+              let dataformatada =
+                data.getDate() +
+                " " +
+                meses[data.getMonth()] +
+                " " +
+                data.getFullYear();
+
+              //let dataformatada = data;
+
+              //let temp = value;
+              //data.setDate = temp.substring(0, 2);
+              //data.setMonth = temp.substring(3, 5);
+              //data.setYear = temp.substring(6, 10);
+              //data.setHours(data.getHours() + data.getTimezoneOffset() / 60);
+
+              /* data = data.toLocaleString("pt-BR", {
+                timeZone: "Europe/London"
+              }); */
+
+              //console.log(data);
+
               /* let dataformatada =
                 data.getDate() +
                 1 +
@@ -297,12 +322,16 @@ export default {
                 data.getFullYear();
               return dataformatada; */
 
-              let dataformatada =
+              // SEM DATAS FORMATADAS
+              /* let dataformatada =
                 ("0" + data.getDate()).slice(-2) +
                 " " +
                 meses[data.getMonth()] +
                 " " +
-                data.getFullYear();
+                data.getFullYear(); */
+
+              //console.log(value);
+              //console.log("b ", value.substring(6, 10));
 
               /* let dataformatada =
                 meses[data.getMonth()] + " " + data.getFullYear(); */
