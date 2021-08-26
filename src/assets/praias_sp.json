@@ -1,5 +1,4 @@
 {
-  
   "BERTIOGA": {
     "praias": [
       "Boracéia - Col. Marista",
@@ -21,7 +20,6 @@
       "Indaiá",
       "Lagoa Azul",
       "Martim de Sá",
-      "Massaguaçu (Av. M. H. Carvalho)",
       "Massaguaçu (R. Maria Carlota)",
       "Mocoóca",
       "Palmeiras",
@@ -78,12 +76,7 @@
     ]
   },
   "ILHA COMPRIDA": {
-    "praias": [
-      "Balneário Adriana",
-      "Centro",
-      "Pontal",
-      "Prainha (Balsa)"
-    ]
+    "praias": ["Balneário Adriana", "Centro", "Pontal", "Prainha (Balsa)"]
   },
   "ITANHAÉM": {
     "praias": [
