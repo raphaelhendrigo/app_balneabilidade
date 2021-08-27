@@ -140,8 +140,10 @@ export default {
     this.cidades = Object.keys(this.objcidadepraias);
     this.modelCidade = this.$store.getters["exemplo/getCidade"];
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
-    this.$store.commit("exemplo/setIpWebservice", "172.23.93.148:5000");
-    //this.$store.commit("exemplo/setIpWebservice", "127.0.0.1:5000");
+    //this.$store.commit("exemplo/setIpWebservice", "172.23.93.148:5000");
+
+    //ALTERAR O NÚMERO PARA O "ENDEREÇO IPV4" DO "ADAPTADOR DE INTERNET WI-FI" DA RESPECTIVA MÁQUINA
+    this.$store.commit("exemplo/setIpWebservice", "192.168.0.108:5000");
     this.carregarPraias(this.modelCidade);
   },
   methods: {
