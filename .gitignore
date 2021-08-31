@@ -20,6 +20,8 @@ node_modules
 /src-bex/www
 /src-bex/js/core
 
+/src/assets/ip_webservice.json
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
