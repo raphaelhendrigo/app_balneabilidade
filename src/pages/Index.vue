@@ -90,6 +90,7 @@ import Historico from "components/historico.vue";
 import Previsao from "components/previsao.vue";
 import cidadepraias from "../assets/praias_sp.json";
 //import grandeUbatuba from "../assets/grande_ubatuba.json";
+import ipweb from "../assets/ip_webservice.json";
 
 export default {
   name: "PageIndex",
@@ -142,8 +143,7 @@ export default {
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
     //this.$store.commit("exemplo/setIpWebservice", "172.23.93.148:5000");
 
-    //ALTERAR O NÚMERO PARA O "ENDEREÇO IPV4" DO "ADAPTADOR DE INTERNET WI-FI" DA RESPECTIVA MÁQUINA
-    this.$store.commit("exemplo/setIpWebservice", "192.168.0.108:5000");
+    this.$store.commit("exemplo/setIpWebservice", ipweb.ip + ":5000");
     this.carregarPraias(this.modelCidade);
   },
   methods: {
