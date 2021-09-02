@@ -3,6 +3,85 @@
   <q-page class="full-height q-pa-xs q-gutter-sm">
     <!--<div class="full-width text-center">-->
     <div class="row items-start">
+      <q-expansion-item
+        group="inicio_fim"
+        :label="
+          inicio_fim == true
+            ? 'Data Inicial e Data Final'
+            : 'Clique aqui para definir o período de tempo'
+        "
+        class="bg-primary full-width"
+        style="color:white;"
+        v-model="inicio_fim"
+      >
+        <q-card>
+          <q-card-section
+            ><q-input
+              class="q-pa-xs col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-3"
+              v-model="inicio"
+              dense
+              label="Data Inicial"
+              mask="##/##/####"
+              :rules="[
+                val =>
+                  (val.length == 10 && validaDataInicial == true) ||
+                  'Digite uma data válida',
+                val =>
+                  data_inicio_maior == false ||
+                  'Data inicial não pode ser maior que a data final'
+              ]"
+              @input="validarData('input', 'inicio')"
+              ref="data_inicial"
+            >
+              <template v-slot:append>
+                <q-icon
+                  name="calendar_today"
+                  class="cursor-pointer"
+                  @click="popupAbrirCalendarioInicial = true"
+                >
+                  <q-dialog v-model="popupAbrirCalendarioInicial">
+                    <q-date
+                      v-model="dataCalendarioInicio"
+                      first-day-of-week="1"
+                      mask="DD/MM/YYYY"
+                      @input="validarData('calendario', 'inicio')"
+                    />
+                  </q-dialog>
+                </q-icon>
+              </template>
+            </q-input>
+            <q-input
+              class="q-pa-xs q-mt-sm col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-3"
+              v-model="fim"
+              dense
+              label="Data Final"
+              mask="##/##/####"
+              :rules="[
+                val =>
+                  (val.length == 10 && validaDataFinal == true) ||
+                  'Digite uma data válida'
+              ]"
+              @input="validarData('input', 'fim')"
+            >
+              <template v-slot:append>
+                <q-icon
+                  name="calendar_today"
+                  class="cursor-pointer"
+                  @click="popupAbrirCalendarioFinal = true"
+                >
+                  <q-dialog v-model="popupAbrirCalendarioFinal">
+                    <q-date
+                      v-model="dataCalendarioFim"
+                      first-day-of-week="1"
+                      mask="DD/MM/YYYY"
+                      @input="validarData('calendario', 'fim')"
+                    />
+                  </q-dialog>
+                </q-icon>
+              </template> </q-input
+          ></q-card-section>
+        </q-card>
+      </q-expansion-item>
       <q-select
         v-model="modelCidade"
         label="Selecione Cidade"
@@ -16,9 +95,22 @@
         label="Selecione Praia"
         :options="praias"
         class="full-width"
-        @input="atualizarEstadosAxios()"
       >
       </q-select>
+      <div style="margin-right: auto; margin-left:auto;">
+        <q-btn
+          class="q-mt-sm q-mr-sm"
+          color="primary"
+          label="Pesquisar"
+          @click="montarGrafico"
+        ></q-btn>
+        <q-btn
+          class="q-mt-sm q-ml-sm"
+          color="primary"
+          label="Limpar Campos"
+          @click="limparCampos"
+        ></q-btn>
+      </div>
     </div>
     <!--<div class="q-pa-md q-gutter-sm">
         <q-btn
@@ -113,6 +205,17 @@ export default {
   data() {
     return {
       popupCriteriosClassificacao: false,
+      data_inicio_maior: false,
+      inicio_fim: false,
+      tipo_data: "",
+      inicio: "",
+      fim: "",
+      dataCalendarioInicio: "",
+      popupAbrirCalendarioInicial: false,
+      dataCalendarioFim: "",
+      popupAbrirCalendarioFinal: false,
+      validaDataInicial: true,
+      validaDataFinal: true,
       modelCidade: null,
       modelPraia: null,
       cidades: [],
@@ -144,9 +247,278 @@ export default {
     //this.$store.commit("exemplo/setIpWebservice", "172.23.93.148:5000");
 
     this.$store.commit("exemplo/setIpWebservice", ipweb.ip + ":5000");
-    this.carregarPraias(this.modelCidade);
+
+    if (this.inicio != "") {
+      this.dataCalendarioInicio = this.inicio;
+      this.tipo_data = "inicio";
+    } else {
+      this.dataCalendarioInicio = this.atribuirDataCalendario();
+    }
+    if (this.fim != "") {
+      this.dataCalendarioFim = this.fim;
+      this.tipo_data = "fim";
+    } else {
+      this.dataCalendarioFim = this.atribuirDataCalendario();
+    }
+
+    if (this.modelCidade != null && this.modelCidade != "") {
+      this.carregarPraias(this.modelCidade);
+    }
   },
   methods: {
+    limparCampos() {
+      this.inicio = "";
+      this.fim = "";
+      this.modelCidade = "";
+      this.modelPraia = "";
+
+      this.$store.commit("exemplo/setCidade", this.modelCidade);
+      this.$store.commit("exemplo/setPraia", this.modelPraia);
+
+      this.renderizarComponente++;
+    },
+    async montarGrafico() {
+      this.carregarPraias(this.modelCidade);
+
+      this.$store.commit("exemplo/setCidade", this.modelCidade);
+      this.$store.commit("exemplo/setPraia", this.modelPraia);
+
+      let dia_temp = this.inicio.substring(0, 2);
+      let mes_temp = this.inicio.substring(3, 5);
+      let ano_temp = this.inicio.substring(6, 10);
+      let temp_um =
+        ano_temp +
+        "-" +
+        ("0" + mes_temp).slice(-2) +
+        "-" +
+        ("0" + dia_temp).slice(-2);
+      dia_temp = this.fim.substring(0, 2);
+      mes_temp = this.fim.substring(3, 5);
+      ano_temp = this.fim.substring(6, 10);
+      let temp_dois =
+        ano_temp +
+        "-" +
+        ("0" + mes_temp).slice(-2) +
+        "-" +
+        ("0" + dia_temp).slice(-2);
+
+      await axios({
+        method: "GET",
+        url:
+          "http://" +
+          this.ip_webservice.concat(
+            "/montarGrafico?cidade=" +
+              this.cidade.toUpperCase() +
+              "&praia=" +
+              this.praia.toUpperCase() +
+              "&inicio=" +
+              temp_um +
+              "&fim=" +
+              temp_dois
+          )
+      }).then(
+        result => {
+          let historico = result.data.map((item, key) => {
+            let arr = [];
+            arr["id"] = key;
+            arr["atual"] = "#FFFFFF";
+            arr["dataMedicao"] = item[0];
+            arr["enterococos"] = item[1];
+
+            return arr;
+          });
+
+          this.$store.commit("exemplo/setListaHistorico", historico);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+
+      this.renderizarComponente++;
+
+      this.$store.commit("exemplo/setCarregandoPrevisao", true);
+
+      await axios({
+        method: "GET",
+        url:
+          "http://" +
+          this.ip_webservice.concat(
+            "/previsaoProximasSemanas?cidade=" +
+              this.cidade.toUpperCase() +
+              "&praia=" +
+              this.praia.toUpperCase() +
+              "&numPredicoes=5"
+          )
+      }).then(
+        result => {
+          let previsao = result.data.map((item, key) => {
+            let arr = [];
+            arr["id"] = key;
+            arr["previsao"] = "#FFFFFF";
+            arr["dataMedicao"] =
+              item[0].slice(-2) +
+              "/" +
+              item[0].slice(5, -3) +
+              "/" +
+              item[0].slice(0, 4);
+            //arr["dataMedicao"] = item[0];
+            arr["enterococos"] = item[1];
+            return arr;
+          });
+
+          console.log(previsao);
+
+          let conv = [];
+
+          conv[0] = previsao[4];
+          conv[1] = previsao[3];
+          conv[2] = previsao[2];
+          conv[3] = previsao[1];
+          conv[4] = previsao[0];
+
+          console.log(conv);
+
+          this.$store.commit("exemplo/setListaPrevisao", conv);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+
+      this.$store.commit("exemplo/setCarregandoPrevisao", false);
+
+      this.renderizarTabelaPrevisao++;
+    },
+    validarData(param, tipo) {
+      this.popupAbrirCalendarioInicial = false;
+      this.popupAbrirCalendarioFinal = false;
+
+      let dia = "";
+      let mes = "";
+      let ano = "";
+      let status = true;
+      let dataTemp = "";
+      if (param == "calendario") {
+        if (tipo == "inicio") {
+          if (this.dataCalendarioInicio == null) {
+            this.dataCalendarioInicio = this.atribuirDataCalendario();
+          }
+          this.inicio = this.dataCalendarioInicio;
+        } else if (tipo == "fim") {
+          if (this.dataCalendarioFim == null) {
+            this.dataCalendarioFim = this.atribuirDataCalendario();
+          }
+          this.fim = this.dataCalendarioFim;
+        }
+      } else if (param == "input") {
+        if (tipo == "inicio") {
+          if (this.inicio != "") {
+            this.dataCalendarioInicio = this.inicio;
+          } else {
+            this.dataCalendarioInicio = this.atribuirDataCalendario();
+          }
+        } else if (tipo == "fim") {
+          if (this.fim != "") {
+            this.dataCalendarioFim = this.fim;
+          } else {
+            this.dataCalendarioFim = this.atribuirDataCalendario();
+          }
+        }
+      }
+      if (tipo == "inicio") {
+        dataTemp = this.inicio;
+      } else if (tipo == "fim") {
+        dataTemp = this.fim;
+      }
+      if (dataTemp.length >= 2) {
+        dia = dataTemp.substring(0, 2);
+        dia = Number(dia);
+        if (dia == 0 || dia > 31) {
+          status = false;
+        }
+        if (dataTemp.length >= 5) {
+          mes = dataTemp.substring(3, 5);
+          mes = Number(mes);
+          if (mes == 0 || mes > 12) {
+            status = false;
+          }
+          if ((dia == 30 || dia == 31) && mes == 2) {
+            status = false;
+          }
+          if (dia == 31 && (mes == 4 || mes == 6 || mes == 9 || mes == 11)) {
+            status = false;
+          }
+        }
+        if (dataTemp.length == 10) {
+          ano = dataTemp.substring(6, 10);
+          ano = Number(ano);
+          let bissexto = false;
+          if ((ano % 4 == 0 && ano % 100 != 0) || ano % 400 == 0) {
+            bissexto = true;
+          }
+          if (dia == 29 && mes == 2 && bissexto == false) {
+            status = false;
+          }
+          /* if (tipo == "inicio") {
+            let data_hoje = new Date();
+            if (ano > data_hoje.getFullYear()) {
+              status = false;
+            }
+            let data_input = new Date(ano, mes - 1, dia);
+            if (data_input > data_hoje) {
+              status = false;
+            }
+          } */
+        }
+      }
+      if (tipo == "inicio") {
+        this.validaDataInicial = status;
+        this.inicio = dataTemp;
+      } else if (tipo == "fim") {
+        this.validaDataFinal = status;
+        this.fim = dataTemp;
+      }
+
+      let dia_temp = this.inicio.substring(0, 2);
+      let mes_temp = this.inicio.substring(3, 5);
+      let ano_temp = this.inicio.substring(6, 10);
+      let temp_um =
+        ano_temp +
+        "-" +
+        ("0" + mes_temp).slice(-2) +
+        "-" +
+        ("0" + dia_temp).slice(-2);
+      dia_temp = this.fim.substring(0, 2);
+      mes_temp = this.fim.substring(3, 5);
+      ano_temp = this.fim.substring(6, 10);
+      let temp_dois =
+        ano_temp +
+        "-" +
+        ("0" + mes_temp).slice(-2) +
+        "-" +
+        ("0" + dia_temp).slice(-2);
+      if (this.inicio != "" && this.fim != "" && Boolean(temp_um > temp_dois)) {
+        this.data_inicio_maior = true;
+        this.$refs.data_inicial.validate();
+      } else {
+        this.data_inicio_maior = false;
+        this.$refs.data_inicial.validate();
+      }
+    },
+    atribuirDataCalendario() {
+      let temp = new Date();
+      let diaTemp = temp.getDate();
+      let mesTemp = temp.getMonth();
+      let anoTemp = temp.getFullYear();
+      return (
+        ("0" + diaTemp).slice(-2) +
+        "/" +
+        ("0" + (mesTemp + 1)).slice(-2) +
+        "/" +
+        anoTemp
+      );
+    },
     carregarPraias() {
       this.praias = this.objcidadepraias[this.modelCidade].praias;
     },
