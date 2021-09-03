@@ -343,7 +343,7 @@ export default {
             )
         }).then(
           result => {
-            let historico = result.data.map((item, key) => {
+            let graf = result.data.map((item, key) => {
               let arr = [];
               arr["id"] = key;
               arr["atual"] = "#FFFFFF";
@@ -353,7 +353,9 @@ export default {
               return arr;
             });
 
-            this.$store.commit("exemplo/setListaGrafico", historico);
+            //console.log("GRAF ", graf);
+
+            this.$store.commit("exemplo/setListaGrafico", graf);
           },
           error => {
             console.error(error);
@@ -384,8 +386,9 @@ export default {
               return arr;
             });
 
-            console.log("HIST", historico);
+            //console.log("HIST", historico);
 
+            //console.log("ULT ", this.data_ultima_medicao);
             this.$store.commit("exemplo/setListaHistorico", historico);
           },
           error => {
@@ -423,7 +426,7 @@ export default {
               return arr;
             });
 
-            console.log(previsao);
+            //console.log(previsao);
 
             let conv = [];
 
@@ -433,7 +436,7 @@ export default {
             conv[3] = previsao[1];
             conv[4] = previsao[0];
 
-            console.log(conv);
+            //console.log(conv);
 
             this.$store.commit("exemplo/setListaPrevisao", conv);
           },
@@ -716,7 +719,7 @@ export default {
             return arr;
           });
 
-          console.log(previsao);
+          //console.log(previsao);
 
           let conv = [];
 
@@ -726,7 +729,7 @@ export default {
           conv[3] = previsao[1];
           conv[4] = previsao[0];
 
-          console.log(conv);
+          //console.log(conv);
 
           this.$store.commit("exemplo/setListaPrevisao", conv);
         },
