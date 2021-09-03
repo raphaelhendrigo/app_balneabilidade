@@ -130,8 +130,8 @@ export default {
     ip_webservice: function() {
       return this.$store.getters["exemplo/getIpWebservice"];
     },
-    lista_historico: function() {
-      return this.$store.getters["exemplo/getListaHistorico"];
+    lista_grafico: function() {
+      return this.$store.getters["exemplo/getListaGrafico"];
     }
   },
 
@@ -145,9 +145,9 @@ export default {
       let historicoDatas = [];
       let historicoEnterococos = [];
 
-      for (var i = 0; i < this.lista_historico.length; i++) {
-        historicoDatas.push(this.lista_historico[i]["dataMedicao"]);
-        historicoEnterococos.push(this.lista_historico[i]["enterococos"]);
+      for (var i = 0; i < this.lista_grafico.length; i++) {
+        historicoDatas.push(this.lista_grafico[i]["dataMedicao"]);
+        historicoEnterococos.push(this.lista_grafico[i]["enterococos"]);
       }
 
       // CHAMADA DO AXIOS DENTRO DO PRÓPRIO COMPONENTE

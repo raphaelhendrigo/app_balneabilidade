@@ -4,25 +4,29 @@ export function someGetter (state) {
 */
 
 export function getCidade(state) {
-   return state.cidade;
+  return state.cidade;
 }
 
 export function getPraia(state) {
-    return state.praia;
+  return state.praia;
 }
 
 export function getIpWebservice(state) {
-    return state.ip_webservice;
+  return state.ip_webservice;
 }
 
 export function getListaHistorico(state) {
-    return state.lista_historico;
+  return state.lista_historico;
+}
+
+export function getListaGrafico(state) {
+  return state.lista_grafico;
 }
 
 export function getListaPrevisao(state) {
-    return state.lista_previsao;
+  return state.lista_previsao;
 }
 
 export function getCarregandoPrevisao(state) {
-    return state.carregando_previsao;
+  return state.carregando_previsao;
 }
