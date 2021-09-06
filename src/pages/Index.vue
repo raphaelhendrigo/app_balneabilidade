@@ -87,13 +87,12 @@
             ></q-card-section>
           </q-card>
         </q-expansion-item>
-        <q-card>
+        <q-card flat>
           <q-card-section>
             <q-select
               v-model="modelCidade"
               label="Selecione Cidade"
               :options="cidades"
-              class="full-width"
               @input="carregarPraias"
               :rules="[val => val.length > 0 || 'Selecione uma cidade']"
             />
@@ -231,8 +230,8 @@ export default {
       popupAbrirCalendarioFinal: false,
       validaDataInicial: true,
       validaDataFinal: true,
-      modelCidade: null,
-      modelPraia: null,
+      modelCidade: "",
+      modelPraia: "",
       cidades: [],
       praias: [],
       objcidadepraias: [],
@@ -255,10 +254,10 @@ export default {
     };
   },
   mounted() {
-    this.limparCampos();
     this.renderizarComponente++;
     this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
     this.cidades = Object.keys(this.objcidadepraias);
+
     this.modelCidade = this.$store.getters["exemplo/getCidade"];
     this.modelPraia = this.$store.getters["exemplo/getPraia"];
     //this.$store.commit("exemplo/setIpWebservice", "172.23.93.148:5000");
@@ -520,16 +519,14 @@ export default {
           if (dia == 29 && mes == 2 && bissexto == false) {
             status = false;
           }
-          /* if (tipo == "inicio") {
-            let data_hoje = new Date();
-            if (ano > data_hoje.getFullYear()) {
-              status = false;
-            }
-            let data_input = new Date(ano, mes - 1, dia);
-            if (data_input > data_hoje) {
-              status = false;
-            }
-          } */
+          let data_hoje = new Date();
+          if (ano > data_hoje.getFullYear()) {
+            status = false;
+          }
+          let data_input = new Date(ano, mes - 1, dia);
+          if (data_input > data_hoje) {
+            status = false;
+          }
         }
       }
       if (tipo == "inicio") {
