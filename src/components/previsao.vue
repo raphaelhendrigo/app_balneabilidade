@@ -231,9 +231,9 @@ export default {
       this.temp[7] = this.historico[this.historico.length - 2];
       this.temp[8] = this.historico[this.historico.length - 1];
 
-      console.log(this.temp);
+      //console.log(this.temp);
 
-      console.log(this.previsaoProximasCincoSemanas);
+      //console.log(this.previsaoProximasCincoSemanas);
 
       for (var i = 0; i < 5; i++) {
         let qtde_item_max_25 = 0;
@@ -242,7 +242,7 @@ export default {
         let qtde_item_min_100 = 0;
         let qtde_item_last_400 = 0;
 
-        console.log("i", i);
+        //console.log("i", i);
 
         for (var cont = i; cont < i + 5; cont++) {
           if (this.temp[cont]["enterococos"] <= 25) {
@@ -286,7 +286,7 @@ export default {
           this.corArray[i] = "#4B0082";
         }
 
-        console.log(this.corArray[i]);
+        //console.log(this.corArray[i]);
       }
 
       /* for (var i = 0; i < this.previsaoProximasCincoSemanas.length; i++) {

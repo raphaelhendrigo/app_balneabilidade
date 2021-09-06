@@ -402,7 +402,7 @@ export default {
           url:
             "http://" +
             this.ip_webservice.concat(
-              "/previsaoProximasSemanas?cidade=" +
+              "/previsaoProximasMedicoes?cidade=" +
                 this.cidade.toUpperCase() +
                 "&praia=" +
                 this.praia.toUpperCase() +

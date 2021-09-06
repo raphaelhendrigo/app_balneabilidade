@@ -33,7 +33,7 @@
         </q-card-section>
 
         <q-card-section class="row text-justify">
-          <p>Até 25 UFC/100ml em 4 de 5 semanas</p>
+          <p>Até 25 UFC/100ml - 4 de 5 medições</p>
           <q-space />
           <div
             class="square text-right"
@@ -44,7 +44,7 @@
         </q-card-section>
 
         <q-card-section class="row text-justify">
-          <p>Até 50 UFC/100ml em 4 de 5 semanas</p>
+          <p>Até 50 UFC/100ml - 4 de 5 medições</p>
           <q-space />
           <div
             style="background-color: #0000FF; height: 1%; border-radius: 50%;"
@@ -54,7 +54,7 @@
         </q-card-section>
 
         <q-card-section class="row text-justify">
-          <p>Até 100 UFC/100ml em 4 de 5 semanas</p>
+          <p>Até 100 UFC/100ml - 4 de 5 medições</p>
           <q-space />
           <div
             style="background-color: #007C3D; height: 1%; border-radius: 50%;"
@@ -64,7 +64,7 @@
         </q-card-section>
 
         <q-card-section class="row text-justify">
-          <p>Mais de 100 UFC/100ml - 2/5 semanas</p>
+          <p>Mais de 100 UFC/100ml - 2/5 medições</p>
           <q-space />
           <div
             style="background-color: #FF0000; height: 1%; border-radius: 50%;"
@@ -74,7 +74,7 @@
         </q-card-section>
 
         <q-card-section class="row text-justify">
-          <p>Mais de 400 UFC/100ml última semana</p>
+          <p>Mais de 400 UFC/100ml última medição</p>
           <q-space />
           <div
             style="background-color: #4B0082; height: 1%; border-radius: 50%;"
@@ -312,7 +312,7 @@ export default {
           this.lista_historico.length - i
         ]["enterococos"];
 
-        console.log(formatacaoData);
+        //console.log(formatacaoData);
 
         this.historicoCincoSemanas.push(arrayTemp);
       }
@@ -328,14 +328,14 @@ export default {
       this.temp[8] = this.lista_historico[this.lista_historico.length - 9];
       this.temp[9] = this.lista_historico[this.lista_historico.length - 10];
 
-      console.log(this.temp);
+      //console.log(this.temp);
 
       for (
         var i = this.lista_historico.length - 1;
         i > this.lista_historico.length - 6;
         i--
       ) {
-        console.log("i", i);
+        //console.log("i", i);
         let qtde_item_max_25 = 0;
         let qtde_item_max_50 = 0;
         let qtde_item_max_100 = 0;
@@ -389,13 +389,13 @@ export default {
           this.corArray[i] = "#4B0082";
         }
 
-        console.log(this.corArray[i]);
+        //console.log(this.corArray[i]);
       }
 
       let ultimaPosicao = this.corArray.length - 1;
       this.cardMensagem = this.corArray[ultimaPosicao];
 
-      console.log(this.corArray[ultimaPosicao]);
+      //console.log(this.corArray[ultimaPosicao]);
 
       if (this.corArray[ultimaPosicao] == "#00ffff") {
         this.mensagem += "EXCELENTE";
