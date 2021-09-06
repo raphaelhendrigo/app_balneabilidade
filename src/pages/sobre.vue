@@ -114,6 +114,25 @@
                   medições dentro de um período de 5 semanas; superiores a 400
                   UFC/100ml na última amostragem realizada.
                 </p>
+                <p><b>Referências</b></p>
+                <p>
+                  <a
+                    href="#"
+                    v-on:click="
+                      abrirLink(
+                        'https://cetesb.sp.gov.br/praias/balneabilidadeesaude/'
+                      )
+                    "
+                  >Balneabilidade e Saúde - CETESB</a><br><br>
+                  <a
+                    href="#"
+                    v-on:click="
+                      abrirLink(
+                        'https://cetesb.sp.gov.br/praias/criterios-para-classificacao-das-praias/'
+                      )
+                    "
+                  >Critérios para a Classificação das Praias - CETESB</a>
+                </p>
               </div>
             </q-card-section>
           </q-card>
