@@ -1,7 +1,5 @@
 <template>
-  <!--<q-page class="flex flex-center">-->
   <q-page class="full-height q-pa-xs q-gutter-sm">
-    <!--<div class="full-width text-center">-->
     <div class="row items-start">
       <q-form
         @submit.stop="montarGrafico"
@@ -126,37 +124,6 @@
         </div>
       </q-form>
     </div>
-    <!--<div class="q-pa-md q-gutter-sm">
-        <q-btn
-          icon="help"
-          color="primary"
-          @click="popupCriteriosClassificacao = true"
-          flat
-        />
-        <q-dialog v-model="popupCriteriosClassificacao">
-          <q-card style="width: 300px">
-            <q-card-section>
-              <div class="text-h6">Critérios de Balneabilidade</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none text-justify">
-              Os critérios para classificação da balneabilidade das praias com
-              base na quantidade de unidades formadoras de colonia (UFC/100ml)
-              de enterococcos são: UFC/100ml acima de 100 em pelo menos 2
-              medições dentro de um período de 5 semanas; UFC/100ml acima de 400
-              na última medição realizada
-            </q-card-section>
-
-            <q-card-actions align="right" class="bg-white text-teal">
-              <q-btn flat label="OK" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-      </div>-->
-
-    <!--<q-card>-->
-    <!--<div class="row q-col-gutter-md q-px-md q-py-md">
-          <div class="col-sx-6 col-sx-12 col-sx-6">-->
     <div class="row">
       <q-tabs v-model="nomePanel" class="estilo-tab-panel">
         <q-tab name="grafico" label="Gráfico" />
@@ -166,7 +133,7 @@
       <q-separator />
       <q-tab-panels v-model="nomePanel" class="full-width">
         <q-tab-panel name="grafico">
-          <apex-line :key="renderizarComponente"></apex-line>
+          <Grafico :key="renderizarComponente"></Grafico>
         </q-tab-panel>
         <q-tab-panel name="historico">
           <Historico :key="renderizarComponente"></Historico>
@@ -175,44 +142,42 @@
           <Previsao :key="renderizarTabelaPrevisao"></Previsao>
         </q-tab-panel>
       </q-tab-panels>
-      <!--</q-card>-->
     </div>
   </q-page>
 </template>
-
 <style scoped>
 .estilo-tab-panel {
   color: #007c3d;
   width: 100%;
 }
 </style>
-
 <script>
-import Vue from "vue";
+import ApexCharts from "apexcharts";
+import VueApexCharts from "vue-apexcharts";
 import axios from "axios";
-import exemplo from "../store/exemplo";
-import ApexLine from "components/AppexLine";
-import Historico from "components/historico.vue";
-import Previsao from "components/previsao.vue";
+import store_praias from "../store/store_praias";
+import Grafico from "components/Grafico.vue";
+import Historico from "components/Historico.vue";
+import Previsao from "components/Previsao.vue";
 import cidadepraias from "../assets/praias_sp.json";
-//import grandeUbatuba from "../assets/grande_ubatuba.json";
 import ipweb from "../assets/ip_webservice.json";
+import Vue from "vue";
 
 export default {
   name: "PageIndex",
   computed: {
     cidade: function() {
-      return this.$store.getters["exemplo/getCidade"];
+      return this.$store.getters["store_praias/getCidade"];
     },
     praia: function() {
-      return this.$store.getters["exemplo/getPraia"];
+      return this.$store.getters["store_praias/getPraia"];
     },
     ip_webservice: function() {
-      return this.$store.getters["exemplo/getIpWebservice"];
+      return this.$store.getters["store_praias/getIpWebservice"];
     }
   },
   components: {
-    ApexLine,
+    Grafico,
     Historico,
     Previsao
   },
@@ -258,196 +223,41 @@ export default {
     this.objcidadepraias = JSON.parse(JSON.stringify(cidadepraias));
     this.cidades = Object.keys(this.objcidadepraias);
 
-    this.modelCidade = this.$store.getters["exemplo/getCidade"];
-    this.modelPraia = this.$store.getters["exemplo/getPraia"];
-    //this.$store.commit("exemplo/setIpWebservice", "172.23.93.148:5000");
+    this.modelCidade = this.$store.getters["store_praias/getCidade"];
+    this.modelPraia = this.$store.getters["store_praias/getPraia"];
+    this.$store.commit("store_praias/setIpWebservice", ipweb.ip + ":5000");
 
-    this.$store.commit("exemplo/setIpWebservice", ipweb.ip + ":5000");
-
-    if (this.inicio != "") {
-      this.dataCalendarioInicio = this.inicio;
-      this.tipo_data = "inicio";
-    } else {
-      this.dataCalendarioInicio = this.atribuirDataCalendario();
-    }
-    if (this.fim != "") {
-      this.dataCalendarioFim = this.fim;
-      this.tipo_data = "fim";
-    } else {
-      this.dataCalendarioFim = this.atribuirDataCalendario();
-    }
+    this.inicio = this.atribuirData(730);
+    this.dataCalendarioInicio = this.atribuirData(730);
+    this.fim = this.atribuirData("atual");
+    this.dataCalendarioFim = this.atribuirData("atual");
 
     if (this.modelCidade != null && this.modelCidade != "") {
       this.carregarPraias(this.modelCidade);
     }
   },
   methods: {
+    carregarPraias() {
+      this.praias = this.objcidadepraias[this.modelCidade].praias;
+      this.modelPraia = "";
+      this.$store.commit("store_praias/setPraia", this.modelPraia);
+    },
+    selecionarPraia() {
+      this.$store.commit("store_praias/setPraia", this.modelPraia);
+    },
     limparCampos() {
-      this.inicio = "";
-      this.fim = "";
+      this.inicio = this.atribuirData(730);
+      this.fim = this.atribuirData("atual");
       this.modelCidade = "";
       this.modelPraia = "";
-      this.dataCalendarioInicio = this.atribuirDataCalendario();
-      this.dataCalendarioFim = this.atribuirDataCalendario();
+      this.dataCalendarioInicio = this.atribuirData(730);
+      this.dataCalendarioFim = this.atribuirData("atual");
 
-      this.$store.commit("exemplo/setCidade", this.modelCidade);
-      this.$store.commit("exemplo/setPraia", this.modelPraia);
+      this.$store.commit("store_praias/setCidade", this.modelCidade);
+      this.$store.commit("store_praias/setPraia", this.modelPraia);
 
       this.renderizarComponente++;
-    },
-    async montarGrafico() {
-      if (
-        this.modelCidade != null &&
-        this.modelCidade != "" &&
-        this.modelPraia != null &&
-        this.modelPraia != ""
-      ) {
-        //this.carregarPraias(this.modelCidade);
-
-        this.$store.commit("exemplo/setCidade", this.modelCidade);
-        this.$store.commit("exemplo/setPraia", this.modelPraia);
-
-        let dia_temp = this.inicio.substring(0, 2);
-        let mes_temp = this.inicio.substring(3, 5);
-        let ano_temp = this.inicio.substring(6, 10);
-        let temp_um =
-          ano_temp +
-          "-" +
-          ("0" + mes_temp).slice(-2) +
-          "-" +
-          ("0" + dia_temp).slice(-2);
-        dia_temp = this.fim.substring(0, 2);
-        mes_temp = this.fim.substring(3, 5);
-        ano_temp = this.fim.substring(6, 10);
-        let temp_dois =
-          ano_temp +
-          "-" +
-          ("0" + mes_temp).slice(-2) +
-          "-" +
-          ("0" + dia_temp).slice(-2);
-
-        await axios({
-          method: "GET",
-          url:
-            "http://" +
-            this.ip_webservice.concat(
-              "/montarGrafico?cidade=" +
-                this.cidade.toUpperCase() +
-                "&praia=" +
-                this.praia.toUpperCase() +
-                "&inicio=" +
-                temp_um +
-                "&fim=" +
-                temp_dois
-            )
-        }).then(
-          result => {
-            let graf = result.data.map((item, key) => {
-              let arr = [];
-              arr["id"] = key;
-              arr["atual"] = "#FFFFFF";
-              arr["dataMedicao"] = item[0];
-              arr["enterococos"] = item[1];
-
-              return arr;
-            });
-
-            //console.log("GRAF ", graf);
-
-            this.$store.commit("exemplo/setListaGrafico", graf);
-          },
-          error => {
-            console.error(error);
-          }
-        );
-
-        this.renderizarComponente++;
-
-        await axios({
-          method: "GET",
-          url:
-            "http://" +
-            this.ip_webservice.concat(
-              "/historicoMedicoes?cidade=" +
-                this.cidade.toUpperCase() +
-                "&praia=" +
-                this.praia.toUpperCase()
-            )
-        }).then(
-          result => {
-            let historico = result.data.map((item, key) => {
-              let arr = [];
-              arr["id"] = key;
-              arr["atual"] = "#FFFFFF";
-              arr["dataMedicao"] = item[0];
-              arr["enterococos"] = item[1];
-
-              return arr;
-            });
-
-            //console.log("HIST", historico);
-
-            //console.log("ULT ", this.data_ultima_medicao);
-            this.$store.commit("exemplo/setListaHistorico", historico);
-          },
-          error => {
-            console.error(error);
-          }
-        );
-
-        this.$store.commit("exemplo/setCarregandoPrevisao", true);
-
-        await axios({
-          method: "GET",
-          url:
-            "http://" +
-            this.ip_webservice.concat(
-              "/previsaoProximasMedicoes?cidade=" +
-                this.cidade.toUpperCase() +
-                "&praia=" +
-                this.praia.toUpperCase() +
-                "&numPredicoes=5"
-            )
-        }).then(
-          result => {
-            let previsao = result.data.map((item, key) => {
-              let arr = [];
-              arr["id"] = key;
-              arr["previsao"] = "#FFFFFF";
-              arr["dataMedicao"] =
-                item[0].slice(-2) +
-                "/" +
-                item[0].slice(5, -3) +
-                "/" +
-                item[0].slice(0, 4);
-              //arr["dataMedicao"] = item[0];
-              arr["enterococos"] = item[1];
-              return arr;
-            });
-
-            //console.log(previsao);
-
-            let conv = [];
-
-            conv[0] = previsao[4];
-            conv[1] = previsao[3];
-            conv[2] = previsao[2];
-            conv[3] = previsao[1];
-            conv[4] = previsao[0];
-
-            //console.log(conv);
-
-            this.$store.commit("exemplo/setListaPrevisao", conv);
-          },
-          error => {
-            console.error(error);
-          }
-        );
-
-        this.$store.commit("exemplo/setCarregandoPrevisao", false);
-
-        this.renderizarTabelaPrevisao++;
-      }
+      this.renderizarTabelaPrevisao++;
     },
     validarData(param, tipo) {
       this.popupAbrirCalendarioInicial = false;
@@ -461,12 +271,12 @@ export default {
       if (param == "calendario") {
         if (tipo == "inicio") {
           if (this.dataCalendarioInicio == null) {
-            this.dataCalendarioInicio = this.atribuirDataCalendario();
+            this.dataCalendarioInicio = this.atribuirData(730);
           }
           this.inicio = this.dataCalendarioInicio;
         } else if (tipo == "fim") {
           if (this.dataCalendarioFim == null) {
-            this.dataCalendarioFim = this.atribuirDataCalendario();
+            this.dataCalendarioFim = this.atribuirData("atual");
           }
           this.fim = this.dataCalendarioFim;
         }
@@ -475,13 +285,13 @@ export default {
           if (this.inicio != "") {
             this.dataCalendarioInicio = this.inicio;
           } else {
-            this.dataCalendarioInicio = this.atribuirDataCalendario();
+            this.dataCalendarioInicio = this.atribuirData(730);
           }
         } else if (tipo == "fim") {
           if (this.fim != "") {
             this.dataCalendarioFim = this.fim;
           } else {
-            this.dataCalendarioFim = this.atribuirDataCalendario();
+            this.dataCalendarioFim = this.atribuirData("atual");
           }
         }
       }
@@ -563,181 +373,176 @@ export default {
         this.$refs.data_inicial.validate();
       }
     },
-    atribuirDataCalendario() {
-      let temp = new Date();
-      let diaTemp = temp.getDate();
-      let mesTemp = temp.getMonth();
-      let anoTemp = temp.getFullYear();
-      return (
-        ("0" + diaTemp).slice(-2) +
-        "/" +
-        ("0" + (mesTemp + 1)).slice(-2) +
-        "/" +
-        anoTemp
-      );
+    atribuirData(param) {
+      if (param == "atual") {
+        let temp = new Date();
+        let diaTemp = temp.getDate();
+        let mesTemp = temp.getMonth();
+        let anoTemp = temp.getFullYear();
+        return (
+          ("0" + diaTemp).slice(-2) +
+          "/" +
+          ("0" + (mesTemp + 1)).slice(-2) +
+          "/" +
+          anoTemp
+        );
+      } else if (param == 730) {
+        let temp_atual = new Date();
+        let temp = new Date(temp_atual.getTime() - param * 24 * 60 * 60 * 1000);
+        let diaTemp = temp.getDate();
+        let mesTemp = temp.getMonth();
+        let anoTemp = temp.getFullYear();
+        return (
+          ("0" + diaTemp).slice(-2) +
+          "/" +
+          ("0" + (mesTemp + 1)).slice(-2) +
+          "/" +
+          anoTemp
+        );
+      }
     },
-    carregarPraias() {
-      this.praias = this.objcidadepraias[this.modelCidade].praias;
-      this.modelPraia = "";
-      this.$store.commit("exemplo/setPraia", this.modelPraia);
-    },
-    selecionarPraia() {
-      this.$store.commit("exemplo/setPraia", this.modelPraia);
-    },
-    async atualizarEstadosAxios() {
-      this.$store.commit("exemplo/setCidade", this.modelCidade);
-      this.$store.commit("exemplo/setPraia", this.modelPraia);
-
-      await axios({
-        method: "GET",
-        url:
-          "http://" +
-          this.ip_webservice.concat(
-            "/todosResultados?cidade=" +
-              this.cidade.toUpperCase() +
-              "&praia=" +
-              this.praia.toUpperCase()
-          )
-      }).then(
-        result => {
-          let historico = result.data.map((item, key) => {
-            let arr = [];
-            arr["id"] = key;
-            arr["atual"] = "#FFFFFF";
-            arr["dataMedicao"] = item[0];
-
-            // SEM DATAS FORMATADAS
-            /* arr["dataMedicao"] =
-              item[0].slice(-2) +
-              "/" +
-              item[0].slice(5, -3) +
-              "/" +
-              item[0].slice(0, 4); */
-            arr["enterococos"] = item[1];
-
-            return arr;
-          });
-
-          this.$store.commit("exemplo/setListaHistorico", historico);
-        },
-        error => {
-          console.error(error);
-        }
-      );
-
-      this.renderizarComponente++;
-
-      /* if (
-        this.cidade.toUpperCase() == "UBATUBA" &&
-        this.praia.toUpperCase() == "GRANDE"
+    async montarGrafico() {
+      if (
+        this.modelCidade != null &&
+        this.modelCidade != "" &&
+        this.modelPraia != null &&
+        this.modelPraia != ""
       ) {
-        this.$store.commit("exemplo/setCarregandoPrevisao", true);
+        this.$store.commit("store_praias/setCidade", this.modelCidade);
+        this.$store.commit("store_praias/setPraia", this.modelPraia);
+
+        let dia_temp = this.inicio.substring(0, 2);
+        let mes_temp = this.inicio.substring(3, 5);
+        let ano_temp = this.inicio.substring(6, 10);
+        let temp_um =
+          ano_temp +
+          "-" +
+          ("0" + mes_temp).slice(-2) +
+          "-" +
+          ("0" + dia_temp).slice(-2);
+        dia_temp = this.fim.substring(0, 2);
+        mes_temp = this.fim.substring(3, 5);
+        ano_temp = this.fim.substring(6, 10);
+        let temp_dois =
+          ano_temp +
+          "-" +
+          ("0" + mes_temp).slice(-2) +
+          "-" +
+          ("0" + dia_temp).slice(-2);
 
         await axios({
           method: "GET",
           url:
             "http://" +
-            this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
+            this.ip_webservice.concat(
+              "/montarGrafico?cidade=" +
+                this.cidade.toUpperCase() +
+                "&praia=" +
+                this.praia.toUpperCase() +
+                "&inicio=" +
+                temp_um +
+                "&fim=" +
+                temp_dois
+            )
+        }).then(
+          result => {
+            let graf = result.data.map((item, key) => {
+              let arr = [];
+              arr["id"] = key;
+              arr["atual"] = "#FFFFFF";
+              arr["dataMedicao"] = item[0];
+              arr["enterococos"] = item[1];
+
+              return arr;
+            });
+
+            this.$store.commit("store_praias/setListaGrafico", graf);
+          },
+          error => {
+            console.error(error);
+          }
+        );
+
+        this.renderizarComponente++;
+
+        await axios({
+          method: "GET",
+          url:
+            "http://" +
+            this.ip_webservice.concat(
+              "/historicoMedicoes?cidade=" +
+                this.cidade.toUpperCase() +
+                "&praia=" +
+                this.praia.toUpperCase()
+            )
+        }).then(
+          result => {
+            let historico = result.data.map((item, key) => {
+              let arr = [];
+              arr["id"] = key;
+              arr["atual"] = "#FFFFFF";
+              arr["dataMedicao"] = item[0];
+              arr["enterococos"] = item[1];
+
+              return arr;
+            });
+
+            this.$store.commit("store_praias/setListaHistorico", historico);
+          },
+          error => {
+            console.error(error);
+          }
+        );
+
+        this.$store.commit("store_praias/setCarregandoPrevisao", true);
+
+        await axios({
+          method: "GET",
+          url:
+            "http://" +
+            this.ip_webservice.concat(
+              "/previsaoProximasMedicoes?cidade=" +
+                this.cidade.toUpperCase() +
+                "&praia=" +
+                this.praia.toUpperCase() +
+                "&numPredicoes=5"
+            )
         }).then(
           result => {
             let previsao = result.data.map((item, key) => {
               let arr = [];
               arr["id"] = key;
+              arr["previsao"] = "#FFFFFF";
               arr["dataMedicao"] =
                 item[0].slice(-2) +
                 "/" +
                 item[0].slice(5, -3) +
                 "/" +
                 item[0].slice(0, 4);
-              arr["enterococos"] = parseFloat(item[1]).toFixed(1);
+
+              arr["enterococos"] = item[1];
               return arr;
             });
+
+            let conv = [];
+
+            conv[0] = previsao[4];
+            conv[1] = previsao[3];
+            conv[2] = previsao[2];
+            conv[3] = previsao[1];
+            conv[4] = previsao[0];
+
+            this.$store.commit("store_praias/setListaPrevisao", conv);
           },
           error => {
             console.error(error);
           }
         );
-      } else {
-          for (var cont = 0; cont < 5; cont++) {
-          if (cont == 0) {
-            var conversaoDataMedicao = new Date();
-          }
 
-          conversaoDataMedicao.setDate(
-            conversaoDataMedicao.getDate() +
-              ((0 - conversaoDataMedicao.getDay() + 7) % 7) +
-              1
-          );
+        this.$store.commit("store_praias/setCarregandoPrevisao", false);
 
-          this.enterococosAleatorios[cont]["id"] = cont;
-
-          this.enterococosAleatorios[cont]["dataMedicao"] =
-            ("0" + conversaoDataMedicao.getDate()).slice(-2) +
-            "/" +
-            ("0" + (conversaoDataMedicao.getMonth() + 1)).slice(-2) +
-            "/" +
-            conversaoDataMedicao.getFullYear();
-          this.enterococosAleatorios[cont]["enterococos"] =
-            Math.floor(Math.random() * (500 - 5 + 1)) + 5;
-        }
-
-        this.$store.commit(
-          "exemplo/setListaPrevisao",
-          this.enterococosAleatorios
-        ); */
-
-      this.$store.commit("exemplo/setCarregandoPrevisao", true);
-
-      await axios({
-        method: "GET",
-        url:
-          "http://" +
-          this.ip_webservice.concat(
-            "/previsaoProximasSemanas?cidade=" +
-              this.cidade.toUpperCase() +
-              "&praia=" +
-              this.praia.toUpperCase() +
-              "&numPredicoes=5"
-          )
-      }).then(
-        result => {
-          let previsao = result.data.map((item, key) => {
-            let arr = [];
-            arr["id"] = key;
-            arr["previsao"] = "#FFFFFF";
-            arr["dataMedicao"] =
-              item[0].slice(-2) +
-              "/" +
-              item[0].slice(5, -3) +
-              "/" +
-              item[0].slice(0, 4);
-            //arr["dataMedicao"] = item[0];
-            arr["enterococos"] = item[1];
-            return arr;
-          });
-
-          //console.log(previsao);
-
-          let conv = [];
-
-          conv[0] = previsao[4];
-          conv[1] = previsao[3];
-          conv[2] = previsao[2];
-          conv[3] = previsao[1];
-          conv[4] = previsao[0];
-
-          //console.log(conv);
-
-          this.$store.commit("exemplo/setListaPrevisao", conv);
-        },
-        error => {
-          console.error(error);
-        }
-      );
-
-      this.$store.commit("exemplo/setCarregandoPrevisao", false);
-
-      this.renderizarTabelaPrevisao++;
+        this.renderizarTabelaPrevisao++;
+      }
     }
   }
 };

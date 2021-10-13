@@ -114,31 +114,12 @@
                   medições dentro de um período de 5 semanas; superiores a 400
                   UFC/100ml na última amostragem realizada.
                 </p>
-                <p><b>Referências</b></p>
-                <p>
-                  <a
-                    href="#"
-                    v-on:click="
-                      abrirLink(
-                        'https://cetesb.sp.gov.br/praias/balneabilidadeesaude/'
-                      )
-                    "
-                  >Balneabilidade e Saúde - CETESB</a><br><br>
-                  <a
-                    href="#"
-                    v-on:click="
-                      abrirLink(
-                        'https://cetesb.sp.gov.br/praias/criterios-para-classificacao-das-praias/'
-                      )
-                    "
-                  >Critérios para a Classificação das Praias - CETESB</a>
-                </p>
               </div>
             </q-card-section>
           </q-card>
         </q-expansion-item>
       </q-list>
-
+ 
        <q-list>
         <q-expansion-item
           :group="$q.screen.width > 1000 ? 'b' : 'sobre_app'"
@@ -154,7 +135,7 @@
               <div class="text-justify">
                 <p>
                   O aplicativo foi elaborado utilizando as seguintes ferramentas e bibliotecas: Python, Tensorflow, Quasar, Cordova, Anaconda, Flask e Docker.
-
+ 
                 </p>
                 <p>
                   A primeira etapa do projeto foi a captura dos dados presentes no dataset 
@@ -176,7 +157,7 @@
                 "
                 >SP_Beaches_Update</a
               >.
-
+ 
                 </p>
                 <p>
                   Na segunda etapa do projeto foi feito um treinamento na plataforma Coursera
@@ -200,7 +181,7 @@
                   )
                 "
                 >Rest_Balneabilidade</a>
-
+ 
                 </p>
                 <p>
                   A última etapa foi a elaboração de um app utilizando os frameworks Quasar e Cordova. O código do aplicativo pode ser acessado através do link 
@@ -212,7 +193,7 @@
                   )
                 "
                 >App_Balneabilidade</a>
-
+ 
                 </p>
                 <p>
                   Este projeto foi realizado pela equipe de desenvolvimento do Departamento 
@@ -228,7 +209,7 @@
                         Ivan Calixto Ribeiro: Técnico de Tecnologia da Informação no Departamento de Informática em Saúde da UNIFESP.  
                     </li>
                   </ul>
-
+ 
                 </p>
                 
               </div>
@@ -236,52 +217,15 @@
           </q-card>
         </q-expansion-item>
       </q-list>
-
-      <!--<q-list>
-        <q-expansion-item
-          :group="$q.screen.width > 1000 ? 'c' : 'sobre_app'"
-          label="Disclaimer"
-          class="bg-secondary text-justify"
-          :default-opened="$q.screen.width > 1000"
-          :style="
-            $q.screen.width > 1000 ? 'font-size: 18px;' : 'font-size: 16px;'
-          "
-        >
-          <q-card>
-            <q-card-section>
-              <div class="text-justify">
-                <p>
-                  Este aplicativo determina a situação de balneabilidade das praias levando 
-                  em conta somente a quantidade de unidades formadoras de colônia de enterococos 
-                  por 100 ml de água (UFC/100ml). Podem haver divergências com relação a situação 
-                  oficial emitida pela CETESB, que leva em conta diversos outros fatores. 
-                  Este aplicativo não tem caráter oficial. A CETESB é o único órgão responsável 
-                  por indicar a classificação oficial da balneabilidade das praias dentro do estado de São Paulo.
-
-
-                </p>
-               
-                
-              </div>
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-      </q-list>-->
     </div>
   </q-page>
 </template>
-
 <script>
 import { openURL } from "quasar";
-
+ 
 export default {
-  name: "Sobre_Balneabilidade",
-
-  data() {
-    return {
-      slide: 1
-    };
-  },
+  name: "Sobre",
+ 
   methods: {
     abrirLink(url) {
       openURL(url);

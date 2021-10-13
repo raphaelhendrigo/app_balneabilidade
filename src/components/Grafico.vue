@@ -1,7 +1,5 @@
 <template>
-  <!--<div class="q-pa-md q-gutter-sm">-->
   <div>
-    <!--div class="full-width">-->
     <div class="text-center">
       <q-dialog v-model="popupNenhumaMedicao">
         <q-card class="full-width">
@@ -54,23 +52,25 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <apexchart
-      ref="nomeDoGrafico"
-      type="line"
-      :options="chartOptions"
-      :series="series"
-    />
+    <apexchart type="line" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
-
 <script>
+import ApexCharts from "apexcharts";
+import VueApexCharts from "vue-apexcharts";
 import { date } from "quasar";
-//import grandeUbatuba from "../assets/grande_ubatuba.json";
 import axios from "axios";
 import { mapState, mapGetters } from "vuex";
+import Vue from "vue";
+
+//const app = createApp({});
+//app.use(VueApexCharts);
+
+Vue.use(VueApexCharts);
+Vue.component("apexchart", VueApexCharts);
 
 export default {
-  name: "ApexLine",
+  name: "Grafico",
   data() {
     return {
       popupNenhumaMedicao: false,
@@ -127,10 +127,6 @@ export default {
         dataLabels: {
           enabled: false
         },
-        /* title: {
-          text: "UFC Enterococos/100ml",
-          align: "center"
-        }, */
         xaxis: {
           categories: [],
           labels: {}
@@ -143,19 +139,18 @@ export default {
   },
   computed: {
     cidade: function() {
-      return this.$store.getters["exemplo/getCidade"];
+      return this.$store.getters["store_praias/getCidade"];
     },
     praia: function() {
-      return this.$store.getters["exemplo/getPraia"];
+      return this.$store.getters["store_praias/getPraia"];
     },
     ip_webservice: function() {
-      return this.$store.getters["exemplo/getIpWebservice"];
+      return this.$store.getters["store_praias/getIpWebservice"];
     },
     lista_grafico: function() {
-      return this.$store.getters["exemplo/getListaGrafico"];
+      return this.$store.getters["store_praias/getListaGrafico"];
     }
   },
-
   async mounted() {
     if (this.cidade != "" && this.praia != "") {
       this.montarGrafico();
@@ -171,33 +166,6 @@ export default {
           historicoDatas.push(this.lista_grafico[i]["dataMedicao"]);
           historicoEnterococos.push(this.lista_grafico[i]["enterococos"]);
         }
-
-        // CHAMADA DO AXIOS DENTRO DO PRÓPRIO COMPONENTE
-
-        /*  await axios({
-        method: "GET",
-        url:
-          "http://" +
-          this.ip_webservice.concat(
-            ":5000/resultadosUltimosDoisAnos?cidade=" +
-              this.cidade.toUpperCase() +
-              "&praia=" +
-              this.praia.toUpperCase()
-          )
-      }).then(
-        result => {
-          this.graficoDatas = result.data.map(item => {
-            return item[0];
-          });
-
-          this.graficoEnterococcos = result.data.map(item => {
-            return item[1];
-          });
-        },
-        error => {
-          console.error(error);
-        }
-      ); */
 
         this.chartOptions = {
           chart: {
@@ -277,18 +245,12 @@ export default {
               }
             ]
           },
-          /* title: {
-          text: "UFC Enterococos/100ml",
-          align: "left"
-        }, */
           xaxis: {
             categories: historicoDatas,
             tickAmount: 5,
             offsetX: 9,
             labels: {
               formatter: function(value, timestamp) {
-                //console.log("a ", value);
-
                 let data = new Date(value);
 
                 if (value != undefined) {
@@ -320,43 +282,6 @@ export default {
                   meses[data.getMonth()] +
                   " " +
                   data.getFullYear();
-
-                //let dataformatada = data;
-
-                //let temp = value;
-                //data.setDate = temp.substring(0, 2);
-                //data.setMonth = temp.substring(3, 5);
-                //data.setYear = temp.substring(6, 10);
-                //data.setHours(data.getHours() + data.getTimezoneOffset() / 60);
-
-                /* data = data.toLocaleString("pt-BR", {
-                timeZone: "Europe/London"
-              }); */
-
-                //console.log(data);
-
-                /* let dataformatada =
-                data.getDate() +
-                1 +
-                "/" +
-                meses[data.getMonth()] +
-                "/" +
-                data.getFullYear();
-              return dataformatada; */
-
-                // SEM DATAS FORMATADAS
-                /* let dataformatada =
-                ("0" + data.getDate()).slice(-2) +
-                " " +
-                meses[data.getMonth()] +
-                " " +
-                data.getFullYear(); */
-
-                //console.log(value);
-                //console.log("b ", value.substring(6, 10));
-
-                /* let dataformatada =
-                meses[data.getMonth()] + " " + data.getFullYear(); */
 
                 return dataformatada;
               }

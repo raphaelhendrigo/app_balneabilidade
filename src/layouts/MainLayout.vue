@@ -1,6 +1,15 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal bordered class="bg-primary text-white">
+      <q-bar class="q-electron-drag electron-only">
+        <div>App Balneabilidade</div>
+
+        <q-space></q-space>
+
+        <q-btn dense flat icon="minimize" @click="minimize"></q-btn>
+        <q-btn dense flat icon="crop_square" @click="maximize"></q-btn>
+        <q-btn dense flat icon="close" @click="closeApp"></q-btn>
+      </q-bar>
       <q-toolbar>
         <q-toolbar-title
           clickable
@@ -12,15 +21,12 @@
             <img
               style="display:block; margin-right:auto;  "
               width="50px"
-              src="~assets/logo_praia_01.png"
+              src="~assets/logo_praia.png"
             />
           </div>
           <div
             style="width:50%; float:left; word-break: break-all; padding-top: 8px   "
           >
-            <!--<span style="font-size:15px; "
-              >App Balnealidade das Praias do Estado de São Paulo</span
-            >-->
             <span style="font-size:15px; ">App Balnealidade Praias SP</span>
             <br />
           </div>
@@ -29,7 +35,6 @@
         <q-btn icon="info" to="/sobre" flat />
       </q-toolbar>
     </q-header>
-
     <q-footer elevated>
       <q-toolbar>
         <q-toolbar-title>
@@ -41,7 +46,7 @@
             />
           </div>
           <div
-            class="desktop-only text-caption text-center float-left"
+            class="desktop-only text-caption text-center float-left gt-sm"
             style="width:80%"
           >
             Rua Botucatu, 862-Térreo, Vila Clementino, São Paulo (SP). Cep:
@@ -61,13 +66,35 @@
       </q-toolbar>
     </q-footer>
     <q-page-container>
-      <router-view :teste="3" />
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
-
 <script>
+import Vuex from "vuex";
 export default {
-  name: "MainLayout"
+  name: "MainLayout",
+  methods: {
+    minimize() {
+      if (process.env.MODE === "electron") {
+        this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize();
+      }
+    },
+    maximize() {
+      if (process.env.MODE === "electron") {
+        const win = this.$q.electron.remote.BrowserWindow.getFocusedWindow();
+        if (win.isMaximized()) {
+          win.unmaximize();
+        } else {
+          win.maximize();
+        }
+      }
+    },
+    closeApp() {
+      if (process.env.MODE === "electron") {
+        this.$q.electron.remote.BrowserWindow.getFocusedWindow().close();
+      }
+    }
+  }
 };
 </script>

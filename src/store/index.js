@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import exemplo from "./exemplo";
+import store_praias from "./store_praias";
 
 Vue.use(Vuex);
 
@@ -17,7 +17,7 @@ Vue.use(Vuex);
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      exemplo
+      store_praias
     },
 
     // enable strict mode (adds overhead!)

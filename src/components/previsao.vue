@@ -4,26 +4,18 @@
       <q-spinner
         color="primary"
         size="3em"
-        v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
+        v-if="this.$store.getters['store_praias/getCarregandoPrevisao']"
       />
       <p
-        v-if="this.$store.getters['exemplo/getCarregandoPrevisao']"
+        v-if="this.$store.getters['store_praias/getCarregandoPrevisao']"
         class="text-primary"
       >
-        Aguarde por favor... Este processo pode levar até 15 segundos
+        Aguarde por favor... Este processo pode levar até 40 segundos
       </p>
     </div>
-    <!--<p
-      v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
-      class="text-justify"
-    >
-      No momento, o modelo preditivo refere-se unicamente à praia "Grande" da
-      cidade de "Ubatuba". Demais praias possuem números aleatórios de
-      enterococos.
-    </p>-->
     <div
       class="row justify-center"
-      v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
+      v-if="!this.$store.getters['store_praias/getCarregandoPrevisao']"
     >
       <span style="font-weight: bold; margin-right:8px;"
         >Previsão Próximas 5 medições</span
@@ -104,7 +96,7 @@
       :columns="colunasTabelaPrevisao"
       row-key="id"
       hide-bottom
-      v-if="!this.$store.getters['exemplo/getCarregandoPrevisao']"
+      v-if="!this.$store.getters['store_praias/getCarregandoPrevisao']"
       style="margin-top:1%;"
     >
       <template v-slot:body="props">
@@ -126,7 +118,6 @@
     </q-table>
   </div>
 </template>
-
 <style>
 .circulo {
   border-radius: 50%;
@@ -184,16 +175,16 @@ export default {
   },
   computed: {
     cidade: function() {
-      return this.$store.getters["exemplo/getCidade"];
+      return this.$store.getters["store_praias/getCidade"];
     },
     praia: function() {
-      return this.$store.getters["exemplo/getPraia"];
+      return this.$store.getters["store_praias/getPraia"];
     },
     ip_webservice: function() {
-      return this.$store.getters["exemplo/getIpWebservice"];
+      return this.$store.getters["store_praias/getIpWebservice"];
     },
     historico: function() {
-      return this.$store.getters["exemplo/getListaHistorico"];
+      return this.$store.getters["store_praias/getListaHistorico"];
     }
   },
   async mounted() {
@@ -203,23 +194,9 @@ export default {
   },
   methods: {
     async retornaPrevisaoProximasCincoSemanas() {
-      /* while (this.$store.getters["exemplo/getPrevisaoCarregada"] == false) {
-        this.teste = true;
-      }
-
-      this.teste = false; */
-
       this.previsaoProximasCincoSemanas = this.$store.getters[
-        "exemplo/getListaPrevisao"
+        "store_praias/getListaPrevisao"
       ];
-
-      //this.balneabilidadePrevisao = [];
-
-      /* for (var cont = 1; cont <= 5; cont++) {
-        this.balneabilidadePrevisao.push(
-          this.historico[this.historico.length - cont]
-        );
-      } */
 
       this.temp[0] = this.previsaoProximasCincoSemanas[0];
       this.temp[1] = this.previsaoProximasCincoSemanas[1];
@@ -231,18 +208,12 @@ export default {
       this.temp[7] = this.historico[this.historico.length - 2];
       this.temp[8] = this.historico[this.historico.length - 1];
 
-      //console.log(this.temp);
-
-      //console.log(this.previsaoProximasCincoSemanas);
-
       for (var i = 0; i < 5; i++) {
         let qtde_item_max_25 = 0;
         let qtde_item_max_50 = 0;
         let qtde_item_max_100 = 0;
         let qtde_item_min_100 = 0;
         let qtde_item_last_400 = 0;
-
-        //console.log("i", i);
 
         for (var cont = i; cont < i + 5; cont++) {
           if (this.temp[cont]["enterococos"] <= 25) {
@@ -285,157 +256,20 @@ export default {
         if (qtde_item_last_400 >= 1) {
           this.corArray[i] = "#4B0082";
         }
-
-        //console.log(this.corArray[i]);
       }
 
-      /* for (var i = 0; i < this.previsaoProximasCincoSemanas.length; i++) {
-        let qtd_item_max_25 = 0;
-        let qtd_item_max_50 = 0;
-        let qtd_item_max_100 = 0;
-        let qtd_item_min_100 = 0;
-        let qtd_item_last_400 = 0;
+      let ordenacaoPrevisoes = [];
+      ordenacaoPrevisoes = this.previsaoProximasCincoSemanas;
 
-        console.log(this.previsaoProximasCincoSemanas[i]);
+      let novaOrdenacao = [];
 
-        if (this.previsaoProximasCincoSemanas[i]["enterococos"] <= 25) {
-          qtd_item_max_25++;
-        }
-        if (
-          this.previsaoProximasCincoSemanas[i]["enterococos"] > 25 &&
-          this.previsaoProximasCincoSemanas[i]["enterococos"] <= 50
-        ) {
-          qtd_item_max_50++;
-        }
-        if (
-          this.previsaoProximasCincoSemanas[i]["enterococos"] > 50 &&
-          this.previsaoProximasCincoSemanas[i]["enterococos"] <= 100
-        ) {
-          qtd_item_max_100++;
-        }
-        if (
-          this.previsaoProximasCincoSemanas[i]["enterococos"] > 100 &&
-          this.previsaoProximasCincoSemanas[i]["enterococos"] <= 400
-        ) {
-          qtd_item_min_100++;
-        }
+      novaOrdenacao[0] = ordenacaoPrevisoes[4];
+      novaOrdenacao[1] = ordenacaoPrevisoes[3];
+      novaOrdenacao[2] = ordenacaoPrevisoes[2];
+      novaOrdenacao[3] = ordenacaoPrevisoes[1];
+      novaOrdenacao[4] = ordenacaoPrevisoes[0];
 
-        if (this.previsaoProximasCincoSemanas[4]["enterococos"] > 400) {
-          qtd_item_last_400++;
-        }
-
-        for (
-          var cont = this.historico.length - 1;
-          cont > this.historico.length - 1 - i;
-          cont--
-        )
-          console.log(this.historico[cont]);
-        {
-          if (this.historico[cont]["enterococos"] <= 25) {
-            qtd_item_max_25++;
-          } else if (
-            this.historico[cont]["enterococos"] > 25 &&
-            this.historico[cont]["enterococos"] <= 50
-          ) {
-            qtd_item_max_50++;
-          } else if (
-            this.historico[cont]["enterococos"] > 50 &&
-            this.historico[cont]["enterococos"] <= 100
-          ) {
-            qtd_item_max_100++;
-          }
-          if (
-            this.historico[cont]["enterococos"] > 100 &&
-            this.historico[cont]["enterococos"] < 400
-          ) {
-            qtd_item_min_100++;
-          }
-          if (this.previsaoProximasCincoSemanas[4]["enterococos"] > 400) {
-            qtd_item_last_400++;
-          }
-        }
-
-        if (qtd_item_max_25 >= 4) {
-          this.corArray[i] = "#0000FF";
-          this.corTabela = "#0000FF";
-          this.colunasTabelaPrevisao[0].style = "color:white;";
-          this.colunasTabelaPrevisao[1].style = "color:white;";
-        }
-        if (qtd_item_max_50 >= 4) {
-          this.corArray[i] = "#FFFF00";
-          this.corTabela = "#FFFF00";
-          this.colunasTabelaPrevisao[0].style = "color:black;";
-          this.colunasTabelaPrevisao[1].style = "color:black;";
-        }
-        if (qtd_item_max_100 >= 4) {
-          this.corArray[i] = "#007C3D";
-          this.corTabela = "#007C3D";
-          this.colunasTabelaPrevisao[0].style = "color:white;";
-          this.colunasTabelaPrevisao[1].style = "color:white;";
-        }
-        if (qtd_item_min_100 >= 2) {
-          this.corArray[i] = "#FF0000";
-          this.corTabela = "#FF0000";
-          this.colunasTabelaPrevisao[0].style = "color:white;";
-          this.colunasTabelaPrevisao[1].style = "color:white;";
-        } else if (qtd_item_last_400 >= 1) {
-          this.corArray[i] = "#4B0082";
-          this.corTabela = "#4B0082";
-          this.colunasTabelaPrevisao[0].style = "color:white;";
-          this.colunasTabelaPrevisao[1].style = "color:white;";
-        }
-
-        console.log("a", qtd_item_max_25);
-        console.log("b", qtd_item_max_50);
-        console.log("c", qtd_item_max_100);
-        console.log("d", qtd_item_min_100);
-        console.log("e", qtd_item_last_400);
-
-        console.log(this.corArray[i]);
-      } */
-
-      /* if (
-        this.previsaoProximasCincoSemanas[
-          this.previsaoProximasCincoSemanas.length - 1
-        ]["enterococos"] > 400
-      ) {
-        qtd_item_last_400++;
-        console.log("last 100 ", qtd_item_last_400);
-      } */
-
-      /* this.colunasTabelaPrevisao[0].style +=
-        "background-color:" + this.corArray[props.row.id] + "";
-      this.colunasTabelaPrevisao[1].style +=
-        "background-color:" + this.corArray[props.row.id] + "";
-      this.colunasTabelaPrevisao[2].style +=
-        "background-color:" + this.corArray[props.row.id] + ""; */
-
-      //console.log(this.corTabela);
-
-      //console.log(this.colunasTabelaPrevisao);
-
-      // CHAMADA DO AXIOS DENTRO DO PRÓPRIO COMPONENTE
-
-      /* await axios({
-        method: "GET",
-        url:
-          "http://" +
-          this.ip_webservice.concat(":5000/previsaoProximasCincoSemanas")
-      }).then(
-        result => {
-          this.previsaoProximasCincoSemanas = result.data.map((item, key) => {
-            let arr = [];
-            arr["dataMedicao"] = item[0];
-            arr["enterococos"] = parseFloat(item[1]).toFixed(2);
-            //arr["enterococos"] = item[1];
-            arr["id"] = key;
-            return arr;
-          });
-        },
-        error => {
-          console.error(error);
-        }
-      ); */
+      this.previsaoProximasCincoSemanas = novaOrdenacao;
     }
   }
 };
